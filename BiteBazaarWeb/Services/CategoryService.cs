@@ -4,11 +4,11 @@ using System.Text;
 
 namespace BiteBazaarWeb.Services
 {
-    public class ApiService
+    public class CategoryService
     {
         private readonly HttpClient _client;
 
-        public ApiService(IHttpClientFactory clientFactory)
+        public CategoryService(IHttpClientFactory clientFactory)
         {
             _client = clientFactory.CreateClient("API Client");
         }

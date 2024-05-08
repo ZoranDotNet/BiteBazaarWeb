@@ -4,24 +4,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BiteBazaarWeb.Controllers
 {
-    public class CategoryController : Controller
+    public class ProductsController : Controller
     {
-        private readonly ApiService _apiService;
+        private readonly ProductService _service;
 
-        public CategoryController(ApiService apiService)
+        public ProductsController(ProductService service)
         {
-            _apiService = apiService;
+            _service = service;
         }
-
         public async Task<IActionResult> Index()
         {
-            var categories = await _apiService.GetCategoriesAsync();
-            if (categories == null || !categories.Any())
+            var products = await _service.GetProductsAsync();
+            if (products == null || !products.Any())
             {
-                return View(new List<Category>());
+                return View(new List<Product>());
             }
 
-            return View(categories);
+            return View(products);
         }
 
         public async Task<IActionResult> Create()
@@ -31,15 +30,15 @@ namespace BiteBazaarWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Category category)
+        public async Task<IActionResult> Create(Product product)
         {
             if (ModelState.IsValid)
             {
-                await _apiService.AddCategoryAsync(category);
+                await _service.AddProductAsync(product);
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(category);
+            return View(product);
         }
 
         public IActionResult GetById()
@@ -50,41 +49,40 @@ namespace BiteBazaarWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> GetById(int id)
         {
-            var category = await _apiService.GetCategoryByIdAsync(id);
-            if (category == null)
+            var product = await _service.GetProductByIdAsync(id);
+            if (product == null)
             {
                 return View("ByIdResult");
             }
-            return View("ByIdResult", category);
+            return View("ByIdResult", product);
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            var category = await _apiService.GetCategoryByIdAsync(id);
+            var product = await _service.GetProductByIdAsync(id);
 
-            return View(category);
+            return View(product);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, Category category)
+        public async Task<IActionResult> Edit(int id, Product product)
         {
             if (ModelState.IsValid)
             {
-                await _apiService.UpdateCategoryAsync(id, category);
+                await _service.UpdateProductAsync(id, product);
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(category);
+            return View(product);
         }
 
 
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await _apiService.DeleteCategoryAsync(id);
+            await _service.DeleteProductAsync(id);
             return RedirectToAction(nameof(Index));
         }
-
 
     }
 }

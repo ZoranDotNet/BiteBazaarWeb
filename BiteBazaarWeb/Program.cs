@@ -10,7 +10,7 @@ builder.Services.AddHttpClient("API Client", client =>
 {
     client.BaseAddress = new Uri("https://localhost:7000/");
 });
-builder.Services.AddScoped<ApiService>();
+builder.Services.AddScoped<CategoryService>();
 
 
 
