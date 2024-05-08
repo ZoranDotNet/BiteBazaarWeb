@@ -1,0 +1,44 @@
+﻿@model List<Category>
+
+    <div class="container">
+
+        <div>
+            <h2>Kategorier</h2>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>Titel</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Title</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.CategoryId" class="btn btn-secondary">Edit</a>
+                            </td>
+                            <td>
+                                <form asp-action="DeleteConfirmed" class="d-inline-block" asp-route-id="@item.CategoryId" method="post">
+                                    <button type="submit" class="btn-sm btn-danger" onclick="return confirm('Är du säker?');">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="text-danger">Inga kategorier hittade</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
