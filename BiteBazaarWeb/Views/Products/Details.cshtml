@@ -1,0 +1,34 @@
+﻿@model BiteBazaarWeb.Models.Product
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    
+    <div class="card mb-5">
+        <div class="card-title">
+            @Model.Title
+        </div>
+        <div class=" card-text">
+            @Model.Description
+        </div>
+       
+    </div>
+    @foreach(var item in Model.Images)
+            {
+                <img src="@item.URL" style="width:100px" class="mb-2"/>
+            }
+
+
+
+
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ProductId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

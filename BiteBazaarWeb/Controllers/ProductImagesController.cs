@@ -6,23 +6,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BiteBazaarWeb.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductImagesController : Controller
     {
         private readonly AppDbContext _context;
 
-        public ProductsController(AppDbContext context)
+        public ProductImagesController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Products
+        // GET: ProductImages
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Products.Include(p => p.Category).Include(x => x.Images);
+            var appDbContext = _context.ProductImages.Include(p => p.Product);
             return View(await appDbContext.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        // GET: ProductImages/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -30,45 +30,42 @@ namespace BiteBazaarWeb.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include(p => p.Category).Include(x => x.Images)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
-            if (product == null)
+            var productImage = await _context.ProductImages
+                .Include(p => p.Product)
+                .FirstOrDefaultAsync(m => m.ProductImageId == id);
+            if (productImage == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(productImage);
         }
 
-        // GET: Products/Create
+        // GET: ProductImages/Create
         public IActionResult Create()
         {
-            ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "Title");
+            ViewData["FkProductId"] = new SelectList(_context.Products, "ProductId", "Title");
             return View();
         }
 
-        // POST: Products/Create
+        // POST: ProductImages/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,Title,Description,Price,FkCategoryId")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductImageId,URL,FkProductId")] ProductImage productImage)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
+                _context.Add(productImage);
                 await _context.SaveChangesAsync();
-                //return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
             }
-            ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", product.FkCategoryId);
-
-
-
-            return View(product);
+            ViewData["FkProductId"] = new SelectList(_context.Products, "ProductId", "Title", productImage.FkProductId);
+            return View(productImage);
         }
 
-        // GET: Products/Edit/5
+        // GET: ProductImages/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,23 +73,23 @@ namespace BiteBazaarWeb.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            var productImage = await _context.ProductImages.FindAsync(id);
+            if (productImage == null)
             {
                 return NotFound();
             }
-            ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", product.FkCategoryId);
-            return View(product);
+            ViewData["FkProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", productImage.FkProductId);
+            return View(productImage);
         }
 
-        // POST: Products/Edit/5
+        // POST: ProductImages/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Title,Description,Price,FkCategoryId")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductImageId,URL,FkProductId")] ProductImage productImage)
         {
-            if (id != product.ProductId)
+            if (id != productImage.ProductImageId)
             {
                 return NotFound();
             }
@@ -101,12 +98,12 @@ namespace BiteBazaarWeb.Controllers
             {
                 try
                 {
-                    _context.Update(product);
+                    _context.Update(productImage);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.ProductId))
+                    if (!ProductImageExists(productImage.ProductImageId))
                     {
                         return NotFound();
                     }
@@ -117,11 +114,11 @@ namespace BiteBazaarWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", product.FkCategoryId);
-            return View(product);
+            ViewData["FkProductId"] = new SelectList(_context.Products, "ProductId", "ProductId", productImage.FkProductId);
+            return View(productImage);
         }
 
-        // GET: Products/Delete/5
+        // GET: ProductImages/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -129,35 +126,35 @@ namespace BiteBazaarWeb.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
-            if (product == null)
+            var productImage = await _context.ProductImages
+                .Include(p => p.Product)
+                .FirstOrDefaultAsync(m => m.ProductImageId == id);
+            if (productImage == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(productImage);
         }
 
-        // POST: Products/Delete/5
+        // POST: ProductImages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product != null)
+            var productImage = await _context.ProductImages.FindAsync(id);
+            if (productImage != null)
             {
-                _context.Products.Remove(product);
+                _context.ProductImages.Remove(productImage);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(int id)
+        private bool ProductImageExists(int id)
         {
-            return _context.Products.Any(e => e.ProductId == id);
+            return _context.ProductImages.Any(e => e.ProductImageId == id);
         }
     }
 }

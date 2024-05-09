@@ -25,18 +25,25 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Category</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Categories" asp-action="Index">Category</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ProductImages" asp-action="Index">Images</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-  
+    <div class="container">
         <main role="main" class="pb-3">
-            <partial name="_Notification"/>
+            <partial name="_Notification" />
             @RenderBody()
         </main>
+    </div>
   
 
     <footer class="border-top footer text-muted">
