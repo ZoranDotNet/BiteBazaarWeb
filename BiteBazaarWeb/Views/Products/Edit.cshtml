@@ -1,4 +1,4 @@
-﻿@model BiteBazaarWeb.Models.Product
+﻿@model CreateProductVM
 
 @{
     ViewData["Title"] = "Edit";
@@ -9,31 +9,56 @@
 <h4>Product</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ProductId" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+            <input type="hidden" asp-for="Product.ProductId" />
+            <div class="row">
+                <div class="col-8">
+                    <div class="form-group">
+                        <label asp-for="Product.Title" class="control-label"></label>
+                        <input asp-for="Product.Title" class="form-control" />
+                        <span asp-validation-for="Product.Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Product.Description" class="control-label"></label>
+                        <textarea asp-for="Product.Description" class="form-control" ></textarea>
+                        <span asp-validation-for="Product.Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Product.Price" class="control-label"></label>
+                        <input asp-for="Product.Price" class="form-control" />
+                        <span asp-validation-for="Product.Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Product.FkCategoryId" class="control-label"></label>
+                        <select asp-for="Product.FkCategoryId" class="form-control" asp-items="ViewBag.FkCategoryId"></select>
+                        <span asp-validation-for="Product.FkCategoryId" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="col-2">
+                    @if (Model.Product.Images != null && Model.Product.Images.Count > 0)
+                    {
+                        @foreach (var item in Model.Product.Images)
+                        {
+                            <div class="p-1 mb-2 text-center d-flex flex-column">
+                                @*<input asp-for="ProductImage.ProductImageId" type="hidden"/>*@
+                                <img src="@item.URL" style="border-radius:5px; width:150px;" class="" >
+                                <a asp-controller="ProductImages" asp-action="Delete" asp-route-id="@item.ProductImageId" class="btn-sm btn-danger text-decoration-none" style="width:150px">Delete</a>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <img src="https://placehold.co/150x100"/>
+                    }
+
+
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FkCategoryId" class="control-label"></label>
-                <select asp-for="FkCategoryId" class="form-control" asp-items="ViewBag.FkCategoryId"></select>
-                <span asp-validation-for="FkCategoryId" class="text-danger"></span>
-            </div>
-           
+
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

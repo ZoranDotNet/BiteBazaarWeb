@@ -53,15 +53,16 @@ namespace BiteBazaarWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductImageId,URL,FkProductId")] ProductImage productImage)
+        public async Task<IActionResult> Create([Bind("ProductImageId,URL,FkProductId")] ProductImage productImage, int id)
         {
             if (ModelState.IsValid)
             {
+                productImage.FkProductId = id;
                 _context.Add(productImage);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "Products");
             }
-            ViewData["FkProductId"] = new SelectList(_context.Products, "ProductId", "Title", productImage.FkProductId);
+            //ViewData["FkProductId"] = new SelectList(_context.Products, "ProductId", "Title", productImage.FkProductId);
             return View(productImage);
         }
 
@@ -149,7 +150,7 @@ namespace BiteBazaarWeb.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Products");
         }
 
         private bool ProductImageExists(int id)
