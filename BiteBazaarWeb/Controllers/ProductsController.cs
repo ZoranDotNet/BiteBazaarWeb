@@ -1,5 +1,6 @@
 ﻿using BiteBazaarWeb.Data;
 using BiteBazaarWeb.Models;
+using BiteBazaarWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -53,19 +54,38 @@ namespace BiteBazaarWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,Title,Description,Price,FkCategoryId")] Product product)
+        public async Task<IActionResult> Create(CreateProductVM model)
         {
             if (ModelState.IsValid)
             {
+                var product = new Product
+                {
+                    Title = model.Product.Title,
+                    Description = model.Product.Description,
+                    FkCategoryId = model.Product.FkCategoryId,
+                    Price = model.Product.Price,
+                };
+
                 _context.Add(product);
                 await _context.SaveChangesAsync();
-                //return RedirectToAction(nameof(Index));
+
+
+                var image = new ProductImage
+                {
+                    URL = model.ProductImage.URL,
+                    FkProductId = product.ProductId,
+                };
+
+                _context.ProductImages.Add(image);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
             }
-            ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", product.FkCategoryId);
+            ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", model.Product.FkCategoryId);
 
 
 
-            return View(product);
+            return View(model);
         }
 
         // GET: Products/Edit/5
@@ -76,13 +96,19 @@ namespace BiteBazaarWeb.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.Include(x => x.Images).FirstOrDefaultAsync(x => x.ProductId == id);
             if (product == null)
             {
                 return NotFound();
             }
-            ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", product.FkCategoryId);
-            return View(product);
+            ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "Title", product.FkCategoryId);
+
+            var model = new CreateProductVM
+            {
+                Product = product
+            };
+
+            return View(model);
         }
 
         // POST: Products/Edit/5
@@ -90,35 +116,29 @@ namespace BiteBazaarWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Title,Description,Price,FkCategoryId")] Product product)
+        public async Task<IActionResult> Edit(CreateProductVM model, int id)
         {
-            if (id != product.ProductId)
+            var productFromDb = await _context.Products.Include(x => x.Category)
+                .FirstOrDefaultAsync(x => x.ProductId == id);
+
+            if (productFromDb == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.ProductId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", product.FkCategoryId);
-            return View(product);
+            productFromDb.Title = model.Product.Title;
+            productFromDb.Description = model.Product.Description;
+            productFromDb.Price = model.Product.Price;
+            productFromDb.FkCategoryId = model.Product.FkCategoryId;
+
+            _context.Products.Update(productFromDb);
+            await _context.SaveChangesAsync();
+
+
+            return RedirectToAction(nameof(Index));
+
+            //ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "Title", model.Product.FkCategoryId);
+            //return View(model);
         }
 
         // GET: Products/Delete/5

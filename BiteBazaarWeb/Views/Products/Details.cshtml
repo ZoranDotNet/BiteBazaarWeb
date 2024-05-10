@@ -6,22 +6,19 @@
 
 <h1>Details</h1>
 
-<div>
+<div class="w-50">
     <h4>Product</h4>
     <hr />
     
-    <div class="card mb-5">
-        <div class="card-title">
-            @Model.Title
-        </div>
-        <div class=" card-text">
-            @Model.Description
-        </div>
-       
+    <div class="p-4 mb-3">
+        <p><strong>Title:</strong> @Model.Title</p>
+        <p><strong>Description:</strong> @Model.Description</p>
+        <p>Images:</p>
     </div>
+    
     @foreach(var item in Model.Images)
             {
-                <img src="@item.URL" style="width:100px" class="mb-2"/>
+                <img src="@item.URL" style="width:100px" class="mb-4 me-4"/>
             }
 
 

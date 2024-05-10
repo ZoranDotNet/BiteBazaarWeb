@@ -14,6 +14,8 @@ namespace BiteBazaarWeb.Models
         [StringLength(250)]
         public string Description { get; set; }
 
+        public int Quantity { get; set; }
+
         [Column(TypeName = "decimal(10,2)")]
         public decimal Price { get; set; }
 
