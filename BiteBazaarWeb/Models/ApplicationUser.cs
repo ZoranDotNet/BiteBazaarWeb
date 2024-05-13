@@ -19,7 +19,6 @@ namespace BiteBazaarWeb.Models
         [StringLength(50)]
         public string City { get; set; }
 
-        [Column(TypeName = "varchar(15)")]
-        public string PhoneNumber { get; set; }
+
     }
 }
