@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-namespace BiteBazaarWeb.Controllers
+namespace BiteBazaarWeb.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ProductImagesController : Controller
     {
         private readonly AppDbContext _context;

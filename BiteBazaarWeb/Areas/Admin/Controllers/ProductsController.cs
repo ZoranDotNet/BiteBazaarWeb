@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
-namespace BiteBazaarWeb.Controllers
+namespace BiteBazaarWeb.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ProductsController : Controller
     {
         private readonly AppDbContext _context;
@@ -116,10 +117,10 @@ namespace BiteBazaarWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(CreateProductVM model, int id)
+        public async Task<IActionResult> Edit(CreateProductVM model)
         {
             var productFromDb = await _context.Products.Include(x => x.Category)
-                .FirstOrDefaultAsync(x => x.ProductId == id);
+                .FirstOrDefaultAsync(x => x.ProductId == model.Product.ProductId);
 
             if (productFromDb == null)
             {
