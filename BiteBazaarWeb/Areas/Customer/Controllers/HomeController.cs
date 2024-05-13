@@ -2,8 +2,9 @@ using BiteBazaarWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace BiteBazaarWeb.Controllers
+namespace BiteBazaarWeb.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
