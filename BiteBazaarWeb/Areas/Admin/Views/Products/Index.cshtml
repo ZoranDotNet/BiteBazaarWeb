@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BiteBazaarWeb.Models.Product>
+﻿@model IEnumerable<Product>
 
 @{
     ViewData["Title"] = "Index";
@@ -51,7 +51,6 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ProductId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ProductId">Delete</a> |
                 <a asp-controller="ProductImages" asp-action="Create" asp-route-id="@item.ProductId">Add Image</a>
             </td>
