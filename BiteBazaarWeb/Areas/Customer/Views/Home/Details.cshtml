@@ -1,33 +1,52 @@
 ﻿@model Cart
 
 
-<h1>Details</h1>
+
 <form method="post">
-    <div class="w-50">
-        <h4>Product</h4>
+    <div class="w-75 shadow p-4 mx-auto">
+        <div class="d-flex justify-content-between">
+            <h4>@Model.Product.Title</h4>
+            <div>
+                <a asp-action="Products" class="btn btn-outline-primary text-decoration-none">Tillbaka</a>
+            </div>
+        </div>
         <hr />
         <input asp-for="FkProductId" type="hidden" />
-        <div class="p-4 mb-3">
-            <p><strong>Title:</strong> @Model.Product.Title</p>
-            <p><strong>Description:</strong> @Model.Product.Description</p>
-            <p><strong>Quantity:</strong> @Model.Product.Quantity</p>
-            <p>Images:</p>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="">
+                <p><strong>Produktinformation:</strong> @Model.Product.Description</p>
+                @if (Model.Product.Quantity < 5)
+                {
+                    <p class="text-danger"><strong>Fåtal produkter kvar</strong></p>
+                }
+                <p>Pris: @Model.Product.Price.ToString("C0")</p>
+                <div class="input-group mb-3 col-2">
+                    <span class="input-group-text bg-secondary text-white border-0 fw-semibold">
+                        Antal
+                    </span>
+                    <input type="number" asp-for="Count" value="1" class="form-control text-center" />
+                </div>
+                <button type="submit" class="btn btn-primary">Lägg i varukorg</button>
+            </div>
+            <div>
+                @if (Model.Product.Images != null && Model.Product.Images.Count > 0)
+                {
+                    @foreach (var item in Model.Product.Images)
+                    {
+                        <img src="@item.URL" style="width:100px" class="mb-4 me-4" />
+                    }
+                }
+                else
+                {
+                    <img src="https://placehold.co/100x100" class="card-img-top rounded" />
+                }
+
+
+
+            </div>
         </div>
-
-        @foreach (var item in Model.Product.Images)
-        {
-            <img src="@item.URL" style="width:100px" class="mb-4 me-4" />
-        }
-
-
-
-
     </div>
-    <div>
-        <input type="number" asp-for="Count" />
-        <button type="submit" class="btn btn-primary">AddToCart</button>
-    </div>
+   
+   
 </form>
-<div>
-    <a asp-action="Products">Back to List</a>
-</div>
+

@@ -48,6 +48,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
                     Description = model.Product.Description,
                     FkCategoryId = model.Product.FkCategoryId,
                     Price = model.Product.Price,
+                    Quantity = model.Product.Quantity,
                 };
 
                 _context.Add(product);
@@ -114,6 +115,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             productFromDb.Description = model.Product.Description;
             productFromDb.Price = model.Product.Price;
             productFromDb.FkCategoryId = model.Product.FkCategoryId;
+            productFromDb.Quantity = model.Product.Quantity;
 
             _context.Products.Update(productFromDb);
             await _context.SaveChangesAsync();

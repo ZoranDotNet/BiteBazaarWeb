@@ -65,8 +65,19 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             cart.FkApplicationUserId = userId;
 
-            Cart cartFromDb = _context.Carts.FirstOrDefault(x => x.FkApplicationUserId == userId
+            Cart cartFromDb = await _context.Carts.AsNoTracking().FirstOrDefaultAsync(x => x.FkApplicationUserId == userId
             && x.FkProductId == cart.FkProductId);
+
+            Product product = await _context.Products.AsNoTracking().FirstOrDefaultAsync(x => x.ProductId == cart.FkProductId);
+            if (product != null)
+            {
+                if (product.Quantity < cart.Count)
+                {
+                    TempData["error"] = $"Finns endast {product.Quantity} kvar i Lager";
+                    return RedirectToAction("Details", cart.FkProductId);
+                }
+            }
+
 
             if (cartFromDb != null)
             {

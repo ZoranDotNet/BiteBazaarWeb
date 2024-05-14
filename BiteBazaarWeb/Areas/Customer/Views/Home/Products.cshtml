@@ -5,52 +5,36 @@
 
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @item.Price.ToString("c")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category.Title)
-                </td>
-                <td>
-                    @foreach (var pic in item.Images)
-                    {
-                        <img src="@pic.URL" style="width: 50px" />
-                    }
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.ProductId">Details</a> 
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="row p-2 mb-2">
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-6 col-lg-3">
+            <div class="row p-1">
+                <div class="col-12 p-1">
+                    <div class="card border-0 p-2 shadow border-top border-5 rounded">
+                        @if (item.Images != null && item.Images.Count > 0)
+                        {
+                            <img src="@item.Images.First().URL" class="card-img-top rounded" style="height:250px"/>
+                        }
+                        else
+                        {
+                            <img src="https://placehold.co/100x100" class="card-img-top rounded" />
+                        }
+                        <div class="card-body pb-0">
+                            <h5>@item.Title</h5>
+                            <h5>@item.Price.ToString("C0")</h5>
+                        </div>
+                        <div>
+                            <a class="btn-sm btn-secondary text-decoration-none" asp-action="Details" asp-route-id="@item.ProductId">Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+           
+            
+                   
+        
+    }
+</div>
 
