@@ -63,7 +63,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
 
                 _context.ProductImages.Add(image);
                 await _context.SaveChangesAsync();
-
+                TempData["success"] = "Ny Produkt tillagd";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", model.Product.FkCategoryId);
@@ -120,7 +120,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             _context.Products.Update(productFromDb);
             await _context.SaveChangesAsync();
 
-
+            TempData["success"] = "Produkten är sparad";
             return RedirectToAction(nameof(Index));
 
             //ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "Title", model.Product.FkCategoryId);
@@ -158,6 +158,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             }
 
             await _context.SaveChangesAsync();
+            TempData["success"] = "Produkten raderad";
             return RedirectToAction(nameof(Index));
         }
 

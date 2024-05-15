@@ -14,9 +14,8 @@ namespace BiteBazaarWeb.Models
 
         public OrderStatus Status { get; set; } = OrderStatus.Skapad;
 
-        [ForeignKey("Cart")]
-        public int FkCartId { get; set; }
-        public Cart? Cart { get; set; }
+        public string FkApplicationUserId { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
 
         [Required]
         [StringLength(100)]

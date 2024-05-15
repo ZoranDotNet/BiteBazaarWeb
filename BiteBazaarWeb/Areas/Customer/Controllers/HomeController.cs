@@ -56,7 +56,6 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
         }
 
-
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Details(Cart cart)
@@ -70,32 +69,32 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
             Product product = await _context.Products.AsNoTracking().FirstOrDefaultAsync(x => x.ProductId == cart.FkProductId);
             if (product != null)
-            {
+            {    //Vi kollar att det finns tillräckligt många produkter innan vi lägger det i korgen
+                //Vi räknar inte av från lagret förrän dom genomför köpet. Kan lägga i korgen och sedan logga ut.
                 if (product.Quantity < cart.Count)
                 {
                     TempData["error"] = $"Finns endast {product.Quantity} kvar i Lager";
                     return RedirectToAction("Details", cart.FkProductId);
                 }
             }
-
-
             if (cartFromDb != null)
             {
+                //Vi drar av från lagret när köpet genomförs!!
                 //Om varukorgen finns i DB uppdaterar antalet på befintlig varukorg
                 cartFromDb.Count += cart.Count;
                 _context.Carts.Update(cartFromDb);
             }
             else
             {
+                //Vi drar av från lagret när köpet genomförs!!
                 //vi skapar ny korg om den inte finns
-                cart.CartId = 0;
                 _context.Carts.Add(cart);
             }
 
             _context.SaveChanges();
             TempData["success"] = "Varukorg uppdaterad";
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Products));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

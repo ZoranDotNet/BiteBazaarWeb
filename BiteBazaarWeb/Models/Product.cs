@@ -25,5 +25,6 @@ namespace BiteBazaarWeb.Models
         public Category? Category { get; set; }
         public ICollection<ProductImage>? Images { get; set; }
 
+
     }
 }

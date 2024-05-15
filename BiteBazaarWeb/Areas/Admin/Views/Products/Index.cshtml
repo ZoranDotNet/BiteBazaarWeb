@@ -24,16 +24,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @item.Title
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
+                @item.Quantity
             </td>
             <td>
                 @item.Price.ToString("c")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Category.Title)
+                @item.Category.Title
             </td>
             <td>
                 @foreach (var pic in item.Images)
