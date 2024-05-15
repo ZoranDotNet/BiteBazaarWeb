@@ -56,6 +56,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             {
                 _context.Add(category);
                 await _context.SaveChangesAsync();
+                TempData["success"] = "Ny Kategori tillagd";
                 return RedirectToAction(nameof(Index));
             }
             return View(category);
@@ -94,6 +95,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
                 try
                 {
                     _context.Update(category);
+                    TempData["success"] = "Uppdaterad";
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -142,6 +144,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             }
 
             await _context.SaveChangesAsync();
+            TempData["success"] = "Kategori Raderad";
             return RedirectToAction(nameof(Index));
         }
 

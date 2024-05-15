@@ -20,28 +20,11 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Products.Include(p => p.Category).Include(x => x.Images);
-            return View(await appDbContext.ToListAsync());
+            var products = _context.Products.Include(p => p.Category).Include(x => x.Images);
+            return View(await products.ToListAsync());
         }
 
-        // GET: Products/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var product = await _context.Products
-                .Include(p => p.Category).Include(x => x.Images)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
-        }
 
         // GET: Products/Create
         public IActionResult Create()
@@ -65,6 +48,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
                     Description = model.Product.Description,
                     FkCategoryId = model.Product.FkCategoryId,
                     Price = model.Product.Price,
+                    Quantity = model.Product.Quantity,
                 };
 
                 _context.Add(product);
@@ -79,7 +63,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
 
                 _context.ProductImages.Add(image);
                 await _context.SaveChangesAsync();
-
+                TempData["success"] = "Ny Produkt tillagd";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", model.Product.FkCategoryId);
@@ -131,11 +115,12 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             productFromDb.Description = model.Product.Description;
             productFromDb.Price = model.Product.Price;
             productFromDb.FkCategoryId = model.Product.FkCategoryId;
+            productFromDb.Quantity = model.Product.Quantity;
 
             _context.Products.Update(productFromDb);
             await _context.SaveChangesAsync();
 
-
+            TempData["success"] = "Produkten är sparad";
             return RedirectToAction(nameof(Index));
 
             //ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "Title", model.Product.FkCategoryId);
@@ -173,6 +158,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             }
 
             await _context.SaveChangesAsync();
+            TempData["success"] = "Produkten raderad";
             return RedirectToAction(nameof(Index));
         }
 

@@ -4,6 +4,7 @@ using BiteBazaarWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiteBazaarWeb.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240514133113_Order")]
+    partial class Order
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,17 +78,13 @@ namespace BiteBazaarWeb.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("FkApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("FkCartId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -116,35 +115,9 @@ namespace BiteBazaarWeb.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("FkCartId");
 
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("BiteBazaarWeb.Models.OrderSpecification", b =>
-                {
-                    b.Property<int>("OrderSpecificationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderSpecificationId"));
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FkOrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FkProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderSpecificationId");
-
-                    b.HasIndex("FkOrderId");
-
-                    b.HasIndex("FkProductId");
-
-                    b.ToTable("OrderSpecifications");
                 });
 
             modelBuilder.Entity("BiteBazaarWeb.Models.Product", b =>
@@ -458,30 +431,13 @@ namespace BiteBazaarWeb.Migrations
 
             modelBuilder.Entity("BiteBazaarWeb.Models.Order", b =>
                 {
-                    b.HasOne("BiteBazaarWeb.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("BiteBazaarWeb.Models.Cart", "Cart")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.Navigation("ApplicationUser");
-                });
-
-            modelBuilder.Entity("BiteBazaarWeb.Models.OrderSpecification", b =>
-                {
-                    b.HasOne("BiteBazaarWeb.Models.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("FkOrderId")
+                        .HasForeignKey("FkCartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BiteBazaarWeb.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("FkProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
+                    b.Navigation("Cart");
                 });
 
             modelBuilder.Entity("BiteBazaarWeb.Models.Product", b =>

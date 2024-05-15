@@ -5,67 +5,69 @@
 }
 
 <div class="card shadow border-0 mt-4 mb-5 w-50 mx-auto">
-    <div class="card-header bg-secondary ms-0 py-4">
+    <div class="card-header bg-secondary ms-0 py-2">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="py-2 text-white">Registrera konto</h2>
+                @if (User.IsInRole(SD.Role_Admin))
+                {
+                    <h2 class="py-2 text-white">Admin-Portal</h2>
+                }
+                else
+                {
+                    <h2 class="py-2 text-white">Registrera konto</h2>
+                }
             </div>
         </div>
+       
     </div>
     <div class="card-body p-4">
-        <div class="row pt-4">
+        <div class="row">
             <div class="col-md-12">
                 <form id="registerForm" class="row" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                    <div class="form-floating mb-3 col-md-12">
-                        <input asp-for="Input.Name" class="form-control" autocomplete="new-name" aria-required="true" placeholder="Name" />
-                        <label asp-for="Input.Name" class="ms-2 text-muted">Namn</label>
+                    <div class="mb-3 col-md-6">
+                        <input asp-for="Input.Name" class="form-control" autocomplete="name" aria-required="true" placeholder="Namn" />
                         <span asp-validation-for="Input.Name" class="text-danger"></span>
                     </div>
-                    <div class="form-floating mb-3 col-md-12">
-                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                        <label asp-for="Input.Email" class="ms-2 text-muted">Email</label>
+                    <div class="mb-3 col-md-6">
+                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Email" />
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
-                    <div class="form-floating mb-3 col-md-6">
-                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                        <label asp-for="Input.Password" class="ms-2 text-muted">Lösenord</label>
+                    <div class="mb-3 col-md-6">
+                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Lösenord" />
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
-                    <div class="form-floating mb-3 col-md-6">
-                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                        <label asp-for="Input.ConfirmPassword" class="ms-2 text-muted">Bekräfta Lösenord</label>
+                    <div class="mb-3 col-md-6">
+                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Bekräfta Lösenord" />
                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                     </div>
-
-                    <div class="form-floating mb-3 col-md-6">
-                        <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="new-phoneNumber" aria-required="true" placeholder="zip code" />
-                        <label asp-for="Input.PhoneNumber" class="ms-2 text-muted">Mobilnummer</label>
+                    <div class="mb-3 col-md-6">
+                        <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="new-phoneNumber" aria-required="true" placeholder="Mobilnummer" />
                         <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                     </div>
-                    <div class="form-floating mb-3 col-md-6">
-                        <input asp-for="Input.StreetAddress" class="form-control" autocomplete="new-streetAddress" aria-required="true" placeholder="Street Address" />
-                        <label asp-for="Input.StreetAddress" class="ms-2 text-muted">Gatuaddress</label>
+                    <div class="mb-3 col-md-6">
+                        <input asp-for="Input.StreetAddress" class="form-control" autocomplete="new-streetAddress" aria-required="true" placeholder="Gatuaddress" />
                         <span asp-validation-for="Input.StreetAddress" class="text-danger"></span>
                     </div>
-                    <div class="form-floating mb-3 col-md-6">
-                        <input asp-for="Input.ZipCode" class="form-control" autocomplete="new-zip code" aria-required="true" placeholder="zip code" />
-                        <label asp-for="Input.ZipCode" class="ms-2 text-muted">Postnummer</label>
+                    <div class="mb-3 col-md-6">
+                        <input asp-for="Input.ZipCode" class="form-control" autocomplete="new-zip code" aria-required="true" placeholder="Postnummer" />
                         <span asp-validation-for="Input.ZipCode" class="text-danger"></span>
                     </div>
-                    <div class="form-floating mb-3 col-md-6">
-                        <input asp-for="Input.City" class="form-control" autocomplete="new-city" aria-required="true" placeholder="City" />
-                        <label asp-for="Input.City" class="ms-2 text-muted">Ort</label>
+                    <div class="mb-3 col-md-6">
+                        <input asp-for="Input.City" class="form-control" autocomplete="new-city" aria-required="true" placeholder="Ort" />
                         <span asp-validation-for="Input.City" class="text-danger"></span>
                     </div>
-                    <div class="form-floating mb-3 col-md-6">
-                        <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
-                            <option hidden value="">--Välj Roll--</option>
-                        </select>
-                    </div>
-                    <div class="col-12">
+                    @if (User.IsInRole(SD.Role_Admin))
+                    {
+                        <div class="mb-3 col-md-6">
+                            <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
+                                <option hidden value="">--Välj Roll--</option>
+                            </select>
+                        </div>
+                    }
 
-                        <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Registrera</button>
+                    <div class="col-12">
+                        <button id="registerSubmit" type="submit" class="w-100 btn btn btn-primary">Registrera</button>
                     </div>
                 </form>
             </div>

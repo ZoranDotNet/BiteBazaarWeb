@@ -59,8 +59,9 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 productImage.FkProductId = id;
-                _context.Add(productImage);
+                _context.ProductImages.Add(productImage);
                 await _context.SaveChangesAsync();
+                TempData["success"] = "Ny bild tillagd";
                 return RedirectToAction(nameof(Index), "Products");
             }
             //ViewData["FkProductId"] = new SelectList(_context.Products, "ProductId", "Title", productImage.FkProductId);
@@ -151,6 +152,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             }
 
             await _context.SaveChangesAsync();
+            TempData["success"] = "Bilden raderad";
             return RedirectToAction("Index", "Products");
         }
 
