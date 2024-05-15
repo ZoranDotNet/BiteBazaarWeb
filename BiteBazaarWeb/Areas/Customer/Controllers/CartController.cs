@@ -125,5 +125,96 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             return View(orderspec);
         }
 
+        public async Task<IActionResult> OrderHistoryAdmin()
+        {
+            var orders = await _context.Orders.ToListAsync();
+            if (orders == null)
+            {
+                TempData["error"] = "Hittade inga ordrar";
+                return RedirectToAction(nameof(Index));
+            }
+            return View(orders);
+        }
+        public async Task<IActionResult> HistoryDetailsAdmin(int OrderId)
+        {
+            var orderspec = await _context.OrderSpecifications.Include(x => x.Product)
+                .Where(x => x.FkOrderId == OrderId).ToListAsync();
+            if (!orderspec.Any())
+            {
+                TempData["error"] = "Något gick fel";
+                return RedirectToAction(nameof(Index));
+            }
+            var order = _context.Orders.FirstOrDefault(x => x.OrderId == OrderId);
+            var model = new OrderHistoryVM
+            {
+                Specifications = orderspec,
+                Order = order
+            };
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> ShipOrder(int id)
+        {
+            var order = await _context.Orders.FirstOrDefaultAsync(x => x.OrderId == id);
+            order.Status = OrderStatus.Skickad;
+            order.ShippingDate = DateTime.Now;
+
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(OrderHistoryAdmin));
+        }
+
+        public async Task<IActionResult> Plus(int id)
+        {
+            var cart = await _context.Carts.Include(x => x.Product).FirstOrDefaultAsync(x => x.CartId == id);
+
+            if (cart.Product.Quantity > cart.Count)
+            {
+                cart.Count += 1;
+                _context.Carts.Update(cart);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                TempData["error"] = "För få varor i lager";
+            }
+
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Minus(int id)
+        {
+            var cart = await _context.Carts.Include(x => x.Product).FirstOrDefaultAsync(x => x.CartId == id);
+
+            if (cart.Count == 1)
+            {
+                _context.Carts.Remove(cart);
+            }
+            else
+            {
+                cart.Count -= 1;
+                _context.Carts.Update(cart);
+
+            }
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var cart = await _context.Carts.Include(x => x.Product).FirstOrDefaultAsync(x => x.CartId == id);
+
+            _context.Carts.Remove(cart);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
     }
 }
