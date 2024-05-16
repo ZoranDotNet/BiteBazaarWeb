@@ -38,6 +38,11 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             var carts = _context.Carts.Where(x => x.FkApplicationUserId == userId).Include(x => x.Product)
                 .ThenInclude(x => x.Images).ToList();
 
+            if (!carts.Any())
+            {
+                TempData["error"] = "Inga varor i kundkorgen";
+                return RedirectToAction(nameof(Index), "Home");
+            }
             var user = _context.ApplicationUsers.FirstOrDefault(x => x.Id == userId);
 
             foreach (var cart in carts)
