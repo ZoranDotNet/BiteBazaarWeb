@@ -57,14 +57,14 @@
                         <input asp-for="Input.City" class="form-control" autocomplete="new-city" aria-required="true" placeholder="Ort" />
                         <span asp-validation-for="Input.City" class="text-danger"></span>
                     </div>
-                    @if (User.IsInRole(SD.Role_Admin))
-                    {
+                    @*@if (User.IsInRole(SD.Role_Admin))*@
+                    
                         <div class="mb-3 col-md-6">
                             <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
                                 <option hidden value="">--Välj Roll--</option>
                             </select>
                         </div>
-                    }
+                    
 
                     <div class="col-12">
                         <button id="registerSubmit" type="submit" class="w-100 btn btn btn-primary">Registrera</button>
