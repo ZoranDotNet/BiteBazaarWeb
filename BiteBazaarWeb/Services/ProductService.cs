@@ -1,4 +1,5 @@
 ﻿using BiteBazaarWeb.Models;
+using BiteBazaarWeb.ViewModels;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -22,14 +23,17 @@ namespace BiteBazaarWeb.Services
                 var response = await _client.GetAsync("products");
                 if (!response.IsSuccessStatusCode)
                 {
+                    Console.WriteLine($"API Error: {response.StatusCode}");
                     return new List<Product>();
                 }
                 var jsonstring = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"JSON Response: {jsonstring}");
                 var products = JsonConvert.DeserializeObject<List<Product>>(jsonstring);
                 return products;
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Exception: {ex.Message}");
                 return new List<Product>();
             }
 
@@ -37,11 +41,14 @@ namespace BiteBazaarWeb.Services
 
 
         //Create
-        public async Task AddProductAsync(Product product)
+        public async Task AddProductAsync(PostProductVM product)
         {
+            
             var json = JsonConvert.SerializeObject(product);
+            Console.WriteLine($"Product: {json}");
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("products", data);
+            Console.WriteLine($"API response: {response.StatusCode}");
             response.EnsureSuccessStatusCode();
         }
 
@@ -53,6 +60,7 @@ namespace BiteBazaarWeb.Services
             var response = await _client.GetAsync($"products/{id}");
             if (response.IsSuccessStatusCode)
             {
+                Console.WriteLine($"API PRODUCT via ID: {response.StatusCode}");
                 return await response.Content.ReadFromJsonAsync<Product>();
             }
             else

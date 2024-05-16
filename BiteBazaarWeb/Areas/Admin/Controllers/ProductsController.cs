@@ -1,5 +1,6 @@
 ﻿using BiteBazaarWeb.Data;
 using BiteBazaarWeb.Models;
+using BiteBazaarWeb.Services;
 using BiteBazaarWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,28 +11,84 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
     [Area("Admin")]
     public class ProductsController : Controller
     {
-        private readonly AppDbContext _context;
+        //private readonly AppDbContext _context;
 
-        public ProductsController(AppDbContext context)
+        //public ProductsController(AppDbContext context)
+        //{
+        //    _context = context;
+        //}
+
+        private readonly ProductService _productService;
+        private readonly CategoryService _categoryService;
+        private readonly ProductImageService _productImageService;
+        public ProductsController(ProductService productService, CategoryService categoryService, ProductImageService productImageService)
         {
-            _context = context;
+            _productService = productService;
+            _categoryService = categoryService;
+            _productImageService = productImageService;
         }
+
 
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var products = _context.Products.Include(p => p.Category).Include(x => x.Images);
-            return View(await products.ToListAsync());
+            var products = await _productService.GetProductsAsync();
+            if (products == null || !products.Any())
+            {
+                return View(new List<Product>());
+            }
+            return View(products);
         }
 
 
 
         // GET: Products/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "Title");
+            ViewData["FkCategoryId"] = new SelectList(await _categoryService.GetCategoriesAsync(), "CategoryId", "Title"); //Funkar denna ViewBag?
             return View();
         }
+
+        //// POST: Products/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(CreateProductVM model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var product = new Product
+        //        {
+        //            Title = model.Product.Title,
+        //            Description = model.Product.Description,
+        //            FkCategoryId = model.Product.FkCategoryId,
+        //            Price = model.Product.Price,
+        //            Quantity = model.Product.Quantity,
+        //        };
+
+        //        _context.Products.Add(product);
+        //        await _context.SaveChangesAsync();
+
+
+
+        //        var image = new ProductImage
+        //        {
+        //            URL = model.ProductImage.URL,
+        //            FkProductId = product.ProductId,
+        //        };
+
+        //        _context.ProductImages.Add(image);
+        //        await _context.SaveChangesAsync();
+        //        TempData["success"] = "Ny Produkt tillagd";
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", model.Product.FkCategoryId);
+
+
+
+        //    return View(model);
+        //}
 
         // POST: Products/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -40,53 +97,46 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateProductVM model)
         {
+
+
             if (ModelState.IsValid)
             {
-                var product = new Product
+                var product = new PostProductVM
                 {
                     Title = model.Product.Title,
                     Description = model.Product.Description,
-                    FkCategoryId = model.Product.FkCategoryId,
                     Price = model.Product.Price,
+                    FkCategoryId = model.Product.FkCategoryId,
                     Quantity = model.Product.Quantity,
+                    ImageURL = model.ProductImage.URL
                 };
 
-                _context.Add(product);
-                await _context.SaveChangesAsync();
 
-
-                var image = new ProductImage
-                {
-                    URL = model.ProductImage.URL,
-                    FkProductId = product.ProductId,
-                };
-
-                _context.ProductImages.Add(image);
-                await _context.SaveChangesAsync();
+                await _productService.AddProductAsync(product);
                 TempData["success"] = "Ny Produkt tillagd";
                 return RedirectToAction(nameof(Index));
+
             }
-            ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", model.Product.FkCategoryId);
 
-
+            //ViewData["FkCategoryId"] = new SelectList(await _categoryService.GetCategoriesAsync(), "CategoryId", "CategoryId", model.Product.FkCategoryId);
 
             return View(model);
         }
 
         // GET: Products/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id) //Hur blir det med att loopa fram bild svaren?
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products.Include(x => x.Images).FirstOrDefaultAsync(x => x.ProductId == id);
+            var product = await _productService.GetProductByIdAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
-            ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "Title", product.FkCategoryId);
+            ViewData["FkCategoryId"] = new SelectList(await _categoryService.GetCategoriesAsync(), "CategoryId", "Title", product.FkCategoryId);
 
             var model = new CreateProductVM
             {
@@ -101,24 +151,23 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(CreateProductVM model)
+        public async Task<IActionResult> Edit(int id, CreateProductVM model)
         {
-            var productFromDb = await _context.Products.Include(x => x.Category)
-                .FirstOrDefaultAsync(x => x.ProductId == model.Product.ProductId);
+            var productFromAPI = await _productService.GetProductByIdAsync(id);
 
-            if (productFromDb == null)
+            if (productFromAPI == null)
             {
                 return NotFound();
             }
 
-            productFromDb.Title = model.Product.Title;
-            productFromDb.Description = model.Product.Description;
-            productFromDb.Price = model.Product.Price;
-            productFromDb.FkCategoryId = model.Product.FkCategoryId;
-            productFromDb.Quantity = model.Product.Quantity;
+            productFromAPI.Title = model.Product.Title;
+            productFromAPI.Description = model.Product.Description;
+            productFromAPI.Price = model.Product.Price;
+            productFromAPI.FkCategoryId = model.Product.FkCategoryId;
+            productFromAPI.Quantity = model.Product.Quantity;
 
-            _context.Products.Update(productFromDb);
-            await _context.SaveChangesAsync();
+
+            await _productService.UpdateProductAsync(id, productFromAPI);
 
             TempData["success"] = "Produkten är sparad";
             return RedirectToAction(nameof(Index));
@@ -128,16 +177,14 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
         }
 
         // GET: Products/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
+            var product = await _productService.GetProductByIdAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -151,20 +198,18 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _productService.GetProductByIdAsync(id);
             if (product != null)
             {
-                _context.Products.Remove(product);
+                await _productService.DeleteProductAsync(id);
             }
-
-            await _context.SaveChangesAsync();
             TempData["success"] = "Produkten raderad";
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(int id)
-        {
-            return _context.Products.Any(e => e.ProductId == id);
-        }
+        //private bool ProductExists(int id)
+        //{
+        //    return _context.Products.Any(e => e.ProductId == id);
+        //}
     }
 }

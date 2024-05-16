@@ -31,6 +31,8 @@ builder.Services.AddHttpClient("API Client", client =>
     client.BaseAddress = new Uri("https://localhost:7278/");
 });
 builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<ProductImageService>();
 
 
 
