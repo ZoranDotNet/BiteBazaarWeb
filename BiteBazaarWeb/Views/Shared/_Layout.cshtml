@@ -28,8 +28,8 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Customer" asp-controller="Home" asp-action="Products">Products</a>
                         </li>
-                        @*@if (User.IsInRole(SD.Role_Admin))//Tar bort denna temporärt så ala ser admin grejer
-                        *@
+                        @if (User.IsInRole(SD.Role_Admin))
+                        { 
                             <li class="nav-item dropdown me-3">
                                 <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Administrera
@@ -43,7 +43,7 @@
                                     <li><a class="dropdown-item" asp-area="Identity" asp-controller="Account" asp-action="Register">Skapa användare</a></li>
                                 </ul>
                             </li>
-                            
+                        }   
                         @if (User.Identity.IsAuthenticated && !User.IsInRole(SD.Role_Admin))
                         {
                             <li class="nav-item dropdown">
