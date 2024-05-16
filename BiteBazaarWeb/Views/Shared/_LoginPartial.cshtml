@@ -9,7 +9,7 @@
     <li class="nav-item">
         <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@UserManager.GetUserName(User)!</a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item me-4">
         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "Customer" })">
             <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logga ut</button>
         </form>
@@ -18,10 +18,10 @@
 else
 {
     <li class="nav-item">
-        <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Registrera</a>
+        <a class="nav-link text-dark btn btn-outline-primary me-2 egenKnapp" id="register" asp-area="Identity" asp-page="/Account/Register">Registrera</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Logga in</a>
+        <a class="nav-link text-dark btn btn-outline-primary me-4 egenKnapp" id="login" asp-area="Identity" asp-page="/Account/Login">Logga in</a>
     </li>
 }
 </ul>
