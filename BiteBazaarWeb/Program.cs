@@ -28,7 +28,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddHttpClient("API Client", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7000/");
+    client.BaseAddress = new Uri("https://localhost:7278/");
 });
 builder.Services.AddScoped<CategoryService>();
 
