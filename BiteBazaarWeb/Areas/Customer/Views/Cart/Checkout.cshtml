@@ -2,7 +2,7 @@
 
 @{ decimal total = 0;}
 <form method="post">
-    <div class="p-3 shadow">
+    <div class="p-3 shadow border">
         <div class="d-flex justify-content-between">
             <div class="p-2 col-4">
                 <p>Bekräfta uppgifter eller ändra</p>
@@ -48,7 +48,15 @@
            
         </div>
         <div class="text-center">
-            <p><strong>Totalt: @total.ToString("C0")</strong></p>
+            <strong>Totalt: @total.ToString("C0")</strong>
+
+           
+                <div class="mb-3">
+                    <label>
+                        <input type="checkbox" asp-for="Terms" />
+                        Acceptera <a asp-action="Terms">Allmänna Köpvillkor</a>.
+                    </label>
+                </div>
             <button type="submit" class="btn btn-primary">Betala Order</button>
         </div>
 
