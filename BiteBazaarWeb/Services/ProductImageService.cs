@@ -33,7 +33,7 @@ namespace BiteBazaarWeb.Services
 
         }
         // Create
-        public async Task AddProductAsync(ProductImage image)
+        public async Task AddProductImageAsync(ProductImage image)
         {
             var json = JsonConvert.SerializeObject(image);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -41,7 +41,7 @@ namespace BiteBazaarWeb.Services
             response.EnsureSuccessStatusCode();
         }
         // GetById
-        public async Task<ProductImage> GetProductByIdAsync(int id)
+        public async Task<ProductImage> GetProductImageByIdAsync(int id)
         {
 
             var response = await _client.GetAsync($"/products/images/{id}");
@@ -58,7 +58,7 @@ namespace BiteBazaarWeb.Services
         }
 
         // Delete Image
-        public async Task DeleteProductAsync(int id)
+        public async Task DeleteProductImageAsync(int id)
         {
             var response = await _client.DeleteAsync($"/products/images/{id}");
             response.EnsureSuccessStatusCode();
