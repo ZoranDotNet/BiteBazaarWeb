@@ -4,8 +4,8 @@
     ViewData["Title"] = "Registrera";
 }
 
-<div class="card shadow border-0 mt-4 mb-5 w-50 mx-auto">
-    <div class="card-header bg-secondary ms-0 py-2">
+<div class="shadow mt-4 mb-5 col-12 col-lg-8 col-xl-6 mx-auto">
+    <div class="bg-secondary ms-0 py-2">
         <div class="row">
             <div class="col-12 text-center">
                 @if (User.IsInRole(SD.Role_Admin))
@@ -20,7 +20,7 @@
         </div>
        
     </div>
-    <div class="card-body p-4">
+    <div class="p-4">
         <div class="row">
             <div class="col-md-12">
                 <form id="registerForm" class="row" asp-route-returnUrl="@Model.ReturnUrl" method="post">

@@ -1,11 +1,11 @@
 ﻿@page
 @model LoginModel
 
-<div class="card shadow border-0 mt-4 w-50 mx-auto">
-    <div class="card-header bg-secondary ms-0 py-2">
+<div class="shadow mt-4 w-50 mx-auto">
+    <div class="bg-secondary ms-0 py-2">
         <h2 class="py-2 text-white text-center">Logga in</h2>
     </div>
-    <div class="card-body p-4">
+    <div class="p-4">
         <div class="row">
             <div class="col-md-12">
                 <section>
@@ -66,8 +66,9 @@
                                     <p>
                                         @foreach (var provider in Model.ExternalLogins!)
                                         {
-                                            var logoPath = provider.Name == "Facebook" ? "~/images/logos/facebookLogo.png" : "~/images/logos/googleLogo.png";
-                                            <button type="submit" class="btn btn-white p-0 border-0 ms-2 me-2" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><img src="@Url.Content(logoPath)" style="height:50px" /></button>
+                                            
+                                            <button type="submit" class="btn btn-white p-0 border-0 ms-2 me-2"                     name="provider" value="@provider.Name" title="Log in using your                        @provider.DisplayName account"><img src="~/images/logos/                               @provider.DisplayName.ToLower()_logo.png" style="height:50px" />
+                                            </button>
                                         }
                                     </p>
                                 </div>

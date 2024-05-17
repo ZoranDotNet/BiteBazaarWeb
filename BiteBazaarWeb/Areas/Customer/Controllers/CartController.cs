@@ -43,7 +43,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
                 TempData["error"] = "Inga varor i kundkorgen";
                 return RedirectToAction(nameof(Index), "Home");
             }
-            var user = _context.ApplicationUsers.FirstOrDefault(x => x.Id == userId);
+            var user = _context.Users.OfType<ApplicationUser>().FirstOrDefault(x => x.Id == userId);
 
             foreach (var cart in carts)
             {
@@ -67,6 +67,13 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
         [HttpPost]
         public IActionResult Checkout(CreateOrderVM model)
         {
+            if (!model.Terms)
+            {
+                TempData["error"] = "Du måste godkänna Allmänna Köpvillkor";
+                return RedirectToAction(nameof(Checkout));
+            }
+
+
             var order = new Order
             {
                 FkApplicationUserId = model.ApplicationUserId,
@@ -101,6 +108,11 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
 
             return View("ConfirmationOrder", "Cart");
+        }
+
+        public IActionResult Terms()
+        {
+            return View();
         }
 
         public async Task<IActionResult> History()
