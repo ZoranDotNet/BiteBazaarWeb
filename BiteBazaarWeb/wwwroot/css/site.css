@@ -26,3 +26,19 @@ body {
 .egenKnapp:hover {
     background-color: #b2ffff;
 }
+
+.basket_minus_plus:hover {
+    font-size: 20px;
+}
+
+.basket_trash{
+    color: red;
+}
+.basket_trash:hover{
+    color: red;
+    font-size: 20px;
+}
+
+.order-background{
+    background-color: lightgray;
+}
