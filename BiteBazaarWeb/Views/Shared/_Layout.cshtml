@@ -75,22 +75,20 @@
                             var count = HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCount);
                             <div class="nav-item me-2">
                                 <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index">
-                                    <button class="position-relative border-0 bg-transparent" style="font-size: 18px">
-                                        <i class="bi bi-cart3 bg-transparent"></i>
+                                    <button class="position-relative border-0 bg-transparent" style="font-size: 18px"><i class="bi bi-cart3"></i>
                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
                                             @count
-
-                                    </span>
-                                </button>
-                            </a>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="nav-item me-2">
-                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index"><i class="bi bi-cart3"></i></a>
-                        </div>
-                    }
+                                        </span>
+                                     </button>
+                                 </a>
+                            </div>
+                         }
+                         else
+                         {
+                            <div class="nav-item me-2">
+                                <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index"><i class="bi bi-cart3"></i></a>
+                            </div>
+                         }
 
                     }
 
