@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -15,7 +17,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="Customer" asp-controller="Home" asp-action="Index" ><img style="height:40px;" src="~/images/logos/liggandelogo.jpg"/></a>
+                <a class="navbar-brand" asp-area="Customer" asp-controller="Home" asp-action="Index"><img style="height:40px;" src="~/images/logos/liggandelogo.jpg" /></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -67,9 +69,28 @@
                     <partial name="_LoginPartial" />
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <div class="nav-item me-2">
-                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index"><i class="bi bi-cart3"></i></a>
-                        </div>
+
+                        @if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCount) != null)
+                        {
+                            var count = HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCount); 
+                            <div class="nav-item me-2">
+                                <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                                    <button class="position-relative border-0 bg-transparent" style="font-size: 18px">
+                                        <i class="bi bi-cart3 bg-transparent"></i>
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">@count
+
+                                        </span>
+                                    </button>
+                                </a>
+                            </div>
+                        }
+                        else 
+                        {
+                            <div class="nav-item me-2">
+                                 <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index"><i class="bi bi-cart3"></i></a>
+                            </div>
+                        }
+
                     }
 
 
@@ -94,14 +115,14 @@
                 <div class="me-2 p-0">
                     <p class="m-0">Följ oss: </p>
                 </div>
-                
+
                 <div class="ms-3">
-                    <img src="/images/logos/facebook_logo.png" alt="socialmedia logo" style="height:30px"/>
-                    <img src="/images/logos/Instagram.png" alt="socialmedia logo" style="height:30px"/>
+                    <img src="/images/logos/facebook_logo.png" alt="socialmedia logo" style="height:30px" />
+                    <img src="/images/logos/Instagram.png" alt="socialmedia logo" style="height:30px" />
                 </div>
-               
+
             </div>
-           
+
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

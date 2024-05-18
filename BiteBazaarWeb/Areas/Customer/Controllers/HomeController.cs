@@ -1,5 +1,6 @@
 using BiteBazaarWeb.Data;
 using BiteBazaarWeb.Models;
+using BiteBazaarWeb.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -83,15 +84,19 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
                 //Om varukorgen finns i DB uppdaterar antalet på befintlig varukorg
                 cartFromDb.Count += cart.Count;
                 _context.Carts.Update(cartFromDb);
+                _context.SaveChanges();
             }
             else
             {
                 //Vi drar av från lagret när köpet genomförs!!
                 //vi skapar ny korg om den inte finns
                 _context.Carts.Add(cart);
+                _context.SaveChanges();
+                var count = _context.Carts.Where(x => x.FkApplicationUserId == userId).Count();
+                HttpContext.Session.SetInt32(SD.SessionCount, count);
+
             }
 
-            _context.SaveChanges();
             TempData["success"] = "Varukorg uppdaterad";
 
             return RedirectToAction(nameof(Products));

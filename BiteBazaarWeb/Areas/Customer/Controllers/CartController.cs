@@ -1,5 +1,6 @@
 ﻿using BiteBazaarWeb.Data;
 using BiteBazaarWeb.Models;
+using BiteBazaarWeb.Utilities;
 using BiteBazaarWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -105,7 +106,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
             _context.Carts.RemoveRange(carts);
             _context.SaveChanges();
-
+            HttpContext.Session.Clear();
 
             return View("ConfirmationOrder", "Cart");
         }
@@ -209,6 +210,8 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             if (cart.Count == 1)
             {
                 _context.Carts.Remove(cart);
+                var count = _context.Carts.Where(x => x.FkApplicationUserId == cart.FkApplicationUserId).Count();
+                HttpContext.Session.SetInt32(SD.SessionCount, count - 1);
             }
             else
             {
@@ -226,6 +229,10 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             var cart = await _context.Carts.Include(x => x.Product).FirstOrDefaultAsync(x => x.CartId == id);
 
             _context.Carts.Remove(cart);
+
+            var count = _context.Carts.Where(x => x.FkApplicationUserId == cart.FkApplicationUserId).Count();
+            HttpContext.Session.SetInt32(SD.SessionCount, count - 1);
+
 
             await _context.SaveChangesAsync();
 
