@@ -9,8 +9,8 @@
     <hr />
     @foreach (var item in Model)
     {
-        <div class="mb-2 row px-2">
-            <div class="col-3">
+        <div class="mb-2 px-4 d-flex justify-content-between">
+            <div class="border-2">
                 @if (item.Product.Images.Any())
                 {
                     <img src="@item.Product.Images.First().URL" style="width: 75px;" class="border border-2" />
@@ -20,7 +20,7 @@
                     <img src="https://placehold.co/100x100" style="width: 75px;" />
                 }
             </div>
-            <div class="col-9 d-flex justify-content-between">
+            
                 <div class="d-flex flex-column">
                     <div><strong>@item.Product.Title</strong></div>
                     <div class=""> @item.Product.Price.ToString("c0") /st</div>
@@ -28,21 +28,21 @@
                 <div class="d-flex">
                     Antal:
                     <div>
-                        <a asp-area="Customer" asp-controller="Cart" asp-action="Minus" asp-route-id="@item.CartId" class="btn-sm btn-outline-primary text-decoration-none p-1 ms-2"><i class="bi bi-dash-square"></i></a>
+                        <a asp-area="Customer" asp-controller="Cart" asp-action="Minus" asp-route-id="@item.CartId" class="ms-2"><i class="bi bi-dash-square basket_minus_plus"></i></a>
                     </div>
-                    @item.Count
+                    <span class="px-1">@item.Count</span>
                     <div>
-                        <a asp-area="Customer" asp-controller="Cart" asp-action="Plus" asp-route-id="@item.CartId" class="btn-sm btn-outline-primary text-decoration-none p-1 me-3"><i class="bi bi-plus-square"></i></a>
+                        <a asp-area="Customer" asp-controller="Cart" asp-action="Plus" asp-route-id="@item.CartId" class="me-3"><i class="bi bi-plus-square basket_minus_plus"></i></a>
                     </div>
                     <div>
-                        <a asp-area="Customer" asp-controller="Cart" asp-action="Delete" asp-route-id="@item.CartId" class="btn-sm btn-danger text-decoration-none me-1"><i class="bi bi-trash"></i></a>
+                        <a asp-area="Customer" asp-controller="Cart" asp-action="Delete" asp-route-id="@item.CartId" class="me-1"><i class="bi bi-trash basket_trash"></i></a>
                     </div>
                 </div>
                 <div class="fw-bold">
                     @((item.Product.Price * item.Count).ToString("c0"))
                 </div>
 
-            </div>
+           
         </div>
         <hr />
         <input hidden @{total += (item.Product.Price * item.Count);} />
