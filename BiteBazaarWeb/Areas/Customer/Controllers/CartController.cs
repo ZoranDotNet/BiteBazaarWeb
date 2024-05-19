@@ -1,5 +1,6 @@
 ﻿using BiteBazaarWeb.Data;
 using BiteBazaarWeb.Models;
+using BiteBazaarWeb.Services;
 using BiteBazaarWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,22 +12,57 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
     public class CartController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly ProductService _productService;
+        private readonly CategoryService _categoryService;
+        private readonly ProductImageService _productImageService;
 
-        public CartController(AppDbContext context)
+        public CartController(AppDbContext context, ProductService productService, CategoryService categoryService, ProductImageService productImageService)
         {
             _context = context;
+            _productService = productService;
+            _categoryService = categoryService;
+            _productImageService = productImageService;
 
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var cart = _context.Carts.Where(x => x.FkApplicationUserId == userId).Include(x => x.Product)
-                .Include(x => x.Product.Images).ToList();
-            //hämta produkt från API hur?? 
+            //var cart = _context.Carts.Where(x => x.FkApplicationUserId == userId).Include(x => x.Product)
+            //    .Include(x => x.Product.Images).ToList();
+            ////hämta produkt från API hur?? 
 
-            return View(cart);
+            //return View(cart);
+
+            //Hämtar den inloggades cart
+            var cartItems = _context.Carts.Where(x => x.FkApplicationUserId == userId).ToList();
+
+            //Gör en ny lista av VM som jag kan använda
+            var cartViewModels = new List<CartProductVM>();
+
+            //Hämtar alla produkter som finns
+            var products = await _productService.GetProductsAsync();
+
+            //Loopar igenom alla carts mot APIet för att få fram dem produkter som ligger där
+            foreach (var item in cartItems)
+            {
+                var product = products.FirstOrDefault(p => p.ProductId == item.FkProductId);
+
+                if (product != null)
+                {
+                    var cartViewModel = new CartProductVM
+                    {
+                        CartId = item.CartId,
+                        Product = product,
+                        Count = item.Count
+                    };
+
+                    cartViewModels.Add(cartViewModel);
+                }
+            }
+
+            return View(cartViewModels);
         }
 
         //skapa order checka ut

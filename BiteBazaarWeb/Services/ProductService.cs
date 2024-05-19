@@ -15,7 +15,7 @@ namespace BiteBazaarWeb.Services
         }
 
 
-        //Get All Categories
+        //Get All Products
         public async Task<List<Product>> GetProductsAsync()
         {
             try
@@ -40,7 +40,7 @@ namespace BiteBazaarWeb.Services
         }
 
 
-        //Create
+        //Create Products
         public async Task AddProductAsync(PostProductVM product)
         {
             
@@ -72,7 +72,7 @@ namespace BiteBazaarWeb.Services
         }
 
 
-        //Update Category
+        //Update Products
         public async Task UpdateProductAsync(int id, Product product)
         {
             var json = JsonConvert.SerializeObject(product);
@@ -85,7 +85,7 @@ namespace BiteBazaarWeb.Services
 
 
 
-        //Delete Category
+        //Delete Products
         public async Task DeleteProductAsync(int id)
         {
             var response = await _client.DeleteAsync($"products/{id}");
