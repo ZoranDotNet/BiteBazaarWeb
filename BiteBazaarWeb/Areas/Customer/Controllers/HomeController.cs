@@ -81,7 +81,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             if (cartFromDb != null)
             {
                 //Vi drar av från lagret när köpet genomförs!!
-                //Om varukorgen finns i DB uppdaterar antalet på befintlig varukorg
+                //Om varukorgen finns i DB uppdateras antalet på befintlig varukorg
                 cartFromDb.Count += cart.Count;
                 _context.Carts.Update(cartFromDb);
                 _context.SaveChanges();

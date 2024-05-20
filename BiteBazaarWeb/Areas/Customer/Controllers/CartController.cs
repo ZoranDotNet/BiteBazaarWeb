@@ -37,7 +37,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             var carts = _context.Carts.Where(x => x.FkApplicationUserId == userId).Include(x => x.Product)
-                .ThenInclude(x => x.Images).ToList();
+                .ToList();
 
             if (!carts.Any())
             {
