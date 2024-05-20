@@ -10,7 +10,7 @@ namespace BiteBazaarWeb.Models
         [StringLength(250)]
         public string URL { get; set; }
 
-        [ForeignKey("Product")]
+        //[ForeignKey("Product")]
         public int FkProductId { get; set; }
         public Product? Product { get; set; }
 

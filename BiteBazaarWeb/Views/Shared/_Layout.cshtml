@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -43,7 +45,7 @@
                                 </ul>
                             </li>
                         }
-                        @if (User.Identity.IsAuthenticated)
+                        @if (User.IsInRole(SD.Role_Customer))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="History">Historik</a>
@@ -57,6 +59,31 @@
 
                     </ul>
                     <partial name="_LoginPartial" />
+                    @if (User.Identity.IsAuthenticated)
+                    {
+
+                        @if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCount) != null)
+                        {
+                            var count = HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCount);
+                            <div class="nav-item me-2">
+                                <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                                    <button class="position-relative border-0 bg-transparent" style="font-size: 18px">
+                                        <i class="bi bi-cart3"></i>
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
+                                            @count
+                                        </span>
+                                    </button>
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="nav-item me-2">
+                                <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index"><i class="bi bi-cart3"></i></a>
+                            </div>
+                        }
+
+                    }
                 </div>
             </div>
         </nav>
@@ -75,6 +102,17 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            var countValue = parseInt($('#cartCount').text());
+            if (countValue === 0) {
+                $('#cartCount').addClass('visually-hidden')
+            } else {
+                $('#cartCount').removeClass('visually-hidden')
+            }
+        })
+    </script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using BiteBazaarWeb.Data;
+using BiteBazaarWeb.Utilities;
+using System.Security.Claims;
 
 namespace BiteBazaarWeb.Areas.Identity.Pages.Account
 {
@@ -21,11 +24,13 @@ namespace BiteBazaarWeb.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly AppDbContext _context;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, AppDbContext context)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
         }
 
         /// <summary>
@@ -115,6 +120,11 @@ namespace BiteBazaarWeb.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    var claimsIdentity = (ClaimsIdentity)User.Identity;
+                    var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                    int count = _context.Carts.Where(x => x.FkApplicationUserId == userId).Count();
+                    HttpContext.Session.SetInt32(SD.SessionCount, count);
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

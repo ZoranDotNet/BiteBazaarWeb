@@ -40,11 +40,14 @@ namespace BiteBazaarWeb.Migrations
                     b.Property<int>("FkProductId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
                     b.HasKey("CartId");
 
                     b.HasIndex("FkApplicationUserId");
 
-                    b.HasIndex("FkProductId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Carts");
                 });
@@ -69,7 +72,7 @@ namespace BiteBazaarWeb.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("BiteBazaarWeb.Models.Order", b =>
@@ -143,11 +146,14 @@ namespace BiteBazaarWeb.Migrations
                     b.Property<int>("FkProductId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
                     b.HasKey("OrderSpecificationId");
 
                     b.HasIndex("FkOrderId");
 
-                    b.HasIndex("FkProductId");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("OrderSpecifications");
                 });
@@ -159,6 +165,9 @@ namespace BiteBazaarWeb.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -181,9 +190,9 @@ namespace BiteBazaarWeb.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.HasIndex("FkCategoryId");
+                    b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("BiteBazaarWeb.Models.ProductImage", b =>
@@ -197,6 +206,9 @@ namespace BiteBazaarWeb.Migrations
                     b.Property<int>("FkProductId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
                     b.Property<string>("URL")
                         .IsRequired()
                         .HasMaxLength(250)
@@ -204,9 +216,9 @@ namespace BiteBazaarWeb.Migrations
 
                     b.HasKey("ProductImageId");
 
-                    b.HasIndex("FkProductId");
+                    b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImages");
+                    b.ToTable("ProductImage");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -452,7 +464,7 @@ namespace BiteBazaarWeb.Migrations
 
                     b.HasOne("BiteBazaarWeb.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("FkProductId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -480,9 +492,7 @@ namespace BiteBazaarWeb.Migrations
 
                     b.HasOne("BiteBazaarWeb.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("FkProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.Navigation("Order");
 
@@ -493,9 +503,7 @@ namespace BiteBazaarWeb.Migrations
                 {
                     b.HasOne("BiteBazaarWeb.Models.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("FkCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
                 });
@@ -504,9 +512,7 @@ namespace BiteBazaarWeb.Migrations
                 {
                     b.HasOne("BiteBazaarWeb.Models.Product", "Product")
                         .WithMany("Images")
-                        .HasForeignKey("FkProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.Navigation("Product");
                 });

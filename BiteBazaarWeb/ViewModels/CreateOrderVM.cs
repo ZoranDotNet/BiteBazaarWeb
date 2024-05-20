@@ -11,5 +11,6 @@ namespace BiteBazaarWeb.ViewModels
         public List<Cart> Carts { get; set; }
 
         public decimal OrderTotal { get; set; }
+        public bool Terms { get; set; } = false;
     }
 }
