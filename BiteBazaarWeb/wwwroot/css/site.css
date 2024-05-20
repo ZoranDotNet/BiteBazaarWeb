@@ -1,3 +1,8 @@
+:root {
+    --clr-pink: #fb50a7;
+}
+
+
 html {
   font-size: 14px;
   
@@ -23,8 +28,15 @@ body {
     font-family: 'Nunito Sans', sans-serif;
 }
 
+.egenKnapp {
+    border-radius: 45px;
+    background-color: var(--clr-pink);
+    font-weight: 700;
+}
+
 .egenKnapp:hover {
-    background-color: #b2ffff;
+    background-color: #fff;
+    border: 2px solid var(--clr-pink);
 }
 
 .basket_minus_plus:hover {
