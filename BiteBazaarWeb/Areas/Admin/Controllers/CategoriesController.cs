@@ -1,5 +1,6 @@
 ﻿using BiteBazaarWeb.Data;
 using BiteBazaarWeb.Models;
+using BiteBazaarWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,29 +9,38 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
     [Area("Admin")]
     public class CategoriesController : Controller
     {
-        private readonly AppDbContext _context;
+        //private readonly AppDbContext _context;
 
-        public CategoriesController(AppDbContext context)
+        //public CategoriesController(AppDbContext context)
+        //{
+        //    _context = context;
+        //}
+
+        private readonly CategoryService _apiService;
+        public CategoriesController(CategoryService apiService)
         {
-            _context = context;
+            _apiService = apiService;
         }
 
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            var categories = await _apiService.GetCategoriesAsync();
+
+            if (categories == null || !categories.Any())
+            {
+                return View(new List<Category>());
+            }
+
+            return View(categories);
         }
 
         // GET: Categories/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
+            var category = await _apiService.GetCategoryByIdAsync(id);
+
             if (category == null)
             {
                 return NotFound();
@@ -50,12 +60,11 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CategoryId,Title")] Category category)
+        public async Task<IActionResult> Create([Bind("CategoryId,Title, Description")] Category category)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(category);
-                await _context.SaveChangesAsync();
+                await _apiService.AddCategoryAsync(category);
                 TempData["success"] = "Ny Kategori tillagd";
                 return RedirectToAction(nameof(Index));
             }
@@ -63,14 +72,9 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
         }
 
         // GET: Categories/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _context.Categories.FindAsync(id);
+            var category = await _apiService.GetCategoryByIdAsync(id);
             if (category == null)
             {
                 return NotFound();
@@ -83,7 +87,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,Title")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,Title, Description")] Category category)
         {
             if (id != category.CategoryId)
             {
@@ -92,15 +96,18 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+
+                //await _apiService.UpdateCategoryAsync(id, category);
+                //TempData["success"] = "Uppdaterad";
+                //return RedirectToAction(nameof(Index));
                 try
                 {
-                    _context.Update(category);
+                    await _apiService.UpdateCategoryAsync(id, category);
                     TempData["success"] = "Uppdaterad";
-                    await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception)
                 {
-                    if (!CategoryExists(category.CategoryId))
+                    if (!await CategoryExists(category.CategoryId))
                     {
                         return NotFound();
                     }
@@ -115,15 +122,16 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
         }
 
         // GET: Categories/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
+            if (id == null) //Varför har vi dubbelt?
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.CategoryId == id);
+            var category = await _apiService.GetCategoryByIdAsync(id);
+            
+
             if (category == null)
             {
                 return NotFound();
@@ -137,20 +145,30 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
+            var category = await _apiService.GetCategoryByIdAsync(id);
             if (category != null)
             {
-                _context.Categories.Remove(category);
+                await _apiService.DeleteCategoryAsync(category.CategoryId);
             }
 
-            await _context.SaveChangesAsync();
             TempData["success"] = "Kategori Raderad";
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoryExists(int id)
+        private async Task<bool> CategoryExists(int id)
         {
-            return _context.Categories.Any(e => e.CategoryId == id);
+            var category = await _apiService.GetCategoryByIdAsync(id);
+
+            if (category == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+            
+            //.Categories.Any(e => e.CategoryId == id);
         }
     }
 }

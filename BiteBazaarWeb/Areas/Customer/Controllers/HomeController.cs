@@ -1,6 +1,8 @@
 using BiteBazaarWeb.Data;
 using BiteBazaarWeb.Models;
+using BiteBazaarWeb.Services;
 using BiteBazaarWeb.Utilities;
+using BiteBazaarWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,11 +20,21 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
         private readonly AppDbContext _context;
         //private readonly ProductService _apiService;
 
-        public HomeController(ILogger<HomeController> logger, AppDbContext context /*ProductService apiService*/)
+
+        private readonly ProductService _productService;
+        private readonly CategoryService _categoryService;
+        private readonly ProductImageService _productImageService;
+
+        public HomeController(ILogger<HomeController> logger, AppDbContext context, 
+            ProductService productService, CategoryService categoryService, ProductImageService productImageService)
         {
             _logger = logger;
             _context = context;
-            //_apiService = apiService;
+
+            _productService = productService;
+            _categoryService = categoryService;
+            _productImageService = productImageService;
+
         }
 
         public IActionResult Index()
@@ -32,7 +44,9 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
         public async Task<IActionResult> Products()
         {
-            var products = await _context.Products.Include(p => p.Category).Include(x => x.Images).ToListAsync();
+            var products = await _productService.GetProductsAsync();
+
+            ViewData["FkCategoryId"] = new SelectList(await _categoryService.GetCategoriesAsync(), "CategoryId", "Title");
 
             ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "Title");
             return View(products);
@@ -42,13 +56,13 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
         {
             List<Product> products = new();
 
-
             if (filter != 0)
             {
-                products = await _context.Products.Include(x => x.Images).Where(x => x.FkCategoryId == filter).ToListAsync();
+                products = await _productService.GetProductsByCategoryIdAsync(filter);
             }
 
             return PartialView("_ProductList", products);
+
         }
 
         public async Task<IActionResult> SearchProducts(string searchString = "")
@@ -57,13 +71,12 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
             if (!searchString.IsNullOrEmpty())
             {
-                products = await _context.Products.Include(x => x.Images).Where(x => x.Title.Contains(searchString)).ToListAsync();
+                products = await _productService.GetProductsBySearchAsync(searchString);
             }
 
-
             return PartialView("_ProductList", products);
-        }
 
+        }
 
         public async Task<IActionResult> Details(int id)
         {
@@ -72,58 +85,64 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include(p => p.Category).Include(x => x.Images)
-                .FirstOrDefaultAsync(m => m.ProductId == id);
+            var product = await _productService.GetProductByIdAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
             var cart = new Cart
             {
-                FkProductId = product.ProductId,
+                FkProductId = id,
                 Product = product,
                 Count = 1
             };
             return View(cart);
-
         }
-
+   
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Details(Cart cart)
         {
+
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             cart.FkApplicationUserId = userId;
 
-            Cart cartFromDb = await _context.Carts.AsNoTracking().FirstOrDefaultAsync(x => x.FkApplicationUserId == userId
+            // HÃ¤mta produkten frÃ¥n API:et
+            var product = await _productService.GetProductByIdAsync(cart.FkProductId);
+            if (product == null)
+            {
+                TempData["error"] = "Produkten kunde inte hittas.";
+                return RedirectToAction("Details", cart.FkProductId);
+            }
+
+            // Kontrollera att det finns tillrÃ¤ckligt mÃ¥nga produkter innan vi lÃ¤gger dem i varukorgen
+            if (product.Quantity < cart.Count)
+            {
+                TempData["error"] = $"Finns endast {product.Quantity} kvar i Lager";
+                return RedirectToAction("Details", cart.FkProductId);
+            }
+
+            // Kolla om varukorgen redan finns i databasen
+            var cartFromDb = await _context.Carts.AsNoTracking().FirstOrDefaultAsync(x => x.FkApplicationUserId == userId
             && x.FkProductId == cart.FkProductId);
 
-            Product product = await _context.Products.AsNoTracking().FirstOrDefaultAsync(x => x.ProductId == cart.FkProductId);
-            if (product != null)
-            {    //Vi kollar att det finns tillräckligt många produkter innan vi lägger det i korgen
-                //Vi räknar inte av från lagret förrän dom genomför köpet. Kan lägga i korgen och sedan logga ut.
-                if (product.Quantity < cart.Count)
-                {
-                    TempData["error"] = $"Finns endast {product.Quantity} kvar i Lager";
-                    return RedirectToAction("Details", cart.FkProductId);
-                }
-            }
+
             if (cartFromDb != null)
             {
-                //Vi drar av från lagret när köpet genomförs!!
-                //Om varukorgen finns i DB uppdateras antalet på befintlig varukorg
+                //Vi drar av frÃ¥n lagret nÃ¤r kÃ¶pet genomfÃ¶rs!!
+                //Om varukorgen finns i DB uppdateras antalet pÃ¥ befintlig varukorg
                 cartFromDb.Count += cart.Count;
                 _context.Carts.Update(cartFromDb);
                 _context.SaveChanges();
             }
             else
             {
-                //Vi drar av från lagret när köpet genomförs!!
-                //vi skapar ny korg om den inte finns
+                // Skapa en ny varukorg om den inte redan finns
                 _context.Carts.Add(cart);
-                _context.SaveChanges();
+
+                await _context.SaveChangesAsync();
+
                 var count = _context.Carts.Where(x => x.FkApplicationUserId == userId).Count();
                 HttpContext.Session.SetInt32(SD.SessionCount, count);
 

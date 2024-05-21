@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -34,9 +35,11 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddHttpClient("API Client", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7000/");
+    client.BaseAddress = new Uri("https://localhost:7278/");
 });
 builder.Services.AddScoped<CategoryService>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<ProductImageService>();
 
 
 
@@ -54,6 +57,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();

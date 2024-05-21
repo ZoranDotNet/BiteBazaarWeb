@@ -1,5 +1,6 @@
 ﻿using BiteBazaarWeb.Data;
 using BiteBazaarWeb.Models;
+using BiteBazaarWeb.Services;
 using BiteBazaarWeb.Utilities;
 using BiteBazaarWeb.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -12,39 +13,79 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
     public class CartController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly ProductService _productService;
+        private readonly CategoryService _categoryService;
+        private readonly ProductImageService _productImageService;
 
-        public CartController(AppDbContext context)
+        public CartController(AppDbContext context, ProductService productService, CategoryService categoryService, ProductImageService productImageService)
         {
             _context = context;
+            _productService = productService;
+            _categoryService = categoryService;
+            _productImageService = productImageService;
 
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            //Vem är inloggad
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var cart = _context.Carts.Where(x => x.FkApplicationUserId == userId).Include(x => x.Product)
-                .Include(x => x.Product.Images).ToList();
-            //hämta produkt från API hur?? 
+            //Hämtar den inloggades cart
+            var cartItems = _context.Carts.Where(x => x.FkApplicationUserId == userId).ToList();
 
-            return View(cart);
+            //Hämtar alla produkter som finns
+            var products = await _productService.GetProductsAsync();
+
+            //Loopar ut alla produkter för att på samma gång loppa ut alla cart's. Där FkProductId i Cart objekten matchar med ett ProductId på en produkt
+            //så sätter vi att alla properties i den Product navigering som ligger i Cart fylls från API:et
+            foreach (var product in products)
+            {
+                foreach (var cart in cartItems)
+                {
+                    if (cart.FkProductId == product.ProductId)
+                    {
+                        cart.Product = product;
+                        _context.Carts.Update(cart);
+                    }
+                }
+            }
+            await _context.SaveChangesAsync();
+            return View(cartItems);
         }
 
         //skapa order checka ut
-        public IActionResult Checkout()
+        public async Task<IActionResult> Checkout()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var carts = _context.Carts.Where(x => x.FkApplicationUserId == userId).Include(x => x.Product)
-                .ToList();
+
+            var carts = _context.Carts.Where(x => x.FkApplicationUserId == userId).ToList();
 
             if (!carts.Any())
             {
                 TempData["error"] = "Inga varor i kundkorgen";
                 return RedirectToAction(nameof(Index), "Home");
             }
-            var user = _context.Users.OfType<ApplicationUser>().FirstOrDefault(x => x.Id == userId);
+
+            var products = await _productService.GetProductsAsync();
+
+            foreach (var product in products)
+            {
+                foreach (var cart in carts)
+                {
+                    if (cart.FkProductId == product.ProductId)
+                    {
+                        cart.Product = product;
+                        _context.Carts.Update(cart);
+                    }
+                }
+            }
+            await _context.SaveChangesAsync();
+
+            var user = _context.ApplicationUsers.FirstOrDefault(x => x.Id == userId);
+
 
             foreach (var cart in carts)
             {
@@ -54,7 +95,6 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
                     return RedirectToAction(nameof(Index));
                 };
             }
-
 
             var model = new CreateOrderVM
             {
@@ -66,14 +106,13 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             return View(model);
         }
         [HttpPost]
-        public IActionResult Checkout(CreateOrderVM model)
+        public async Task<IActionResult> Checkout(CreateOrderVM model)
         {
             if (!model.Terms)
             {
                 TempData["error"] = "Du måste godkänna Allmänna Köpvillkor";
                 return RedirectToAction(nameof(Checkout));
             }
-
 
             var order = new Order
             {
@@ -89,12 +128,26 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             _context.Orders.Add(order);
             _context.SaveChanges();
 
-            var carts = _context.Carts.Where(x => x.FkApplicationUserId == model.ApplicationUserId).Include(x => x.Product).ToList();
+            var carts = _context.Carts.Where(x => x.FkApplicationUserId == model.ApplicationUserId).ToList();
+            var products = await _productService.GetProductsAsync();
+
+            foreach (var product in products)
+            {
+                foreach (var cart in carts)
+                {
+                    if (cart.FkProductId == product.ProductId)
+                    {
+                        cart.Product = product;
+                        _context.Carts.Update(cart);
+                    }
+                }
+            }
+            await _context.SaveChangesAsync();
 
             foreach (var cart in carts)
             {
                 cart.Product.Quantity -= cart.Count;
-                _context.Products.Update(cart.Product);
+                await _productService.UpdateProductAsync(cart.FkProductId, cart.Product);
                 var orderSpec = new OrderSpecification
                 {
                     Count = cart.Count,
@@ -106,7 +159,6 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
             _context.Carts.RemoveRange(carts);
             _context.SaveChanges();
-            HttpContext.Session.Clear();
 
             return View("ConfirmationOrder", "Cart");
         }
@@ -133,11 +185,25 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
         public async Task<IActionResult> HistoryDetails(int OrderId)
         {
-            var orderspec = await _context.OrderSpecifications.Include(x => x.Product).Where(x => x.FkOrderId == OrderId).ToListAsync();
+            var orderspec = await _context.OrderSpecifications.Where(x => x.FkOrderId == OrderId).ToListAsync();
+
             if (!orderspec.Any())
             {
                 TempData["error"] = "Något gick fel";
                 return RedirectToAction(nameof(Index));
+            }
+
+            var products = await _productService.GetProductsAsync();
+
+            foreach (var product in products)
+            {
+                foreach (var spec in orderspec)
+                {
+                    if (spec.FkProductId == product.ProductId)
+                    {
+                        spec.Product = product;
+                    }
+                }
             }
 
             return View(orderspec);
@@ -155,13 +221,27 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
         }
         public async Task<IActionResult> HistoryDetailsAdmin(int OrderId)
         {
-            var orderspec = await _context.OrderSpecifications.Include(x => x.Product)
+            var orderspec = await _context.OrderSpecifications
                 .Where(x => x.FkOrderId == OrderId).ToListAsync();
             if (!orderspec.Any())
             {
                 TempData["error"] = "Något gick fel";
                 return RedirectToAction(nameof(Index));
             }
+
+            var products = await _productService.GetProductsAsync();
+
+            foreach (var product in products)
+            {
+                foreach (var spec in orderspec)
+                {
+                    if (spec.FkProductId == product.ProductId)
+                    {
+                        spec.Product = product;
+                    }
+                }
+            }
+
             var order = _context.Orders.FirstOrDefault(x => x.OrderId == OrderId);
             var model = new OrderHistoryVM
             {
@@ -186,7 +266,10 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
         public async Task<IActionResult> Plus(int id)
         {
-            var cart = await _context.Carts.Include(x => x.Product).FirstOrDefaultAsync(x => x.CartId == id);
+            var cart = await _context.Carts.FirstOrDefaultAsync(x => x.CartId == id);
+
+            var product = await _productService.GetProductByIdAsync(cart.FkProductId);
+            cart.Product = product;
 
             if (cart.Product.Quantity > cart.Count)
             {
@@ -199,13 +282,14 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
                 TempData["error"] = "För få varor i lager";
             }
 
-
             return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Minus(int id)
         {
-            var cart = await _context.Carts.Include(x => x.Product).FirstOrDefaultAsync(x => x.CartId == id);
+            var cart = await _context.Carts.FirstOrDefaultAsync(x => x.CartId == id);
+            var product = await _productService.GetProductByIdAsync(cart.FkProductId);
+            cart.Product = product;
 
             if (cart.Count == 1)
             {
@@ -226,9 +310,11 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var cart = await _context.Carts.Include(x => x.Product).FirstOrDefaultAsync(x => x.CartId == id);
+            var cart = await _context.Carts.FirstOrDefaultAsync(x => x.CartId == id);
 
             _context.Carts.Remove(cart);
+            var count = _context.Carts.Where(x => x.FkApplicationUserId == cart.FkApplicationUserId).Count();
+            HttpContext.Session.SetInt32(SD.SessionCount, count - 1);
 
             var count = _context.Carts.Where(x => x.FkApplicationUserId == cart.FkApplicationUserId).Count();
             HttpContext.Session.SetInt32(SD.SessionCount, count - 1);
