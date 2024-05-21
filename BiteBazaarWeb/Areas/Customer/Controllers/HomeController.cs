@@ -3,7 +3,9 @@ using BiteBazaarWeb.Models;
 using BiteBazaarWeb.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -14,11 +16,13 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext _context;
+        //private readonly ProductService _apiService;
 
-        public HomeController(ILogger<HomeController> logger, AppDbContext context)
+        public HomeController(ILogger<HomeController> logger, AppDbContext context /*ProductService apiService*/)
         {
             _logger = logger;
             _context = context;
+            //_apiService = apiService;
         }
 
         public IActionResult Index()
@@ -30,8 +34,36 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
         {
             var products = await _context.Products.Include(p => p.Category).Include(x => x.Images).ToListAsync();
 
+            ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "Title");
             return View(products);
         }
+
+        public async Task<IActionResult> FilterProducts(int filter = 0)
+        {
+            List<Product> products = new();
+
+
+            if (filter != 0)
+            {
+                products = await _context.Products.Include(x => x.Images).Where(x => x.FkCategoryId == filter).ToListAsync();
+            }
+
+            return PartialView("_ProductList", products);
+        }
+
+        public async Task<IActionResult> SearchProducts(string searchString = "")
+        {
+            List<Product> products = new();
+
+            if (!searchString.IsNullOrEmpty())
+            {
+                products = await _context.Products.Include(x => x.Images).Where(x => x.Title.Contains(searchString)).ToListAsync();
+            }
+
+
+            return PartialView("_ProductList", products);
+        }
+
 
         public async Task<IActionResult> Details(int id)
         {
