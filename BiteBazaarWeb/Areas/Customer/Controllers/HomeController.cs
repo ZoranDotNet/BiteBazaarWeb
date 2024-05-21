@@ -17,9 +17,6 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext _context;
-        //private readonly ProductService _apiService;
-
-
         private readonly ProductService _productService;
         private readonly CategoryService _categoryService;
         private readonly ProductImageService _productImageService;
