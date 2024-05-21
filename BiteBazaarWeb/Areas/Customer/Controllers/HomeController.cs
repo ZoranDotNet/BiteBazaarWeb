@@ -5,7 +5,9 @@ using BiteBazaarWeb.Utilities;
 using BiteBazaarWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -41,7 +43,35 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
         {
             var products = await _productService.GetProductsAsync();
 
+            ViewData["FkCategoryId"] = new SelectList(await _categoryService.GetCategoriesAsync(), "CategoryId", "Title");
+
             return View(products);
+        }
+
+        public async Task<IActionResult> FilterProducts(int filter = 0)
+        {
+            List<Product> products = new();
+
+            if (filter != 0)
+            {
+                products = await _productService.GetProductsByCategoryIdAsync(filter);
+            }
+
+            return PartialView("_ProductList", products);
+
+        }
+
+        public async Task<IActionResult> SearchProducts(string searchString = "")
+        {
+            List<Product> products = new();
+
+            if (!searchString.IsNullOrEmpty())
+            {
+                products = await _productService.GetProductsBySearchAsync(searchString);
+            }
+
+            return PartialView("_ProductList", products);
+
         }
 
         public async Task<IActionResult> Details(int id)

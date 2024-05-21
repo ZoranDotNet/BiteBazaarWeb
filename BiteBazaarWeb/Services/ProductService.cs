@@ -23,17 +23,14 @@ namespace BiteBazaarWeb.Services
                 var response = await _client.GetAsync("products");
                 if (!response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine($"API Error: {response.StatusCode}");
                     return new List<Product>();
                 }
                 var jsonstring = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"JSON Response: {jsonstring}");
                 var products = JsonConvert.DeserializeObject<List<Product>>(jsonstring);
                 return products;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
                 return new List<Product>();
             }
 
@@ -45,10 +42,8 @@ namespace BiteBazaarWeb.Services
         {
             
             var json = JsonConvert.SerializeObject(product);
-            Console.WriteLine($"Product: {json}");
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("products", data);
-            Console.WriteLine($"API response: {response.StatusCode}");
             response.EnsureSuccessStatusCode();
         }
 
@@ -60,7 +55,6 @@ namespace BiteBazaarWeb.Services
             var response = await _client.GetAsync($"products/{id}");
             if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine($"API PRODUCT via ID: {response.StatusCode}");
                 return await response.Content.ReadFromJsonAsync<Product>();
             }
             else
@@ -92,7 +86,47 @@ namespace BiteBazaarWeb.Services
             response.EnsureSuccessStatusCode();
         }
 
+        //Get Products By CategoryId
+        public async Task<List<Product>> GetProductsByCategoryIdAsync(int id)
+        {
+            try
+            {
+                var response = await _client.GetAsync($"/category/{id}/products");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new List<Product>();
+                }
+                var jsonstring = await response.Content.ReadAsStringAsync();
+                var products = JsonConvert.DeserializeObject<List<Product>>(jsonstring);
+                return products;
+            }
+            catch (Exception ex)
+            {
+                return new List<Product>();
+            }
 
+        }
+
+        //Get Products by search for title
+        public async Task<List<Product>> GetProductsBySearchAsync(string search)
+        {
+            try
+            {
+                var response = await _client.GetAsync($"/products/search/{search}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new List<Product>();
+                }
+                var jsonstring = await response.Content.ReadAsStringAsync();
+                var products = JsonConvert.DeserializeObject<List<Product>>(jsonstring);
+                return products;
+            }
+            catch (Exception ex)
+            {
+                return new List<Product>();
+            }
+
+        }
 
 
     }

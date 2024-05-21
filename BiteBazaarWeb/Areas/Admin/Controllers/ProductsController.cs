@@ -45,7 +45,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
         // GET: Products/Create
         public async Task<IActionResult> Create()
         {
-            ViewData["FkCategoryId"] = new SelectList(await _categoryService.GetCategoriesAsync(), "CategoryId", "Title"); //Funkar denna ViewBag?
+            ViewData["FkCategoryId"] = new SelectList(await _categoryService.GetCategoriesAsync(), "CategoryId", "Title");
             return View();
         }
 
