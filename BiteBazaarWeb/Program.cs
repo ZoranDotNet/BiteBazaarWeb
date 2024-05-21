@@ -3,7 +3,6 @@ using BiteBazaarWeb.Services;
 using BiteBazaarWeb.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Stripe;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -39,7 +38,7 @@ builder.Services.AddHttpClient("API Client", client =>
     client.BaseAddress = new Uri("https://localhost:7278/");
 });
 builder.Services.AddScoped<CategoryService>();
-builder.Services.AddScoped<BiteBazaarWeb.Services.ProductService>();
+builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<ProductImageService>();
 
 
@@ -59,7 +58,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecreteKey").Get<string>();
+
 
 app.UseAuthentication();
 app.UseAuthorization();
