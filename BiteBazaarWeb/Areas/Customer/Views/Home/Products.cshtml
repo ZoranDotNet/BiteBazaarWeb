@@ -57,16 +57,6 @@
            
             
         }
-
-        
-        $(document).ready(function () {
-            $('#searchButton').click(function () {
-                searchProducts();
-            });
-           
-        });
-
-
         function searchProducts() {
             var search = $('#searchString').val();
 
@@ -84,10 +74,19 @@
                     }
 
                     $('#searchString').val('');
-                   
+
                 }
 
             });
         }
+        
+        $(document).ready(function () {
+            $('#searchButton').click(function () {
+                searchProducts();
+            });
+           
+        });
+
+       
     </script>
 }
