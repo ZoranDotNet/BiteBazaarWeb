@@ -5,7 +5,6 @@ namespace BiteBazaarWeb.Models
 {
     public class Product
     {
-        //[Key]
         public int ProductId { get; set; }
 
         [StringLength(30)]
@@ -19,7 +18,6 @@ namespace BiteBazaarWeb.Models
         [Column(TypeName = "decimal(10,2)")]
         public decimal Price { get; set; }
 
-        //[ForeignKey("Category")]
         public int FkCategoryId { get; set; }
 
         public Category? Category { get; set; }

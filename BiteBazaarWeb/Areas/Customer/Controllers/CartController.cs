@@ -316,10 +316,6 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             var count = _context.Carts.Where(x => x.FkApplicationUserId == cart.FkApplicationUserId).Count();
             HttpContext.Session.SetInt32(SD.SessionCount, count - 1);
 
-            var count = _context.Carts.Where(x => x.FkApplicationUserId == cart.FkApplicationUserId).Count();
-            HttpContext.Session.SetInt32(SD.SessionCount, count - 1);
-
-
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

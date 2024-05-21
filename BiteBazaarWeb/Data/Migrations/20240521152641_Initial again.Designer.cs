@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiteBazaarWeb.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240514090424_Cart")]
-    partial class Cart
+    [Migration("20240521152641_Initial again")]
+    partial class Initialagain
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,84 +47,85 @@ namespace BiteBazaarWeb.Migrations
 
                     b.HasIndex("FkApplicationUserId");
 
-                    b.HasIndex("FkProductId");
-
                     b.ToTable("Carts");
                 });
 
-            modelBuilder.Entity("BiteBazaarWeb.Models.Category", b =>
+            modelBuilder.Entity("BiteBazaarWeb.Models.Order", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
-                    b.Property<string>("Title")
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("City")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("CategoryId");
-
-                    b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("BiteBazaarWeb.Models.Product", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
-
-                    b.Property<string>("Description")
+                    b.Property<string>("FkApplicationUserId")
                         .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FkCategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<decimal>("Price")
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("OrderTotal")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("Quantity")
+                    b.Property<DateTime>("ShippingDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("StreetAddress")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("ProductId");
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.HasIndex("FkCategoryId");
+                    b.HasKey("OrderId");
 
-                    b.ToTable("Products");
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("BiteBazaarWeb.Models.ProductImage", b =>
+            modelBuilder.Entity("BiteBazaarWeb.Models.OrderSpecification", b =>
                 {
-                    b.Property<int>("ProductImageId")
+                    b.Property<int>("OrderSpecificationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductImageId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderSpecificationId"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FkOrderId")
+                        .HasColumnType("int");
 
                     b.Property<int>("FkProductId")
                         .HasColumnType("int");
 
-                    b.Property<string>("URL")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                    b.HasKey("OrderSpecificationId");
 
-                    b.HasKey("ProductImageId");
+                    b.HasIndex("FkOrderId");
 
-                    b.HasIndex("FkProductId");
-
-                    b.ToTable("ProductImages");
+                    b.ToTable("OrderSpecifications");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -368,37 +369,27 @@ namespace BiteBazaarWeb.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BiteBazaarWeb.Models.Product", "Product")
+                    b.Navigation("ApplicationUser");
+                });
+
+            modelBuilder.Entity("BiteBazaarWeb.Models.Order", b =>
+                {
+                    b.HasOne("BiteBazaarWeb.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("FkProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ApplicationUserId");
 
                     b.Navigation("ApplicationUser");
-
-                    b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("BiteBazaarWeb.Models.Product", b =>
+            modelBuilder.Entity("BiteBazaarWeb.Models.OrderSpecification", b =>
                 {
-                    b.HasOne("BiteBazaarWeb.Models.Category", "Category")
+                    b.HasOne("BiteBazaarWeb.Models.Order", "Order")
                         .WithMany()
-                        .HasForeignKey("FkCategoryId")
+                        .HasForeignKey("FkOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("BiteBazaarWeb.Models.ProductImage", b =>
-                {
-                    b.HasOne("BiteBazaarWeb.Models.Product", "Product")
-                        .WithMany("Images")
-                        .HasForeignKey("FkProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -450,11 +441,6 @@ namespace BiteBazaarWeb.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BiteBazaarWeb.Models.Product", b =>
-                {
-                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }

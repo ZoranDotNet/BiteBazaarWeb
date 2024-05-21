@@ -1,22 +1,17 @@
-﻿using BiteBazaarWeb.Data;
-using BiteBazaarWeb.Models;
+﻿using BiteBazaarWeb.Models;
 using BiteBazaarWeb.Services;
+using BiteBazaarWeb.Utilities;
 using BiteBazaarWeb.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace BiteBazaarWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = (SD.Role_Admin))]
     public class ProductsController : Controller
     {
-        //private readonly AppDbContext _context;
-
-        //public ProductsController(AppDbContext context)
-        //{
-        //    _context = context;
-        //}
 
         private readonly ProductService _productService;
         private readonly CategoryService _categoryService;
@@ -41,7 +36,6 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
         }
 
 
-
         // GET: Products/Create
         public async Task<IActionResult> Create()
         {
@@ -49,50 +43,6 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             return View();
         }
 
-        //// POST: Products/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create(CreateProductVM model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var product = new Product
-        //        {
-        //            Title = model.Product.Title,
-        //            Description = model.Product.Description,
-        //            FkCategoryId = model.Product.FkCategoryId,
-        //            Price = model.Product.Price,
-        //            Quantity = model.Product.Quantity,
-        //        };
-
-        //        _context.Products.Add(product);
-        //        await _context.SaveChangesAsync();
-
-
-
-        //        var image = new ProductImage
-        //        {
-        //            URL = model.ProductImage.URL,
-        //            FkProductId = product.ProductId,
-        //        };
-
-        //        _context.ProductImages.Add(image);
-        //        await _context.SaveChangesAsync();
-        //        TempData["success"] = "Ny Produkt tillagd";
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", model.Product.FkCategoryId);
-
-
-
-        //    return View(model);
-        //}
-
-        // POST: Products/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateProductVM model)
@@ -118,7 +68,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
 
             }
 
-            //ViewData["FkCategoryId"] = new SelectList(await _categoryService.GetCategoriesAsync(), "CategoryId", "CategoryId", model.Product.FkCategoryId);
+            ViewData["FkCategoryId"] = new SelectList(await _categoryService.GetCategoriesAsync(), "CategoryId", "CategoryId", model.Product.FkCategoryId);
 
             return View(model);
         }
@@ -172,8 +122,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             TempData["success"] = "Produkten är sparad";
             return RedirectToAction(nameof(Index));
 
-            //ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "Title", model.Product.FkCategoryId);
-            //return View(model);
+
         }
 
         // GET: Products/Delete/5
@@ -207,9 +156,6 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //private bool ProductExists(int id)
-        //{
-        //    return _context.Products.Any(e => e.ProductId == id);
-        //}
+
     }
 }

@@ -2,7 +2,6 @@ using BiteBazaarWeb.Data;
 using BiteBazaarWeb.Models;
 using BiteBazaarWeb.Services;
 using BiteBazaarWeb.Utilities;
-using BiteBazaarWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -25,7 +24,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
         private readonly CategoryService _categoryService;
         private readonly ProductImageService _productImageService;
 
-        public HomeController(ILogger<HomeController> logger, AppDbContext context, 
+        public HomeController(ILogger<HomeController> logger, AppDbContext context,
             ProductService productService, CategoryService categoryService, ProductImageService productImageService)
         {
             _logger = logger;
@@ -48,7 +47,6 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
             ViewData["FkCategoryId"] = new SelectList(await _categoryService.GetCategoriesAsync(), "CategoryId", "Title");
 
-            ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "Title");
             return View(products);
         }
 
@@ -98,7 +96,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             };
             return View(cart);
         }
-   
+
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Details(Cart cart)

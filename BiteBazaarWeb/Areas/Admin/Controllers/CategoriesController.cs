@@ -1,20 +1,15 @@
-﻿using BiteBazaarWeb.Data;
-using BiteBazaarWeb.Models;
+﻿using BiteBazaarWeb.Models;
 using BiteBazaarWeb.Services;
+using BiteBazaarWeb.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BiteBazaarWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = (SD.Role_Admin))]
     public class CategoriesController : Controller
     {
-        //private readonly AppDbContext _context;
-
-        //public CategoriesController(AppDbContext context)
-        //{
-        //    _context = context;
-        //}
 
         private readonly CategoryService _apiService;
         public CategoriesController(CategoryService apiService)
@@ -130,7 +125,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             }
 
             var category = await _apiService.GetCategoryByIdAsync(id);
-            
+
 
             if (category == null)
             {
@@ -167,8 +162,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             {
                 return true;
             }
-            
-            //.Categories.Any(e => e.CategoryId == id);
+
         }
     }
 }

@@ -11,7 +11,6 @@ namespace BiteBazaarWeb.Models
         public Order? Order { get; set; }
 
         public int Count { get; set; }
-        //[ForeignKey("Product")]
         public int FkProductId { get; set; }
         [NotMapped]
         public Product? Product { get; set; }

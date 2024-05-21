@@ -40,7 +40,7 @@ namespace BiteBazaarWeb.Services
         //Create Products
         public async Task AddProductAsync(PostProductVM product)
         {
-            
+
             var json = JsonConvert.SerializeObject(product);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("products", data);

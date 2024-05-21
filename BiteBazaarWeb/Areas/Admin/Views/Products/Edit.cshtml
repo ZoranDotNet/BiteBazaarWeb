@@ -49,7 +49,6 @@
                         @foreach (var item in Model.Product.Images)
                         {
                             <div class="p-1 mb-2 text-center d-flex flex-column">
-                                @*<input asp-for="ProductImage.ProductImageId" type="hidden"/>*@
                                 <img src="@item.URL" style="border-radius:5px; width:150px;" class="" >
                                 <a asp-controller="ProductImages" asp-action="Delete" asp-route-id="@item.ProductImageId" class="btn-sm btn-danger text-decoration-none" style="width:150px">Delete</a>
                             </div>
