@@ -3,6 +3,7 @@ using BiteBazaarWeb.Models;
 using BiteBazaarWeb.Services;
 using BiteBazaarWeb.Utilities;
 using BiteBazaarWeb.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -10,6 +11,7 @@ using System.Security.Claims;
 namespace BiteBazaarWeb.Areas.Customer.Controllers
 {
     [Area("Customer")]
+    [Authorize]
     public class CartController : Controller
     {
         private readonly AppDbContext _context;
