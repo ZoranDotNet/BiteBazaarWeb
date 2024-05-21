@@ -2,39 +2,92 @@
 
 
 
-
-
-
-<div class="row p-2 mb-2">
-    @foreach (var item in Model)
-    {
-        <div class="col-sm-6 col-lg-3">
-            <div class="row p-1">
-                <div class="col-12 p-1">
-                    <div class="card border-0 p-2 shadow border-top border-5 rounded">
-                        @if (item.Images != null && item.Images.Count > 0)
-                        {
-                            <img src="@item.Images.First().URL" class="card-img-top rounded" style="height:250px"/>
-                        }
-                        else
-                        {
-                            <img src="https://placehold.co/100x100" class="card-img-top rounded" />
-                        }
-                        <div class="card-body pb-0">
-                            <h5>@item.Title</h5>
-                            <h5>@item.Price.ToString("C0")</h5>
-                        </div>
-                        <div>
-                            <a class="btn-sm btn-secondary text-decoration-none" asp-action="Details" asp-route-id="@item.ProductId">Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-         </div>
-           
-            
-                   
-        
-    }
+<div class="mt-2 bg-secondary p-3 d-flex justify-content-between">
+    <select id="filter" asp-items="ViewBag.FkCategoryId" onchange="filterProducts()">
+        <option value="" hidden>--Filtrera på Kategori--</option>
+    </select>
+    
+    <div>
+        <a asp-action="Products" class="btn btn-success">Visa alla</a>
+    </div>
+    <div>
+        <input type="text" id="searchString" placeholder="Sök produkt..." />
+        <button id="searchButton">Sök</button>
+    </div>
 </div>
 
+<div class="d-flex">
+
+    <span id="headline" class="visually-hidden me-3">Filtrerat på: </span>
+    <span id="headline2" class="visually-hidden me-3">Sökt på: </span>
+    <p id="showFilter" class=""></p>
+</div>
+<div class="row p-2 mb-2" id="productsContainer">
+    <partial name="_ProductList" />
+</div>
+
+@section Scripts {
+   
+    <script type="text/javascript">
+        function filterProducts() {
+           
+
+            var filter = $('#filter').val();
+            var filterTitle = $('#filter option:selected').text();
+
+           
+            $.ajax({
+                url: '/Customer/Home/FilterProducts',
+                type: 'GET',
+                data: { filter: filter },
+                success: function (result) {
+                   
+                    $('#productsContainer').html(result);
+
+                    if (filter != 0) {
+                        $('#showFilter').html(filterTitle)
+                        $('#headline').removeClass('visually-hidden')
+                        $('#headline2').addClass('visually-hidden')
+                    }
+
+                    $('#filter').val('');
+                }
+                
+            });
+           
+            
+        }
+
+        
+        $(document).ready(function () {
+            $('#searchButton').click(function () {
+                searchProducts();
+            });
+           
+        });
+
+
+        function searchProducts() {
+            var search = $('#searchString').val();
+
+            $.ajax({
+                url: '/Customer/Home/SearchProducts',
+                type: 'GET',
+                data: { searchstring: search },
+                success: function (result) {
+                    $('#productsContainer').html(result);
+
+                    if (search != "") {
+                        $('#showFilter').html(search)
+                        $('#headline2').removeClass('visually-hidden')
+                        $('#headline').addClass('visually-hidden')
+                    }
+
+                    $('#searchString').val('');
+                   
+                }
+
+            });
+        }
+    </script>
+}
