@@ -60,7 +60,9 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
+
             var carts = _context.Carts.Where(x => x.FkApplicationUserId == userId).ToList();
+
             if (!carts.Any())
             {
                 TempData["error"] = "Inga varor i kundkorgen";
@@ -83,6 +85,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             await _context.SaveChangesAsync();
 
             var user = _context.ApplicationUsers.FirstOrDefault(x => x.Id == userId);
+
 
             foreach (var cart in carts)
             {
@@ -312,6 +315,10 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             _context.Carts.Remove(cart);
             var count = _context.Carts.Where(x => x.FkApplicationUserId == cart.FkApplicationUserId).Count();
             HttpContext.Session.SetInt32(SD.SessionCount, count - 1);
+
+            var count = _context.Carts.Where(x => x.FkApplicationUserId == cart.FkApplicationUserId).Count();
+            HttpContext.Session.SetInt32(SD.SessionCount, count - 1);
+
 
             await _context.SaveChangesAsync();
 

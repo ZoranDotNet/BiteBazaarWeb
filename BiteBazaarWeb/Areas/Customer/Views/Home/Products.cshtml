@@ -19,29 +19,47 @@
     <p id="showFilter" class=""></p>
 </div>
 
+<div class="mt-2 bg-secondary p-3 d-flex justify-content-between">
+    <select id="filter" asp-items="ViewBag.FkCategoryId" onchange="filterProducts()">
+        <option value="" hidden>--Filtrera på Kategori--</option>
+    </select>
+    
+    <div>
+        <a asp-action="Products" class="btn btn-success">Visa alla</a>
+    </div>
+    <div>
+        <input type="text" id="searchString" placeholder="Sök produkt..." />
+        <button id="searchButton">Sök</button>
+    </div>
+</div>
 
+<div class="d-flex">
 
-
+    <span id="headline" class="visually-hidden me-3">Filtrerat på: </span>
+    <span id="headline2" class="visually-hidden me-3">Sökt på: </span>
+    <p id="showFilter" class=""></p>
+</div>
 <div class="row p-2 mb-2" id="productsContainer">
-<partial name="_ProductList"/>
+    <partial name="_ProductList" />
 </div>
 
 
-
 @section Scripts {
+   
     <script type="text/javascript">
         function filterProducts() {
-
+           
 
             var filter = $('#filter').val();
             var filterTitle = $('#filter option:selected').text();
 
-
+           
             $.ajax({
                 url: '/Customer/Home/FilterProducts',
                 type: 'GET',
                 data: { filter: filter },
                 success: function (result) {
+                   
                     $('#productsContainer').html(result);
 
                     if (filter != 0) {
@@ -52,18 +70,11 @@
 
                     $('#filter').val('');
                 }
+                
             });
-
+           
+            
         }
-
-
-        $(document).ready(function () {
-            $('#searchButton').click(function () {
-                searchProducts();
-            });
-        });
-
-
         function searchProducts() {
             var search = $('#searchString').val();
 
@@ -81,9 +92,19 @@
                     }
 
                     $('#searchString').val('');
+
                 }
 
             });
         }
+        
+        $(document).ready(function () {
+            $('#searchButton').click(function () {
+                searchProducts();
+            });
+           
+        });
+
+       
     </script>
 }

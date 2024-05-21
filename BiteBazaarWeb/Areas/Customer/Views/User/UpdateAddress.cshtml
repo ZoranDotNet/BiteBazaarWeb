@@ -1,0 +1,39 @@
+﻿@model ApplicationUser
+
+<h3>Uppdatera Adress</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+
+            <div class="form-floating mb-3 input-group">
+                <input asp-for="Name" class="form-control" placeholder="Namn"/>
+                <label asp-for="Name" class="form-label">Namn</label>
+            </div>
+            <input asp-for="Id" type="hidden"/>
+            <div class="form-floating mb-3">
+                <input asp-for="StreetAddress" class="form-control"/>
+                <label asp-for="StreetAddress" class="form-label">Gatuadress</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="ZipCode" class="form-control" autocomplete="email" aria-required="true" placeholder="Postnummer" />
+                <label asp-for="ZipCode" class="form-label">Postnummer</label>
+                <span asp-validation-for="ZipCode" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="City" class="form-control" autocomplete="email" aria-required="true" placeholder="Ort" />
+                <label asp-for="City" class="form-label">Ort</label>
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

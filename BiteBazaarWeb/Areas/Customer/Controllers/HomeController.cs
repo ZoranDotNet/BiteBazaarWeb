@@ -18,6 +18,8 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext _context;
+        //private readonly ProductService _apiService;
+
 
         private readonly ProductService _productService;
         private readonly CategoryService _categoryService;
@@ -32,6 +34,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             _productService = productService;
             _categoryService = categoryService;
             _productImageService = productImageService;
+
         }
 
         public IActionResult Index()
@@ -45,6 +48,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
             ViewData["FkCategoryId"] = new SelectList(await _categoryService.GetCategoriesAsync(), "CategoryId", "Title");
 
+            ViewData["FkCategoryId"] = new SelectList(_context.Categories, "CategoryId", "Title");
             return View(products);
         }
 
@@ -104,7 +108,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             cart.FkApplicationUserId = userId;
 
-            // H‰mta produkten frÂn API:et
+            // H√§mta produkten fr√•n API:et
             var product = await _productService.GetProductByIdAsync(cart.FkProductId);
             if (product == null)
             {
@@ -112,7 +116,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
                 return RedirectToAction("Details", cart.FkProductId);
             }
 
-            // Kontrollera att det finns tillr‰ckligt mÂnga produkter innan vi l‰gger dem i varukorgen
+            // Kontrollera att det finns tillr√§ckligt m√•nga produkter innan vi l√§gger dem i varukorgen
             if (product.Quantity < cart.Count)
             {
                 TempData["error"] = $"Finns endast {product.Quantity} kvar i Lager";
@@ -126,22 +130,24 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
             if (cartFromDb != null)
             {
-                // Uppdatera antalet pÂ befintlig varukorg
+                //Vi drar av fr√•n lagret n√§r k√∂pet genomf√∂rs!!
+                //Om varukorgen finns i DB uppdateras antalet p√• befintlig varukorg
                 cartFromDb.Count += cart.Count;
                 _context.Carts.Update(cartFromDb);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
             }
             else
             {
                 // Skapa en ny varukorg om den inte redan finns
                 _context.Carts.Add(cart);
+
                 await _context.SaveChangesAsync();
+
                 var count = _context.Carts.Where(x => x.FkApplicationUserId == userId).Count();
                 HttpContext.Session.SetInt32(SD.SessionCount, count);
 
             }
 
-            
             TempData["success"] = "Varukorg uppdaterad";
 
             return RedirectToAction(nameof(Products));
