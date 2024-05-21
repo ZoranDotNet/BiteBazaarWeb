@@ -68,7 +68,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
                 FkProductId = id
             };
 
-            var item = _context.FavoriteProducts.Where(x => x.FkProductId == id && x.FkApplicationUserId == userId);
+            var item = await _context.FavoriteProducts.FirstOrDefaultAsync(x => x.FkProductId == id && x.FkApplicationUserId == userId);
 
             if (item != null)
             {
