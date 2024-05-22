@@ -47,7 +47,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             return View(products);
         }
 
-        public async Task<IActionResult> FilterProducts(int filter = 0)
+        public async Task<IActionResult> FilterProducts(int filter)
         {
             List<Product> products = new();
 
@@ -60,7 +60,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
         }
 
-        public async Task<IActionResult> SearchProducts(string searchString = "")
+        public async Task<IActionResult> SearchProducts(string searchString)
         {
             List<Product> products = new();
 

@@ -1,0 +1,31 @@
+﻿
+
+<thead>
+    <tr>
+        <th>Namn</th>
+        <th>Mail</th>
+        <th>Mobil</th>
+        <th>Roll</th>
+        <th>Öppen/Låst</th>
+        <th>Ändra Roll</th>
+    </tr>
+</thead>
+<tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Email</td>
+            <td>@item.PhoneNumber</td>
+            <td>@item.Role</td>
+            <td>
+                <button class="lock-btn btn @((item.LockoutEnd > DateTime.Now) ? "btn-danger" : "btn-success")" onclick="LockUnlock('@item.Id')">Lås/Öppna</button>
+            </td>
+            <td>
+                <a asp-controller="Admin" asp-action="UpdateRole" asp-route-userId="@item.Id" class="btn btn-primary">Ändra roll</a>
+            </td>
+
+
+        </tr>
+    }
+</tbody>
