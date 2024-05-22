@@ -128,6 +128,27 @@ namespace BiteBazaarWeb.Services
 
         }
 
+        //Get Products by search for title
+        public async Task<List<Product>> GetPaginatedProductsAsync(int results, int page)
+        {
+            try
+            {
+                var response = await _client.GetAsync($"/products/results/{results}/page/{page}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new List<Product>();
+                }
+                var jsonstring = await response.Content.ReadAsStringAsync();
+                var products = JsonConvert.DeserializeObject<List<Product>>(jsonstring);
+                return products;
+            }
+            catch (Exception ex)
+            {
+                return new List<Product>();
+            }
+
+        }
+
 
     }
 }
