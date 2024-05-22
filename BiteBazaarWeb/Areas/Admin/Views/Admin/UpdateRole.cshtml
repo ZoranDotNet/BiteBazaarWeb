@@ -1,16 +1,16 @@
 ﻿@model UpdateRoleVM
 
 
-<div class="shadow border-0 mt-4">
+<div class="shadow mt-4 w-50 mx-auto bg-secondary rounded">
     
-    <div class="text-center">
+    <div class="pt-4 text-center text-white">
         <h2>Ändra Roll</h2>
     </div>
         
-    <div class="p-4">
+    <div class="p-3">
         <form method="post" class="row mb-3 z-2">
             <input asp-for="ApplicationUser.Id" hidden />
-            <div class="border p-3 bg-secondary">
+            <div class="p-3">
 
                 @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>*@
                 <div class="py-2">
@@ -22,12 +22,12 @@
                         <option hidden value="">--Välj Roll--</option>
                     </select>
                 </div>
-                <div class="row pt-2">
-                    <div class="col-6 col-md-3">
+                <div class="row pt-2 mt-4">
+                    <div class="col-6">
                         <button type="submit" class="btn btn-primary form-control">Skicka</button>
                     </div>
-                    <div class="col-6 col-md-3">
-                        <a asp-action="Index" class="btn btn-dark form-control">Tillbaka</a>
+                    <div class="col-6">
+                        <a asp-action="ManageUsers" class="btn btn-dark form-control">Tillbaka</a>
                     </div>
                 </div>
             </div>

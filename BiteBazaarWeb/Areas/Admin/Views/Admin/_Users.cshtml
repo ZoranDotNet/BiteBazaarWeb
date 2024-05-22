@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<ApplicationUser>
 
 <thead>
     <tr>
@@ -8,6 +8,7 @@
         <th>Roll</th>
         <th>Öppen/Låst</th>
         <th>Ändra Roll</th>
+        <th>Status</th>
     </tr>
 </thead>
 <tbody>
@@ -18,8 +19,9 @@
             <td>@item.Email</td>
             <td>@item.PhoneNumber</td>
             <td>@item.Role</td>
+            <td>@(item.LockoutEnd > DateTime.Now? "Låst" : "Öppen")</td>
             <td>
-                <button class="lock-btn btn @((item.LockoutEnd > DateTime.Now) ? "btn-danger" : "btn-success")" onclick="LockUnlock('@item.Id')">Lås/Öppna</button>
+                <button class="btn @((item.LockoutEnd > DateTime.Now) ? "btn-danger" : "btn-success")" onclick="LockUnlock('@item.Id')">Lås/Öppna</button>
             </td>
             <td>
                 <a asp-controller="Admin" asp-action="UpdateRole" asp-route-userId="@item.Id" class="btn btn-primary">Ändra roll</a>

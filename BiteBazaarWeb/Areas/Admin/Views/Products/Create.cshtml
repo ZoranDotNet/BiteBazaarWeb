@@ -34,6 +34,26 @@
                 <span asp-validation-for="Product.Quantity" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label class="control-label">Kampanj Startar(valfri)</label>
+                <input asp-for="Product.CampaignStart" type="date" class="form-control" />
+                <span asp-validation-for="Product.CampaignStart" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Kampanj slutar(valfri)</label>
+                <input asp-for="Product.CampaignEnd" type="date" class="form-control" />
+                <span asp-validation-for="Product.CampaignEnd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.CampaignPercent" class=""></label>
+                <input asp-for="Product.CampaignPercent" type="number" class="form-control" />
+                <span asp-validation-for="Product.CampaignPercent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product.TempPrice" class="control-label"></label>
+                <input asp-for="Product.TempPrice" type="number" class="form-control" />
+                <span asp-validation-for="Product.TempPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="ProductImage.URL" class="control-label"></label>
                 <input asp-for="ProductImage.URL" class="form-control" />
                 <span asp-validation-for="ProductImage.URL" class="text-danger"></span>

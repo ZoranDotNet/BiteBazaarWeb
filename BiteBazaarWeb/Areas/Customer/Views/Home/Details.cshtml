@@ -21,7 +21,16 @@
                     {
                         <p class="text-danger"><strong>Fåtal produkter kvar</strong></p>
                     }
-                    <p><strong>Pris:</strong> @Model.Product.Price.ToString("C0")</p>
+                    
+                    @if (Model.Product.IsCampaign && Model.Product.TempPrice > 0)
+                    {
+                        <p class="text-decoration-line-through"><strong>Pris:</strong> @Model.Product.Price.ToString("C0")</p>
+                        <p class="text-danger"><strong>Pris:</strong> @Model.Product.TempPrice.ToString("C0")</p>
+                    }
+                    else
+                    {
+                        <p><strong>Pris:</strong> @Model.Product.Price.ToString("C0")</p>
+                    }
 
                     <div class="input-group mb-3 p-2 me-2">
                         <span class="input-group-text bg-secondary text-white border-0">

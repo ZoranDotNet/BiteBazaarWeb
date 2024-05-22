@@ -15,6 +15,10 @@
             <th>Titel</th>
             <th>Lager</th>
             <th>Pris</th>
+            <th>Kampanj</th>
+            <th>Start</th>
+            <th>Slutar</th>
+            <th>Kampanj Pris</th>
             <th>Kategori</th>
             <th>Bild</th>
             <th></th>
@@ -32,6 +36,29 @@
             <td>
                 @item.Price.ToString("c")
             </td>
+            @if (item.CampaignPercent != 0)
+            {
+                <td>@(item.CampaignPercent*100)%</td>
+            }
+            else
+            {
+                <td></td>
+            }
+            <td>
+                @(item.CampaignStart.HasValue ? item.CampaignStart.Value.ToShortDateString() : "")
+            </td>
+            <td>
+                @(item.CampaignEnd.HasValue ? item.CampaignEnd.Value.ToShortDateString() : "")
+            </td>
+            @if (item.TempPrice != 0)
+            {
+                <td class="text-danger">@item.TempPrice.ToString("C0")</td>
+            }
+            else
+            {
+                <td></td>
+            }
+
             <td>
                 @item.Category.Title
             </td>
@@ -42,8 +69,8 @@
                 }
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn-sm btn-success text-decoration-none"><i class="bi bi-pencil-square"></i> Edit</a> 
-                <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn-sm btn-danger text-decoration-none"><i class="bi bi-trash"></i> Radera</a> 
+                <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn-sm btn-success text-decoration-none"><i class="bi bi-pencil-square"></i> Edit</a>
+                <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn-sm btn-danger text-decoration-none"><i class="bi bi-trash"></i> Radera</a>
                 <a asp-controller="ProductImages" asp-action="Create" asp-route-id="@item.ProductId" class="btn-sm btn-success text-decoration-none"><i class="bi bi-plus-square"></i> Lägg till Bild</a>
             </td>
         </tr>

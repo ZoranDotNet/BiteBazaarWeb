@@ -1,13 +1,17 @@
-﻿@model IEnumerable<ApplicationUser>
+﻿
+<link href="~/css/ViewSpecific/Admin.css" rel="stylesheet"/>
 
 <div class="container">
     <div class="mb-3">
         <h2 class="text-center">Användare</h2>
     </div>
-    <div class="mt-2 bg-secondary p-3 d-flex justify-content-start">
-        <input type="text" id="searchString" placeholder="Sök Användare..." />
-        <button id="searchButton">Sök</button>
-</div>
+    <div class="mt-2 bg-secondary p-3 d-flex justify-content-start w-100">
+        <div class="searchbar">
+            <input type="text" id="searchString" placeholder="Sök Användare..." />
+            <button id="searchButton" class="searchbutton"><i class="bi bi-search"></i></button>
+        </div>
+    </div>
+    
     <table id="userTable" class="table table-primary table-bordered">
        <partial name="_Users"/>
     </table>

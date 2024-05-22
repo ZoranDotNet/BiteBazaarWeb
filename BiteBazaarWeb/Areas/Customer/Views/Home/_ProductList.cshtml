@@ -15,10 +15,18 @@
                     {
                         <img src="https://placehold.co/100x100" class="card-img-top rounded" />
                     }
-                    <div class="card-body pb-0">
-                        <h5>@item.Title</h5>
+                <div class="card-body pb-0">
+                    <h5>@item.Title</h5>
+                    @if (item.IsCampaign && item.TempPrice > 0)
+                    {
+                        <h5><span class="text-decoration-line-through">@item.Price.ToString("C0") </span><span class="text-danger ms-2">@item.TempPrice.ToString("C0")</span></h5>
+                    }
+                    else
+                    {
                         <h5>@item.Price.ToString("C0")</h5>
-                    </div>
+                    }
+
+                </div>
                     <div>
                         <a class="btn-sm btn-secondary text-decoration-none" asp-action="Details" asp-route-id="@item.ProductId">Details</a>
                         <a class="btn-sm btn-secondary text-decoration-none" asp-controller="User" asp-action="AddToList" asp-route-id="@item.ProductId"><i class="bi bi-heart"></i></a>

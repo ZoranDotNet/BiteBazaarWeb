@@ -48,7 +48,6 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
         public async Task<IActionResult> Create(CreateProductVM model)
         {
 
-
             if (ModelState.IsValid)
             {
                 var product = new PostProductVM
@@ -56,10 +55,22 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
                     Title = model.Product.Title,
                     Description = model.Product.Description,
                     Price = model.Product.Price,
+                    CampaignStart = model.Product.CampaignStart,
+                    CampaignEnd = model.Product.CampaignEnd,
+                    CampaignPercent = model.Product.CampaignPercent / 100,
+                    TempPrice = model.Product.TempPrice,
                     FkCategoryId = model.Product.FkCategoryId,
                     Quantity = model.Product.Quantity,
                     ImageURL = model.ProductImage.URL
                 };
+
+                if (product.CampaignStart <= DateTime.UtcNow && product.CampaignEnd >= DateTime.UtcNow)
+                {
+                    if (product.TempPrice == 0)
+                    {
+                        product.TempPrice = product.Price * (1 - product.CampaignPercent);
+                    }
+                }
 
 
                 await _productService.AddProductAsync(product);
@@ -92,7 +103,8 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             {
                 Product = product
             };
-
+            model.Product.CampaignPercent = model.Product.CampaignPercent * 100;
+            model.Product.TempPrice = 0;
             return View(model);
         }
 
@@ -113,10 +125,20 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             productFromAPI.Title = model.Product.Title;
             productFromAPI.Description = model.Product.Description;
             productFromAPI.Price = model.Product.Price;
-            productFromAPI.FkCategoryId = model.Product.FkCategoryId;
             productFromAPI.Quantity = model.Product.Quantity;
+            productFromAPI.CampaignStart = model.Product.CampaignStart;
+            productFromAPI.CampaignEnd = model.Product.CampaignEnd;
+            productFromAPI.CampaignPercent = model.Product.CampaignPercent / 100;
+            productFromAPI.TempPrice = model.Product.TempPrice;
+            productFromAPI.FkCategoryId = model.Product.FkCategoryId;
 
-
+            if (productFromAPI.CampaignStart <= DateTime.UtcNow && productFromAPI.CampaignEnd >= DateTime.UtcNow)
+            {
+                if (productFromAPI.TempPrice == 0)
+                {
+                    productFromAPI.TempPrice = productFromAPI.Price * (1 - productFromAPI.CampaignPercent);
+                }
+            }
             await _productService.UpdateProductAsync(id, productFromAPI);
 
             TempData["success"] = "Produkten är sparad";
