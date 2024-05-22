@@ -1,0 +1,44 @@
+﻿.container-cards {
+    background: linear-gradient(to bottom, rgba(87, 25 ,87 , 0.5), rgba(45, 45, 45, 0));
+    border-radius: 10px;
+    transition: border 0.1s ease-in-out, border-radius 0.1s ease-in;
+    color: white;
+    border: 2px;
+}
+
+.card-body {
+    height: 700px;
+}
+
+.btn-egen {
+    background-color: #ba509a;
+}
+
+.btn-egen-blue {
+    background: #618a;
+    color: white;
+}
+
+.btn-egen-danger {
+    background-color: #aa1414;
+    color: white;
+}
+
+p{
+    color: white;
+}
+
+h3{
+    color: white;
+}
+
+.container-cards-category {
+    background: linear-gradient(to bottom, rgba(87, 25,87, 0.5), rgba(45, 45, 45, 0));
+    border-radius: 10px;
+    transition: border 0.1s ease-in-out, border-radius 0.1s ease-in;
+    color: white;
+    border: 2px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}

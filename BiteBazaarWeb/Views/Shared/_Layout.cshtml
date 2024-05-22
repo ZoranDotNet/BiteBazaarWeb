@@ -12,52 +12,55 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="~/css/ViewSpecific/Customer.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/ViewSpecific/Admin.css" rel="stylesheet" asp-append-version="true" />
+
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="Customer" asp-controller="Home" asp-action="Index"><img style="height:40px;" src="~/images/logos/liggandelogo.jpg" /></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <a class="navbar-brand text-light" asp-area="Customer" asp-controller="Home" asp-action="Index"><img style="height:10vh" src="~/images/logos/ByteBazaarLogo.png" /></a>
+                <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light" asp-area="Customer" asp-controller="Home" asp-action="Index">Hem</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="Home" asp-action="Products">Products</a>
+                            <a class="nav-link text-light" asp-area="Customer" asp-controller="Home" asp-action="Products">Produkter</a>
                         </li>
                         @if (User.IsInRole(SD.Role_Admin))
                         {
-                            <li class="nav-item dropdown me-3">
-                                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <li class="nav-item dropdown me-3 text-light">
+                                <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Administrera
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Categories" asp-action="Index">Kategorier</a></li>
-                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Products" asp-action="Index">Produkter</a></li>
-                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="ProductImages" asp-action="Index">Bilder</a></li>
-                                    <li><a class="dropdown-item" asp-area="Customer" asp-controller="Cart" asp-action="OrderHistoryAdmin">Ordrar</a></li>
+                                    <li><a class="dropdown-item text-light" asp-area="Admin" asp-controller="Categories" asp-action="Index">Kategorier</a></li>
+                                    <li><a class="dropdown-item text-light" asp-area="Admin" asp-controller="Products" asp-action="Index">Produkter</a></li>
+                                    <li><a class="dropdown-item text-light" asp-area="Admin" asp-controller="ProductImages" asp-action="Index">Bilder</a></li>
+                                    <li><a class="dropdown-item text-light" asp-area="Customer" asp-controller="Cart" asp-action="OrderHistoryAdmin">Ordrar</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" asp-area="Identity" asp-controller="Account" asp-action="Register">Skapa användare</a></li>
+                                    <li><a class="dropdown-item text-light" asp-area="Identity" asp-controller="Account" asp-action="Register">Skapa användare</a></li>
                                 </ul>
                             </li>
                         }
                         @if (User.IsInRole(SD.Role_Customer))
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link text-dark dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link text-light dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Mitt konto
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-item">
-                                        <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="History">Historik</a>
+                                        <a class="nav-link text-light" asp-area="Customer" asp-controller="Cart" asp-action="History">Historik</a>
                                     </li>
                                     <li class="dropdown-item">
-                                        <a class="nav-link text-dark" asp-area="Customer" asp-controller="" asp-action="">Favoriter</a>
+                                        <a class="nav-link text-light" asp-area="Customer" asp-controller="" asp-action="">Favoriter</a>
                                     </li>
                                 </ul>
                             </li>
@@ -74,8 +77,8 @@
                         {
                             var count = HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCount);
                             <div class="nav-item me-2">
-                                <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index">
-                                    <button class="position-relative border-0 bg-transparent" style="font-size: 18px"><i class="bi bi-cart3"></i>
+                                <a class="nav-link text-light" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                                    <button class="position-relative border-0 bg-transparent" style="font-size: 18px"><i class="bi bi-cart3 text-light"></i>
                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
                                             @count
                                         </span>
@@ -86,7 +89,7 @@
                          else
                          {
                             <div class="nav-item me-2">
-                                <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index"><i class="bi bi-cart3"></i></a>
+                                <a class="nav-link text-light" asp-area="Customer" asp-controller="Cart" asp-action="Index"><i class="bi bi-cart3"></i></a>
                             </div>
                          }
 
@@ -98,18 +101,18 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container flex-fill d-flex flex-column">
+        <main role="main" class="pb-3 flex-fill">
             <partial name="_Notification" />
             @RenderBody()
         </main>
     </div>
 
 
-    <footer class="border-top footer text-muted bg-white">
+    <footer class="border-top footer text-muted mt-auto">
         <div class="container d-flex justify-content-between">
             <div>
-                &copy; 2024 - <img style="height:40px;" src="~/images/logos/liggandelogo.jpg" />
+                &copy; 2024 - <img style="height:40px;" src="~/images/logos/ByteBazaarLogo.png" />
             </div>
             <div class="d-flex align-items-center me-3">
                 <div class="me-2 p-0">
