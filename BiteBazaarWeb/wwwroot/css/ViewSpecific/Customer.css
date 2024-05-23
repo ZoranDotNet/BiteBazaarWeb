@@ -132,13 +132,13 @@ p {
     object-fit: cover;
 }
 
-//#1f1f47
-//#2d2d2d
+/*#1f1f47
+#2d2d2d*/
 
 
 
 .text-container {
-    backgorund: pink;
+    background: pink;
     height: 150px;
 }
 
