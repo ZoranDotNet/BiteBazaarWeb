@@ -8,12 +8,12 @@
             <div asp-validation-summary="All" class="text-danger" role="alert"></div>
 
             <div class="form-floating mb-3 input-group">
-                <input asp-for="Name" class="form-control" placeholder="Namn"/>
+                <input asp-for="Name" class="form-control" placeholder="Namn" />
                 <label asp-for="Name" class="form-label">Namn</label>
             </div>
-            <input asp-for="Id" type="hidden"/>
+            <input asp-for="Id" type="hidden" />
             <div class="form-floating mb-3">
-                <input asp-for="StreetAddress" class="form-control"/>
+                <input asp-for="StreetAddress" class="form-control" />
                 <label asp-for="StreetAddress" class="form-label">Gatuadress</label>
             </div>
 
@@ -28,7 +28,8 @@
                 <label asp-for="City" class="form-label">Ort</label>
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Submit</button>
+            <button type="submit" class="w-100 btn btn-lg btn-primary mb-3">Skicka</button>
+            <a type="button" class="w-100 btn btn-lg btn-secondary" href="/Identity/Account/Manage">Tillbaka</a>
         </form>
     </div>
 </div>

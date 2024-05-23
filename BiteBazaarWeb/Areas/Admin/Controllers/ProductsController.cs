@@ -17,7 +17,8 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
         private readonly ProductService _productService;
         private readonly CategoryService _categoryService;
         private readonly ProductImageService _productImageService;
-        public ProductsController(ProductService productService, CategoryService categoryService, ProductImageService productImageService)
+        public ProductsController(ProductService productService, CategoryService categoryService,
+            ProductImageService productImageService)
         {
             _productService = productService;
             _categoryService = categoryService;

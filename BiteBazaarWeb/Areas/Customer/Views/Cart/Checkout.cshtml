@@ -1,12 +1,14 @@
 ﻿@model CreateOrderVM
 
+<link href="/css/ViewSpecific/Checkout.css" rel="stylesheet"/>
+
 @{ decimal total = 0;}
 @{ decimal discount = 0;}
 <form method="post">
-    <div class="pb-3 shadow border rounded">
+    <div class="pb-3 shadow rounded wrapper w-75 mx-auto mt-4">
         <div class="d-flex justify-content-between">
-            <div class="px-4 py-3 col-5 order-background">
-                <p class="text-center"><strong>Bekräfta eller ändra din adress</strong></p>
+            <div class="px-4 py-3 col-5 left-wrapper">
+                <p class="text-center">Bekräfta eller ändra din adress</p>
                 <label>Namn</label>
                 <input asp-for="@Model.ApplicationUser.Name" class="form-control" />
                 <label>Mobilnummer</label>

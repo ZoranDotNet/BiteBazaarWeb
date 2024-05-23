@@ -47,3 +47,9 @@ body {
 .egenKnapp:hover {
     
 }
+
+.modal-header{
+    border-bottom: none;
+    padding-bottom: 0;
+}
+

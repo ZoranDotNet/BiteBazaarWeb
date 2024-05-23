@@ -1,15 +1,76 @@
-﻿.basket_minus_plus:hover {
+﻿section{
+    font-family: 'NunitoSans';
+    padding: 0;
+    margin: 0;
+}
+
+h2{
+    font-size: 3rem;
+    color: #fff;
+    margin: 0;
+}
+
+.line{
+    margin-top: 0;
+}
+
+.outer-wrapper{
+    display: flex;
+}
+
+.wrapper {
+    height: 35px;
+    min-width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    margin-right: 1rem;
+    
+}
+
+.wrapper span {
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.wrapper span.num {
+    font-size: 20px;
+    pointer-events: none;
+}
+.wrapper span.minus:hover{
+   color:red; 
+}
+
+.wrapper span.plus:hover {
     color: red;
 }
 
-.basket_trash {
+.delete {
+    font-size: 20px;
+    margin-top: .2rem;
     color: red;
 }
 
-.basket_trash:hover {
-    color: red;
-}
-
-p{
+.delete:hover {
     color: black;
+}
+
+.productTotal{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.title{
+    font-size: 20px;
+    font-weight: 500;
+    color: black;
+}
+
+.modal-content{
+    margin: 0;
+    padding: 0;
 }
