@@ -1,5 +1,7 @@
 :root {
     --clr-pink: #fb50a7;
+    --clr-background: #1f1f47;
+    --clr-loginBackground: rgba(255,255,255,0.15);
 }
 
 
