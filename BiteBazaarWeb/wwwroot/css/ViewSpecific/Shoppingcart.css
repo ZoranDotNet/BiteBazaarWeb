@@ -1,1 +1,11 @@
-﻿
+﻿.basket_minus_plus:hover {
+    color: red;
+}
+
+.basket_trash {
+    color: red;
+}
+
+    .basket_trash:hover {
+        color: red;
+    }

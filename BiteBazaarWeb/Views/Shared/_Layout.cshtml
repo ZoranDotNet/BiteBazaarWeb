@@ -109,7 +109,7 @@
                 <div class="modal-header">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div id="modalContent">
+                <div id="cartDiv">
 
                 </div>
 
@@ -148,44 +148,7 @@
             }
         })
     </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            $('#openModal').click(function () {
-                $.ajax({
-                    url: '/Customer/Cart/Index',
-                    type: 'GET',
-                    success: function (data) {
-                        console.log('inne i success', data)
-                        $('#modalContent').html(data);
-                        $('#myModal').modal('show');
-                    }
-                });
-            });
-        });
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            console.log('innan click')
-            $(document).on('click', '#plusbutton', function () {
-                console.log('inne i function')
-                var cartId = $(this).data('id');
-                $.ajax({
-                    url: '/Customer/Cart/Plus',
-                    type: 'POST',
-                    data: { id: cartId },
-                    success: function (data) {
-                        console.log('AJAX-svar:', data);
-                        $('#modal-Content').html(data);
-                        
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('AJAX-fel:', error);
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="/js/cartScripts.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

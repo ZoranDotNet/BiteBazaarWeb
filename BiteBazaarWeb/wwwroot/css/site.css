@@ -1,5 +1,7 @@
 :root {
     --clr-pink: #fb50a7;
+    --clr-background: #1f1f47;
+    --clr-loginBackground: rgba(255,255,255,0.15);
 }
 
 
@@ -39,18 +41,4 @@ body {
     border: 2px solid var(--clr-pink);
 }
 
-.basket_minus_plus:hover {
-    font-size: 20px;
-}
 
-.basket_trash{
-    color: red;
-}
-.basket_trash:hover{
-    color: red;
-    font-size: 20px;
-}
-
-.order-background{
-    background-color: lightgray;
-}

@@ -29,40 +29,29 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            //Vem är inloggad
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string userId = GetUser();
 
-            //Hämtar den inloggades cart
+            //Hämtar den inloggades carts
             var cartItems = _context.Carts.Where(x => x.FkApplicationUserId == userId).ToList();
 
-            //Hämtar alla produkter som finns
-            var products = await _productService.GetProductsAsync();
-
-            //Loopar ut alla produkter för att på samma gång loppa ut alla cart's. Där FkProductId i Cart objekten matchar med ett ProductId på en produkt
-            //så sätter vi att alla properties i den Product navigering som ligger i Cart fylls från API:et
-            foreach (var product in products)
+            //Loopar över carts, hämtar produkten från API, sätter properties på Product
+            foreach (var cart in cartItems)
             {
-                foreach (var cart in cartItems)
-                {
-                    if (cart.FkProductId == product.ProductId)
-                    {
-                        cart.Product = product;
-                        _context.Carts.Update(cart);
-                    }
-                }
+                var item = await _productService.GetProductByIdAsync(cart.FkProductId);
+                cart.Product = item;
+                _context.Carts.Update(cart);
             }
+
             await _context.SaveChangesAsync();
             //return View(cartItems);
             return PartialView("_ShoppingCart", cartItems);
         }
 
-        //skapa order checka ut
+
         public async Task<IActionResult> Checkout()
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
+            string userId = GetUser();
 
             var carts = _context.Carts.Where(x => x.FkApplicationUserId == userId).ToList();
 
@@ -183,8 +172,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
         public async Task<IActionResult> History()
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string userId = GetUser();
 
             var orders = await _context.Orders.Where(x => x.FkApplicationUserId == userId).ToListAsync();
             if (orders == null)
@@ -295,32 +283,9 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
                 TempData["error"] = "För få varor i lager";
             }
 
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var carts = await UpdateCart();
 
-            //Hämtar den inloggades cart
-            var cartItems = _context.Carts.Where(x => x.FkApplicationUserId == userId).ToList();
-
-            var products = await _productService.GetProductsAsync();
-
-            //Loopar ut alla produkter för att på samma gång loppa ut alla cart's. Där FkProductId i Cart objekten matchar med ett ProductId på en produkt
-            //så sätter vi att alla properties i den Product navigering som ligger i Cart fylls från API:et
-            foreach (var item in products)
-            {
-                foreach (var basket in cartItems)
-                {
-                    if (basket.FkProductId == item.ProductId)
-                    {
-                        basket.Product = item;
-                        _context.Carts.Update(basket);
-                    }
-                }
-            }
-            await _context.SaveChangesAsync();
-
-
-            //return RedirectToAction(nameof(Index));
-            return PartialView("_ShoppingCart", cartItems);
+            return PartialView("_ShoppingCart", carts);
         }
 
         public async Task<IActionResult> Minus(int id)
@@ -343,7 +308,10 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             }
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+
+            var carts = await UpdateCart();
+
+            return PartialView("_ShoppingCart", carts);
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -356,9 +324,36 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            var carts = await UpdateCart();
+            return PartialView("_ShoppingCart", carts);
         }
 
+        private string GetUser()
+        {
+            //Vem är inloggad
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return userId;
+        }
 
+        private async Task<List<Cart>> UpdateCart()
+        {
+            string userId = GetUser();
+
+
+            //Hämtar den inloggades carts
+            var carts = _context.Carts.Where(x => x.FkApplicationUserId == userId).ToList();
+
+            //Loopar över carts, hämtar produkten från API, sätter properties på Product
+            foreach (var item in carts)
+            {
+                var cartProduct = await _productService.GetProductByIdAsync(item.FkProductId);
+                item.Product = cartProduct;
+                _context.Carts.Update(item);
+            }
+
+            await _context.SaveChangesAsync();
+            return carts;
+        }
     }
 }
