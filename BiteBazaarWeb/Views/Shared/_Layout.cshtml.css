@@ -2,17 +2,11 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 
-
-
 a.navbar-brand {
     white-space: normal;
     text-align: center;
     word-break: break-all;
-    color: white;
-}
-
-a {
-    color: white;
+    
 }
 
 .btn-primary {
@@ -59,28 +53,19 @@ button.accept-policy {
 
 .navbar {
     background-color: #2d2d2d;
-    height: 100px;
 }
 
 .dropdown-menu {
-    background-color: #2d2d2d;
-    color: white;
+    background-color: #2d2d2d;   
 }
 
-    .dropdown-menu.dropdown-item {
-        background-color: red;
-        color: white;
-    }
+.dropdowv.dropdown-menu.dropdown-item {
+    background-color: red;
+    color: black;
+}
 
 
-
-    .dropdown-menu li a.dropdown-item {
-        background-color: red;
-        color: white;
-    }
-
-
-
-.nav-item {
+.dropdown-menu li a.dropdown-item {
+    background-color: red;
     color: white;
 }

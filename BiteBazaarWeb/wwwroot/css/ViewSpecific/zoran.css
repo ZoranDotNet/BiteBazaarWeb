@@ -7,7 +7,7 @@
     display: flex;
     justify-content: space-between;
     background-color: #007fff;
-    border-radius: 10px;
+    border-radius: 8px;
     
 }
 
@@ -16,22 +16,22 @@
     gap: 10px;
 }
 
-.filterWrapper a{
-    min-width:120px;
-    background-color: var(--clr-pink);
-    color: #fff;
-    text-decoration: none;
-    align-content: center;
-    text-align: center;
-    padding: 5px;
-    border-radius: 15px;
-    margin-right: 10px;
-}
+    .filterWrapper a {
+        min-width: 120px;
+        background-color: var(--clr-pink);
+        color: #fff;
+        text-decoration: none;
+        align-content: center;
+        text-align: center;
+        padding: 5px;
+        border-radius: 45px;
+        margin-right: 15px;
+    }
 
 .productSearchBar select {
     background-color: lightgrey;
     max-width: 200px;
-    border-radius: 10px;
+    border-radius: 8px;
     text-align: center;
     border: none;
 }
