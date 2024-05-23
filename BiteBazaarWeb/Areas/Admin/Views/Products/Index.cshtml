@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Product>
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core
+@model IPagedList<BiteBazaarWeb.Models.Product>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,74 +9,93 @@
 <h1>Produktöversikt</h1>
 
 <p>
-    <a asp-action="Create" class="btn btn-egen"><i class="bi bi-plus-square"></i> Lägg till</a>
+    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-square"></i> Lägg till</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
             <th>Titel</th>
             <th>Lager</th>
             <th>Pris</th>
-            <th>Kampanj</th>
+            <th>Kampanj %</th>
             <th>Start</th>
             <th>Slutar</th>
             <th>Kampanj Pris</th>
             <th>Kategori</th>
             <th>Bild</th>
-            <th></th>
+            <th>
+                <form method="get" asp-action="Products">
+                    <label for="pageSize">Antal Produkter per sida:</label>
+                    <select id="pageSize" name="pageSize" onchange="this.form.submit()">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                    <noscript>
+                        <input type="submit" value="Submit" />
+                    </noscript>
+                </form>
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @item.Title
-            </td>
-            <td>
-                @item.Quantity
-            </td>
-            <td>
-                @item.Price.ToString("c")
-            </td>
-            @if (item.CampaignPercent != 0)
-            {
-                <td>@(item.CampaignPercent*100)%</td>
-            }
-            else
-            {
-                <td></td>
-            }
-            <td>
-                @(item.CampaignStart.HasValue ? item.CampaignStart.Value.ToShortDateString() : "")
-            </td>
-            <td>
-                @(item.CampaignEnd.HasValue ? item.CampaignEnd.Value.ToShortDateString() : "")
-            </td>
-            @if (item.TempPrice != 0)
-            {
-                <td class="text-danger">@item.TempPrice.ToString("C0")</td>
-            }
-            else
-            {
-                <td></td>
-            }
-
-            <td>
-                @item.Category.Title
-            </td>
-            <td>
-                @foreach (var pic in item.Images)
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.Quantity
+                </td>
+                <td>
+                    @item.Price.ToString("c")
+                </td>
+                @if (item.CampaignPercent != 0)
                 {
-                    <img src="@pic.URL" style="width: 50px" />
+                    <td>@(item.CampaignPercent*100)%</td>
                 }
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn-sm btn-success text-decoration-none"><i class="bi bi-pencil-square"></i> Edit</a>
-                <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn-sm btn-danger text-decoration-none"><i class="bi bi-trash"></i> Radera</a>
-                <a asp-controller="ProductImages" asp-action="Create" asp-route-id="@item.ProductId" class="btn-sm btn-success text-decoration-none"><i class="bi bi-plus-square"></i> Lägg till Bild</a>
-            </td>
-        </tr>
-}
+                else
+                {
+                    <td></td>
+                }
+                <td>
+                    @(item.CampaignStart.HasValue ? item.CampaignStart.Value.ToShortDateString() : "")
+                </td>
+                <td>
+                    @(item.CampaignEnd.HasValue ? item.CampaignEnd.Value.ToShortDateString() : "")
+                </td>
+                @if (item.TempPrice != 0)
+                {
+                    <td class="text-danger">@item.TempPrice.ToString("C0")</td>
+                }
+                else
+                {
+                    <td></td>
+                }
+
+                <td>
+                    @item.Category.Title
+                </td>
+                <td>
+                    @foreach (var pic in item.Images)
+                    {
+                        <img src="@pic.URL" style="width: 50px" />
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn-sm btn-success text-decoration-none"><i class="bi bi-pencil-square"></i> Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn-sm btn-danger text-decoration-none"><i class="bi bi-trash"></i> Radera</a>
+                    <a asp-controller="ProductImages" asp-action="Create" asp-route-id="@item.ProductId" class="btn-sm btn-success text-decoration-none"><i class="bi bi-plus-square"></i> Lägg till Bild</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }))
+</div>
+
 
