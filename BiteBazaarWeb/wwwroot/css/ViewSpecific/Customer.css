@@ -83,7 +83,7 @@ p {
 }
 
 .btn-egen-blue {
-    background: #56bdb69;
+    background: #56bd69;
     color: white;
 }
 
@@ -112,7 +112,7 @@ p {
 
 .products-details{
     justify-content: center;
-    justify-items; center;
+    justify-items: center;
     text-align: center;
 }
 
@@ -144,35 +144,6 @@ p {
 
 .row {
     margin: 30px;
-}
-
-
-
-.btn-egen {
-    background-color: #ba509a;
-    color: white;
-}
-
-
-.btn-egen-danger {
-    background-color: #aa1414;
-    color: white;
-}
-
-
-.kundkorg-egen {
-    background: pink;
-}
-
-
-.container-cards-cart {
-    display: flex;
-    flex-direction: row;
-    background: orange;
-}
-
-.image-cart {
-    background: green;
 }
 
 

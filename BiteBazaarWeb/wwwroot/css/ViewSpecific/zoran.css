@@ -1,0 +1,79 @@
+﻿/*
+
+    Searchbar i view - Product, Home controller
+
+*/
+.productSearchBar{
+    display: flex;
+    justify-content: space-between;
+    background-color: #007fff;
+    border-radius: 10px;
+    
+}
+
+.filterWrapper{
+    display: flex;
+    gap: 10px;
+}
+
+.filterWrapper a{
+    min-width:120px;
+    background-color: var(--clr-pink);
+    color: #fff;
+    text-decoration: none;
+    align-content: center;
+    text-align: center;
+    padding: 5px;
+    border-radius: 15px;
+    margin-right: 10px;
+}
+
+.productSearchBar select {
+    background-color: lightgrey;
+    max-width: 200px;
+    border-radius: 10px;
+    text-align: center;
+    border: none;
+}
+
+.productSearchBar select:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem #fff;
+}
+
+.productSearchBar select option:hover {
+    color: mediumpurple;
+    background-color: mediumpurple;
+}
+
+.search {
+    width: 200px;
+    position: relative;
+}
+
+.search input {
+    width: 100%;
+    padding: 5px;
+    outline: none;
+    background: rgba(255,255,255, 0.3);
+    border: 2px solid #fff;
+    border-radius: 50px;
+    color: #fff;
+}
+
+.search input::placeholder {
+    color: #fff;
+}
+
+.search button {
+    position: absolute;
+    height: 80%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    right: 4px;
+    top: 10%;
+    border: none;
+    background: #fff;
+}
+
+  
