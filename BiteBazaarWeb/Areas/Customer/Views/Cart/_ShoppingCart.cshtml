@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div class="fw-bold">
-                @if (item.Product.TempPrice > 0)
+                @if (item.Product.IsCampaign && item.Product.TempPrice > 0)
                 {
                     @((item.Product.TempPrice * item.Count).ToString("c0"))
                 }
@@ -65,14 +65,14 @@
 
         </div>
         <hr />
-        @if (item.Product.TempPrice > 0)
+        @if (item.Product.IsCampaign && item.Product.TempPrice > 0)
         {
             <input hidden @{total += (item.Product.TempPrice * item.Count);} />
             <input hidden @{discount += ((item.Product.TempPrice * item.Count) - (item.Product.Price * item.Count));} />
         }
         else
         {
-            <input hidden {total +=(item.Product.Price * item.Count);} />
+            <input hidden @{total +=(item.Product.Price * item.Count);} />
         }
 
     }

@@ -40,6 +40,26 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
 
             var pagedProducts = products.ToPagedList(pageNumber, currentPageSize);
 
+            //Sidan visas inte om det är null. Första gången skapar vi en fejkprodukt
+            //så Admin kan lägga till riktiga produkter
+            if (pagedProducts == null)
+            {
+                List<Product> list = new()
+                {
+                    new Product
+                    {
+                        Title="Testobj",
+                        Description="bla bla bla",
+                        Price=100,
+                        CampaignPercent=0,
+                        TempPrice=0,
+                        Quantity=10
+                    }
+                };
+
+                var model = list.ToPagedList(pageNumber, currentPageSize);
+                return View(model);
+            }
             return View(pagedProducts);
         }
 
