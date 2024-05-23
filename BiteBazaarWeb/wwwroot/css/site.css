@@ -42,7 +42,8 @@ body {
     border-radius: 40px;
     background: var(--clr-pink);
     font-weight: 700;
+    color:#fff;
 }
 .egenKnapp:hover {
-    transform: scale(1.05);
+    
 }
