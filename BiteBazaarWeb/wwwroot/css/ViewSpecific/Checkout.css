@@ -12,7 +12,36 @@
     background-color: lightgrey;
 }
 
+.left-wrapper label {
+    color: #fff;
+    font-weight: bold;
+}
+
 input.form-control:focus {
     outline: none;
     box-shadow: 0 0 0 0.1rem mediumpurple;
+}
+
+.terms label input {
+    height: 15px;
+    width: 15px;
+    accent-color: var(--clr-pink);
+}
+
+.betalaOrderButton{
+    background: var(--clr-pink);
+    width: 200px;
+    border-radius: 45px;
+    font-size: 20px;
+    border: none;
+}
+
+.betalaOrderButton:hover{
+    background: #fff;
+    color: var(--clr-pink);
+}
+
+.bottomDiv{
+    background: #A0A0A0;
+    padding: 15px 0;
 }

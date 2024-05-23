@@ -2,59 +2,59 @@
 function filterProducts() {
 
 
-        var filter = $('#filter').val();
-var filterTitle = $('#filter option:selected').text();
+    var filter = $('#filter').val();
+    var filterTitle = $('#filter option:selected').text();
 
 
-$.ajax({
-    url: '/Customer/Home/FilterProducts',
-type: 'GET',
-data: {filter: filter },
-success: function (result) {
+    $.ajax({
+        url: '/Customer/Home/FilterProducts',
+        type: 'GET',
+        data: { filter: filter },
+        success: function (result) {
 
-    $('#productsContainer').html(result);
+            $('#productsContainer').html(result);
 
-if (filter != 0) {
-    $('#showFilter').html(filterTitle)
-                    $('#headline').removeClass('visually-hidden')
-$('#headline2').addClass('visually-hidden')
-                }
-
-$('#filter').val('');
+            if (filter != 0) {
+                $('#showFilter').html(filterTitle)
+                $('#headline').removeClass('visually-hidden')
+                $('#headline2').addClass('visually-hidden')
             }
 
-        });
+            $('#filter').val('');
+        }
+
+    });
 
 
-    }
-    function searchProducts() {
-            var search = $('#searchString').val();
+}
+function searchProducts() {
+    var search = $('#searchString').val();
 
     $.ajax({
         url: '/Customer/Home/SearchProducts',
-    type: 'GET',
-    data: {searchstring: search },
-    success: function (result) {
-        $('#productsContainer').html(result);
+        type: 'GET',
+        data: { searchstring: search },
+        success: function (result) {
+            $('#productsContainer').html(result);
 
-    if (search != "") {
-        $('#showFilter').html(search)
-                        $('#headline2').removeClass('visually-hidden')
-    $('#headline').addClass('visually-hidden')
-                    }
+            if (search != "") {
+                $('#showFilter').html(search)
+                $('#headline2').removeClass('visually-hidden')
+                $('#headline').addClass('visually-hidden')
+            }
 
-    $('#searchString').val('');
+            $('#searchString').val('');
 
-                }
-
-            });
         }
 
-    $(document).ready(function () {
-        $('#searchButton').click(function () {
-            searchProducts();
-        });
+    });
+}
 
-        });
+$(document).ready(function () {
+    $('#searchButton').click(function () {
+        searchProducts();
+    });
+
+});
 
 
