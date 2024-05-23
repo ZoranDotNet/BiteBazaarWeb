@@ -3,39 +3,44 @@
 @{
     ViewData["Title"] = "Index";
 }
+<div class="jumbotron text-center">
+    <h1 class="display-4">Kategoriöversikt</h1>
+    <p>Denna sida är till för att se över, redigera och radera kategorier</p>
+    <div class="col text-left">
+        <a asp-action="Create" class="btn btn-egen"><i class="bi bi-plus-square"></i> Lägg till</a>
+</div>
+</div>
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CategoryId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CategoryId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CategoryId">Delete</a>
-            </td>
-        </tr>
+
+
+<div class=" ">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-6 col-lg-6 ">
+                <div class="row p-1">
+                    <div class="container-cards-category col-12 p-1 ">
+                        <div class=" p-2 ">
+
+                            <strong>@Html.DisplayFor(modelItem => item.Title)</strong>
+                            <br />
+                            @Html.DisplayFor(modelItem => item.Description)
+
+                        </div>
+                        <div>
+                        <a asp-action="Edit" asp-route-id="@item.CategoryId" class="btn btn-egen-blue mb-2">Redigera</a>
+                        <a asp-action="Delete" asp-route-id="@item.CategoryId" class="btn btn-egen-danger mb-2">Radera</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 }
-    </tbody>
-</table>

@@ -4,53 +4,68 @@
 
 
 html {
-  font-size: 14px;
-  
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+h1 {
+    color: white;
+}
+
+h4 {
+    color: white;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-    margin-bottom: 60px;
     font-family: 'Nunito Sans', sans-serif;
+    background-color: #1f1f47;
+    padding-bottom: 100px;
 }
 
 .egenKnapp {
     border-radius: 45px;
-    background-color: var(--clr-pink);
     font-weight: 700;
 }
 
-.egenKnapp:hover {
-    background-color: #fff;
-    border: 2px solid var(--clr-pink);
-}
+    .egenKnapp:hover {
+        background-color: #fff;
+    }
 
 .basket_minus_plus:hover {
     font-size: 20px;
 }
 
-.basket_trash{
+.basket_trash {
     color: red;
-}
-.basket_trash:hover{
-    color: red;
-    font-size: 20px;
 }
 
-.order-background{
+    .basket_trash:hover {
+        color: red;
+        font-size: 20px;
+    }
+
+.order-background {
     background-color: lightgray;
+}
+
+.navbar-nav {
+    color: white;
+}
+
+.nav-link {
+    color: white;
 }

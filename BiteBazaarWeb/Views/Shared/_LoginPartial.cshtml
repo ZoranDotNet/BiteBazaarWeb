@@ -2,12 +2,14 @@
 
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@UserManager.GetUserName(User)!</a>
+            <a id="manage" class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@UserManager.GetUserName(User)!</a>
         </li>
         <li class="nav-item me-4">
             <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "Customer" })">
@@ -18,10 +20,11 @@
     else
     {
         @*<li class="nav-item">
-                <a class="nav-link btn btn-link text-dark me-2" id="register" asp-area="Identity" asp-page="/Account/Register">Registrera</a>
+                <a class="nav-link btn btn-link text-light me-2" id="register" asp-area="Identity" asp-page="/Account/Register">Registrera</a>
             </li>*@
         <li class="nav-item">
-            <a class="nav-link text-dark me-4 egenKnapp" id="login" asp-area="Identity" asp-page="/Account/Login">Logga in</a>
+            <a class="nav-link text-light me-4 egenKnapp" id="login" asp-area="Identity" asp-page="/Account/Login">Logga in</a>
         </li>
     }
+
 </ul>

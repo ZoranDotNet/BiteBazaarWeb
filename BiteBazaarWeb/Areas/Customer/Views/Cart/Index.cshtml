@@ -1,15 +1,18 @@
 ﻿@model IEnumerable<Cart>
+<link href="~/css/ViewSpecific/Customer.css" rel="stylesheet" />
 
 
 @{ decimal total = 0;}
 @{ decimal discount = 0;}
 <section class="mx-auto shadow pb-2 col-12 col-lg-9 col-xl-6">
-    <div class="text-center bg-secondary text-white mb-2 py-3">
+    <div class="text-center text-white mb-2 py-3">
         <h2>Kundkorg</h2>
     </div>
     <hr />
+
     @foreach (var item in Model)
     {
+
         <div class="mb-2 px-4 d-flex justify-content-between">
             <div class="border-2">
                 @if (item.Product.Images.Any())
@@ -82,5 +85,6 @@
     }
     <a asp-area="Customer" asp-controller="Cart" asp-action="Checkout" class="btn btn-outline-dark d-block mx-auto w-50">Checkout</a>
 </div>
+
 </section>
 

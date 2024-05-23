@@ -1,16 +1,15 @@
 ﻿@model Cart
-
+<link href="~/css/ViewSpecific/Customer.css" rel="stylesheet" />
 
 
 <form method="post">
-    <div class="row">
-        <div class="col-11 col-md-8 col-lg-6 shadow p-4 mx-auto mt-3">
-            <div class="d-flex justify-content-between">
-                <h4><strong>@Model.Product.Title</strong></h4>
-                <div>
-                    <a asp-action="Products" class="btn btn-outline-primary text-decoration-none">Tillbaka</a>
-                </div>
+    <div class="row text-light">
+        <div class="d-flex justify-content-between">
+            <h4><strong>@Model.Product.Title</strong></h4>
+            <div>
+                <a asp-action="Products" class="btn btn-outline-black text-decoration-none bg-secondary">Tillbaka</a>
             </div>
+
             <hr />
             <input asp-for="FkProductId" type="hidden" />
             <div class="d-flex justify-content-between align-items-lg-start">
@@ -40,24 +39,44 @@
                     </div>
 
 
-                    <button type="submit" class="btn btn-primary">Lägg i varukorg</button>
-                </div>
+
+        <div class="row products-details">
+            <div class="col-lg-6">
                 <div class="p-2">
                     @if (Model.Product.Images != null && Model.Product.Images.Count > 0)
                     {
                         @foreach (var item in Model.Product.Images)
                         {
-                            <img src="@item.URL" style="width:100px" class="mb-4 me-4" />
+                            <img src="@item.URL" style="width:400px;" class="mb-4 me-4 img-fluid" />
                         }
                     }
                     else
                     {
-                        <img src="https://placehold.co/100x100" class="card-img-top rounded" />
+                        <img src="https://placehold.co/100x100" class="img-fluid rounded" />
                     }
                 </div>
             </div>
+
+            <div class="col-lg-6">
+                <div class="col-11 col-md-8 col-lg-12 shadow p-4 mx-auto  text-center ">
+                    <h3><span class="badge ">@Model.Product.Category.Title</span></h3>
+                    <p><strong>Produktinformation:</strong><br /> @Model.Product.Description</p>
+                    @if (Model.Product.Quantity <= 5)
+                    {
+                        <p class="text-danger"><strong>Fåtal produkter kvar</strong></p>
+                    }
+                    <p><strong>Pris:</strong> @Model.Product.Price.ToString("C0")</p>
+                    <p><strong>Antal</strong></p>
+                    <div class="input-group mb-3 p-2 me-2 justify-content-center ">
+                    
+                        <input type="number" asp-for="Count" value="1" class="text-center rounded p-0 d-inline-block" />
+                    </div>
+
+                    <button type="submit" class="btn btn-egen text-light">Lägg i varukorg</button>
+                </div>
+            </div>
         </div>
-        
     </div>
 </form>
+
 

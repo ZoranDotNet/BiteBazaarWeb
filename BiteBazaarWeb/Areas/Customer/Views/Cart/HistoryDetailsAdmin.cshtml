@@ -1,7 +1,7 @@
 ﻿@model OrderHistoryVM
 
 <div class="container p-4">
-    <table class="table table-bordered table-striped">
+    <table class="table table-striped  text-light">
         <thead>
             <tr>
                 <th>Antal</th>
@@ -13,7 +13,7 @@
         <tbody>
             @foreach (var item in Model.Specifications)
             {
-                <tr>
+                <tr class=" text-light">
                     <td>@item.Count</td>
                     <td>@item.Product.Title</td>
                     <td>@item.PayedPrice.ToString("C0")</td>
@@ -27,6 +27,6 @@
         {
             <a asp-area="Customer" asp-controller="Cart" asp-action="ShipOrder" asp-route-id="@Model.Order.OrderId" class="btn btn-primary">Skicka Order</a>
         }
-        <a asp-action="OrderHistoryAdmin" class="btn btn-primary">Tillbaka</a>
+        <a asp-action="OrderHistoryAdmin" class="btn btn-egen">Tillbaka</a>
     </div>
 </div>

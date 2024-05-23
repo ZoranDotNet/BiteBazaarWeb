@@ -1,25 +1,29 @@
 ﻿@model IEnumerable<Product>
+<link href="~/css/ViewSpecific/Customer.css" rel="stylesheet" />
 
-<div class="mt-2 bg-secondary p-3 d-flex justify-content-between">
+
+<div class="d-flex justify-content-between ">
+    <div>
     <select id="filter" asp-items="ViewBag.FkCategoryId" onchange="filterProducts()">
         <option value="" hidden>--Filtrera på Kategori--</option>
     </select>
-    
-    <div>
-        <a asp-action="Products" class="btn btn-success">Visa alla</a>
-    </div>
-    <div>
-        <input type="text" id="searchString" placeholder="Sök produkt..." />
-        <button id="searchButton">Sök</button>
-    </div>
+        <div>
+            <a asp-action="Products" class="btn btn-egen text-light">Visa alla</a>
+        </div>
+        </div>
+
+<div>
+    <input type="text" id="searchString" placeholder="Sök produkt..." />
+    <button id="searchButton" class="btn btn-egen text-light">Sök</button>
 </div>
+    </div>
+<div class="d-flex text-light">
 
-<div class="d-flex">
-
-    <span id="headline" class="visually-hidden me-3">Filtrerat på: </span>
+    <span id="headline" class="visually-hidden me-3">Filtrerat på:</span>
     <span id="headline2" class="visually-hidden me-3">Sökt på: </span>
     <p id="showFilter" class=""></p>
 </div>
+
 <div class="row p-2 mb-2" id="productsContainer">
     <partial name="_ProductList" />
 </div>

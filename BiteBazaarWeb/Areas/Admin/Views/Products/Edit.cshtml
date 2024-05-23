@@ -1,15 +1,14 @@
 ﻿@model CreateProductVM
 
-
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Redigera";
 }
 
-<h1>Edit</h1>
+<h1>Redigera</h1>
 
-<h4>Product</h4>
+<h4>Produkt</h4>
 <hr />
-<div class="row">
+<div class="row text-light">
     <div class="col-md-12">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -17,27 +16,27 @@
             <div class="row">
                 <div class="col-8">
                     <div class="form-group">
-                        <label asp-for="Product.Title" class="control-label"></label>
+                        <label asp-for="Product.Title" class="control-label">Titel</label>
                         <input asp-for="Product.Title" class="form-control" />
                         <span asp-validation-for="Product.Title" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Product.Description" class="control-label"></label>
+                        <label asp-for="Product.Description" class="control-label">Beskrivning</label>
                         <textarea asp-for="Product.Description" class="form-control"></textarea>
                         <span asp-validation-for="Product.Description" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Product.Price" class="control-label"></label>
+                        <label asp-for="Product.Price" class="control-label">Pris</label>
                         <input asp-for="Product.Price" type="number" class="form-control" />
                         <span asp-validation-for="Product.Price" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Product.Quantity" class="control-label"></label>
+                        <label asp-for="Product.Quantity" class="control-label">Antal i lager</label>
                         <input asp-for="Product.Quantity" type="number" class="form-control" />
                         <span asp-validation-for="Product.Quantity" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label class="control-label">Kampanj Startar(valfri)</label>
+                      <label class="control-label">Kampanj Startar(valfri)</label>
                         <input asp-for="Product.CampaignStart" type="date" class="form-control" />
                         <span asp-validation-for="Product.CampaignStart" class="text-danger"></span>
                     </div>
@@ -57,7 +56,7 @@
                         <span asp-validation-for="Product.TempPrice" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Product.FkCategoryId" class="control-label"></label>
+                       <label asp-for="Product.FkCategoryId" class="control-label">Kategori</label>
                         <select asp-for="Product.FkCategoryId" class="form-control" asp-items="ViewBag.FkCategoryId"></select>
                         <span asp-validation-for="Product.FkCategoryId" class="text-danger"></span>
                     </div>
@@ -69,14 +68,15 @@
                         @foreach (var item in Model.Product.Images)
                         {
                             <div class="p-1 mb-2 text-center d-flex flex-column">
-                                <img src="@item.URL" style="border-radius:5px; width:150px;" class="" >
-                                <a asp-controller="ProductImages" asp-action="Delete" asp-route-id="@item.ProductImageId" class="btn-sm btn-danger text-decoration-none" style="width:150px">Delete</a>
+                                @*<input asp-for="ProductImage.ProductImageId" type="hidden"/>*@
+                                <img src="@item.URL" style="border-radius:5px; width:150px;" class="">
+                                <a asp-controller="ProductImages" asp-action="Delete" asp-route-id="@item.ProductImageId" class="btn-sm btn-egen-danger text-decoration-none" style="width:150px">Delete</a>
                             </div>
                         }
                     }
                     else
                     {
-                        <img src="https://placehold.co/150x100"/>
+                        <img src="https://placehold.co/150x100" />
                     }
 
 
@@ -85,16 +85,18 @@
 
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Spara" class="btn btn-egen-blue" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Category" class="btn btn-outline-black text-decoration-none bg-secondary">Tillbaka</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
