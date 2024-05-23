@@ -2,48 +2,55 @@
 <link href="~/css/ViewSpecific/Customer.css" rel="stylesheet" />
 
 <div class="row">
-@foreach (var item in Model)
-{
-    <div class="col-md-4 mb-4">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
 
-        <a asp-action="Details" asp-route-id="@item.ProductId" class=" text-decoration-none">
-        <div class="card bg-transparent h-100">
-                    <div class="card bg-transparent h-100">
-                        <div class="container-cards rounded d-flex flex-column align-items-center text-center h-100 p-3">
-                            <div class="card-body">
-                    @if (item.Images != null && item.Images.Count > 0)
-                    {
-                            <img src="@item.Images.First().URL" class="card-img-top rounded mb-5" style="height:auto" />
-                    }
-                    else
-                    {
-                        <img src="https://placehold.co/100x100" class="card-img-top rounded" />
-                    }
+            <a asp-action="Details" asp-route-id="@item.ProductId" class=" text-decoration-none"></a>
+                <div class="card bg-transparent h-100">
+                    <div class="container-cards rounded d-flex flex-column align-items-center text-center h-100 p-3">
+                        <div class="card-body">
+                            @if (item.Images != null && item.Images.Count > 0)
+                            {
+                                <img src="@item.Images.First().URL" class="card-img-top rounded mb-5" style="height:auto" />
+                            }
+                            else
+                            {
+                                <img src="https://placehold.co/100x100" class="card-img-top rounded" />
+                            }
 
-                <div class="card-body-customers pb-0">
-                    <h5 class="mb-4"><strong>@item.Title</strong></h5>
-                   <h6 class="mb-3">@item.Description</h6>
-                    @if (item.IsCampaign && item.TempPrice > 0)
-                    {
-                        <h5><span class="text-decoration-line-through">@item.Price.ToString("C0") </span><span class="text-danger ms-2">@item.TempPrice.ToString("C0")</span></h5>
-                    }
-                    else
-                    {
-                        <h5>@item.Price.ToString("C0")</h5>
-                    }
+                            <div class="card-body-customers pb-0">
+                                <h5 class="mb-4"><strong>@item.Title</strong></h5>
+                                <h6 class="mb-3">@item.Description</h6>
+                                @if (item.IsCampaign && item.TempPrice > 0)
+                                {
+                                    <h5>
+                                        <span class="text-decoration-line-through">
+                                            @item.Price.ToString("C0")
+                                        </span><span class="text-danger ms-2">
+                                            @item.TempPrice.ToString("C0")
+                                        </span>
+                                    </h5>
+                                }
+                                else
+                                {
+                                    <h5>@item.Price.ToString("C0")</h5>
+                                }
+            
+                                <div>
+                                    <a class="btn-sm btn-secondary text-decoration-none" asp-action="Details" asp-route-id="@item.ProductId">Details</a>
+                                    <a class="btn-sm btn-secondary text-decoration-none" asp-controller="User" asp-action="AddToList" asp-route-id="@item.ProductId"><i class="bi bi-heart"></i></a>
 
-                </div>
-                    <div>
-                        <a class="btn-sm btn-secondary text-decoration-none" asp-action="Details" asp-route-id="@item.ProductId">Details</a>
-                        <a class="btn-sm btn-secondary text-decoration-none" asp-controller="User" asp-action="AddToList" asp-route-id="@item.ProductId"><i class="bi bi-heart"></i></a>
+                                </div>
+                            </div>
+
+
+                        </div>
 
                     </div>
-            </div>
-          
-        </a>
+                </div>
+            
+
         </div>
- 
-
-}
+    }
 </div>
-
