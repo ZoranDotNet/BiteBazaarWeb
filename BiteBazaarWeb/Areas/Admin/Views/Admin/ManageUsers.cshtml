@@ -27,7 +27,6 @@
                 url: '/Admin/Admin/LockUnlock',
                 data: { id: id },
                 success: function (data) {
-                    //console.log('AJAX-anrop lyckades. Data:', data);
                     if (data.success) {
                         toastr.options.positionClass = 'toast-top-center';
                         toastr.success(data.message);

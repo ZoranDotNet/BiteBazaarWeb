@@ -1,12 +1,14 @@
 ﻿@model CreateOrderVM
 
+<link href="/css/ViewSpecific/Checkout.css" rel="stylesheet"/>
+
 @{ decimal total = 0;}
 @{ decimal discount = 0;}
 <form method="post">
-    <div class="pb-3 shadow border rounded">
+    <div class="rounded wrapper w-75 mx-auto mt-4">
         <div class="d-flex justify-content-between">
-            <div class="px-4 py-3 col-5 order-background">
-                <p class="text-center"><strong>Bekräfta eller ändra din adress</strong></p>
+            <div class="px-4 py-3 col-5 left-wrapper">
+                <p class="text-center">Bekräfta eller ändra din adress</p>
                 <label>Namn</label>
                 <input asp-for="@Model.ApplicationUser.Name" class="form-control" />
                 <label>Mobilnummer</label>
@@ -65,15 +67,15 @@
             </div>
             <input type="hidden" asp-for="OrderTotal" value="@(total+discount)" />
         </div>
-        <div class="text-center mt-3">
+        <div class="text-center bottomDiv">
             <strong>Totalt: @((total + discount).ToString("C0"))</strong>
-                <div class="mb-3">
+                <div class="mb-3 terms">
                     <label>
                         <input type="checkbox" asp-for="Terms" />
                         Acceptera <a asp-action="Terms">Allmänna Köpvillkor</a>.
                     </label>
                 </div>
-            <button type="submit" class="btn btn-primary">Betala Order</button>
+            <button type="submit" class="btn btn-primary betalaOrderButton">Betala Order</button>
         </div>
 
     </div>

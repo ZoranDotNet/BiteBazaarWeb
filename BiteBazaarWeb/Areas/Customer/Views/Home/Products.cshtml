@@ -2,17 +2,22 @@
 @using X.PagedList.Mvc.Core
 @model IPagedList<BiteBazaarWeb.Models.Product>
 
-<div class="mt-2 bg-secondary p-3 d-flex justify-content-between">
-    <select id="filter" asp-items="ViewBag.FkCategoryId" onchange="filterProducts()">
-        <option value="" hidden>--Filtrera på Kategori--</option>
-    </select>
+<link href="/css/ViewSpecific/zoran.css" rel="stylesheet"/>
+   
 
-    <div>
-        <a asp-action="Products" class="btn btn-success">Visa alla</a>
+<div class="productSearchBar p-3">
+    <div class="filterWrapper">
+        <select id="filter" asp-items="ViewBag.FkCategoryId" onchange="filterProducts()">
+            <option value="" hidden>Filtrera</option>
+        </select>
+
+        <a asp-action="Products" class="">Visa alla</a>
+        
     </div>
-    <div>
+   
+    <div class="search">
         <input type="text" id="searchString" placeholder="Sök produkt..." />
-        <button id="searchButton">Sök</button>
+        <button id="searchButton"><i class="bi bi-search"></i></button>
     </div>
 </div>
 
@@ -32,65 +37,7 @@
 
 @section Scripts {
 
-    <script type="text/javascript">
-        function filterProducts() {
 
-
-            var filter = $('#filter').val();
-            var filterTitle = $('#filter option:selected').text();
-
-
-            $.ajax({
-                url: '/Customer/Home/FilterProducts',
-                type: 'GET',
-                data: { filter: filter },
-                success: function (result) {
-
-                    $('#productsContainer').html(result);
-
-                    if (filter != 0) {
-                        $('#showFilter').html(filterTitle)
-                        $('#headline').removeClass('visually-hidden')
-                        $('#headline2').addClass('visually-hidden')
-                    }
-
-                    $('#filter').val('');
-                }
-
-            });
-
-
-        }
-        function searchProducts() {
-            var search = $('#searchString').val();
-
-            $.ajax({
-                url: '/Customer/Home/SearchProducts',
-                type: 'GET',
-                data: { searchstring: search },
-                success: function (result) {
-                    $('#productsContainer').html(result);
-
-                    if (search != "") {
-                        $('#showFilter').html(search)
-                        $('#headline2').removeClass('visually-hidden')
-                        $('#headline').addClass('visually-hidden')
-                    }
-
-                    $('#searchString').val('');
-
-                }
-
-            });
-        }
-
-        $(document).ready(function () {
-            $('#searchButton').click(function () {
-                searchProducts();
-            });
-
-        });
-
-
-    </script>
+<script src="/js/Products.js" type="text/javascript"></script>
+   
 }

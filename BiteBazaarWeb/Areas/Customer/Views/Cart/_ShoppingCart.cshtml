@@ -7,10 +7,10 @@
 @{ decimal total = 0;}
 @{ decimal discount = 0;}
 <section class="mx-auto pb-2">
-    <div class="text-center bg-secondary text-white mb-2 py-3">
+    <div class="text-center bg-secondary">
         <h2>Kundkorg</h2>
     </div>
-    <hr />
+    <hr class="line"/>
     @foreach (var item in Model)
     {
         <div class="mb-2 px-4 d-flex justify-content-between">
@@ -26,38 +26,33 @@
             </div>
 
             <div class="d-flex flex-column">
-                <div><strong>@item.Product.Title</strong></div>
+                <p class="title">@item.Product.Title</p>
                 @if (item.Product.IsCampaign && item.Product.TempPrice > 0)
                 {
-                    <div class="text-danger"> @item.Product.TempPrice.ToString("c0") /st</div>
+                    <p class="text-danger"> @item.Product.TempPrice.ToString("c0") /st</p>
                 }
                 else
                 {
-                    <div class=""> @item.Product.Price.ToString("c0") /st</div>
+                    <p class="text-black"> @item.Product.Price.ToString("c0") /st</p>
                 }
 
             </div>
-            <div class="d-flex">
-                Antal:
-                <div>
-                    <a id="minusbutton" data-id="@item.CartId" class="ms-2"><i class="bi bi-dash-square basket_minus_plus"></i></a>
+            <div class="outer-wrapper">
+                <div class="wrapper">
+                    <span class="minus" id="minusbutton" data-id="@item.CartId"><i class="bi bi-dash-square"></i></span>
+                    <span class="num">@item.Count</span>
+                    <span class="plus" id="plusbutton" data-id="@item.CartId"><i class="bi bi-plus-square"></i></span>
                 </div>
-                <span class="mx-1">@item.Count</span>
-                <div>
-                    <a id="plusbutton" data-id="@item.CartId" class="me-3"><i class="bi bi-plus-square basket_minus_plus"></i></a>
-                </div>
-                <div>
-                    <a id="deletebutton" data-id="@item.CartId" class="me-1"><i class="bi bi-trash basket_trash"></i></a>
-                </div>
+                <span class="delete" id="deletebutton" data-id="@item.CartId"><i class="bi bi-trash basket_trash"></i></span>
             </div>
-            <div class="fw-bold">
-                @if (item.Product.TempPrice > 0)
+            <div class="productTotal">
+                @if (item.Product.IsCampaign && item.Product.TempPrice > 0)
                 {
-                    @((item.Product.TempPrice * item.Count).ToString("c0"))
+                   <p class="text-black"> @((item.Product.TempPrice * item.Count).ToString("c0"))</p>
                 }
                 else
                 {
-                    @((item.Product.Price * item.Count).ToString("c0"))
+                    <p class="text-black"> @((item.Product.Price * item.Count).ToString("c0"))</p>
                 }
 
             </div>
@@ -65,23 +60,23 @@
 
         </div>
         <hr />
-        @if (item.Product.TempPrice > 0)
+        @if (item.Product.IsCampaign && item.Product.TempPrice > 0)
         {
             <input hidden @{total += (item.Product.TempPrice * item.Count);} />
             <input hidden @{discount += ((item.Product.TempPrice * item.Count) - (item.Product.Price * item.Count));} />
         }
         else
         {
-            <input hidden {total +=(item.Product.Price * item.Count);} />
+            <input hidden @{total +=(item.Product.Price * item.Count);} />
         }
 
     }
 
-    <div class="text-center mb-3">
-        <p class="fs-4 text-dark"><strong>Totalt: @total.ToString("C0")</strong></p>
+    <div class="text-center pb-3">
+        <p class="fs-4 text-black"><strong>Totalt: @total.ToString("C0")</strong></p>
         @if (discount < 0)
         {
-            <p class="fs-6 text-dark">Sparat på rea: <span class="text-danger">@discount.ToString("C0")</span></p>
+            <p class="fs-6 text-black">Sparat på rea: <span class="text-danger">@discount.ToString("C0")</span></p>
         }
         <a asp-area="Customer" asp-controller="Cart" asp-action="Checkout" class="btn btn-outline-dark d-block mx-auto w-50">Checkout</a>
     </div>
