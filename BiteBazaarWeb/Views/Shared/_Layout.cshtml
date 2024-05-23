@@ -77,21 +77,20 @@
                         {
                             var count = HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCount);
                             <div class="nav-item me-2">
-                                <a class="nav-link text-light" asp-area="Customer" asp-controller="Cart" asp-action="Index">
-                                    <button class="position-relative border-0 bg-transparent" style="font-size: 18px"><i class="bi bi-cart3 text-light"></i>
-                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
-                                            @count
-                                        </span>
-                                     </button>
-                                 </a>
+                                <button id="openModal" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="position-relative border-0 bg-transparent" style="font-size: 18px">
+                                    <i class="bi bi-cart3 text-light"></i>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
+                                        @count
+                                    </span>
+                                </button>
                             </div>
-                         }
-                         else
-                         {
+                        }
+                        else
+                        {
                             <div class="nav-item me-2">
                                 <a class="nav-link text-light" asp-area="Customer" asp-controller="Cart" asp-action="Index"><i class="bi bi-cart3"></i></a>
                             </div>
-                         }
+                        }
 
                     }
 
@@ -106,6 +105,19 @@
             <partial name="_Notification" />
             @RenderBody()
         </main>
+    </div>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="cartDiv">
+
+                </div>
+
+            </div>
+        </div>
     </div>
 
 
@@ -140,6 +152,7 @@
             }
         })
     </script>
+    <script src="/js/cartScripts.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
