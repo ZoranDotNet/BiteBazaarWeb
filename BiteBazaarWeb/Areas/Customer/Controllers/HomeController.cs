@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 using System.Security.Claims;
+using X.PagedList;
 
 namespace BiteBazaarWeb.Areas.Customer.Controllers
 {
