@@ -79,14 +79,14 @@
 
     }
 
-<div class="text-center mb-3">
-    <p class="fs-4"><strong>Totalt: @total.ToString("C0")</strong></p>
-    @if (discount < 0)
-    {
-        <p class="fs-6">Sparat på rea: <span class="text-danger">@discount.ToString("C0")</span></p>
-    }
-    <a asp-area="Customer" asp-controller="Cart" asp-action="Checkout" class="btn btn-outline-dark d-block mx-auto w-50">Checkout</a>
-</div>
+    <div class="text-center mb-3">
+        <p class="fs-4"><strong>Totalt: @total.ToString("C0")</strong></p>
+        @if (discount < 0)
+        {
+            <p class="fs-6">Sparat på rea: <span class="text-danger">@discount.ToString("C0")</span></p>
+        }
+        <a asp-area="Customer" asp-controller="Cart" asp-action="Checkout" class="btn btn-outline-dark d-block mx-auto w-50">Checkout</a>
+    </div>
 
 </section>
 
