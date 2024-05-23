@@ -1,20 +1,18 @@
 ﻿@model IEnumerable<Cart>
 
 
-<link href="~/css/ViewSpecific/Customer.css" rel="stylesheet" />
+<link href="/css/ViewSpecific/Shoppingcart.css" rel="stylesheet" />
 
 
 @{ decimal total = 0;}
 @{ decimal discount = 0;}
-<section class="mx-auto shadow pb-2">
-    <div class="text-center text-white mb-2 py-3">
+<section class="mx-auto pb-2">
+    <div class="text-center bg-secondary text-white mb-2 py-3">
         <h2>Kundkorg</h2>
     </div>
     <hr />
-
     @foreach (var item in Model)
     {
-
         <div class="mb-2 px-4 d-flex justify-content-between">
             <div class="border-2">
                 @if (item.Product.Images.Any())
@@ -70,23 +68,23 @@
         @if (item.Product.TempPrice > 0)
         {
             <input hidden @{total += (item.Product.TempPrice * item.Count);} />
-            <input hidden @{discount += ((item.Product.TempPrice * item.Count)-(item.Product.Price * item.Count));} />
+            <input hidden @{discount += ((item.Product.TempPrice * item.Count) - (item.Product.Price * item.Count));} />
         }
         else
         {
-            <input hidden @{total += (item.Product.Price * item.Count);} />
+            <input hidden {total +=(item.Product.Price * item.Count);} />
         }
 
     }
 
     <div class="text-center mb-3">
-        <p class="fs-4"><strong>Totalt: @total.ToString("C0")</strong></p>
+        <p class="fs-4 text-dark"><strong>Totalt: @total.ToString("C0")</strong></p>
         @if (discount < 0)
         {
-            <p class="fs-6">Sparat på rea: <span class="text-danger">@discount.ToString("C0")</span></p>
+            <p class="fs-6 text-dark">Sparat på rea: <span class="text-danger">@discount.ToString("C0")</span></p>
         }
         <a asp-area="Customer" asp-controller="Cart" asp-action="Checkout" class="btn btn-outline-dark d-block mx-auto w-50">Checkout</a>
     </div>
-
 </section>
+
 
