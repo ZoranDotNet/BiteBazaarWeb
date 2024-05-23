@@ -42,10 +42,10 @@
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item text-light" asp-area="Admin" asp-controller="Categories" asp-action="Index">Kategorier</a></li>
                                     <li><a class="dropdown-item text-light" asp-area="Admin" asp-controller="Products" asp-action="Index">Produkter</a></li>
-                                    <li><a class="dropdown-item text-light" asp-area="Admin" asp-controller="ProductImages" asp-action="Index">Bilder</a></li>
                                     <li><a class="dropdown-item text-light" asp-area="Customer" asp-controller="Cart" asp-action="OrderHistoryAdmin">Ordrar</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item text-light" asp-area="Identity" asp-controller="Account" asp-action="Register">Skapa användare</a></li>
+                                    <li><a class="dropdown-item text-light" asp-area="Admin" asp-controller="Admin" asp-action="ManageUsers">Hantera användare</a></li>
+
                                 </ul>
                             </li>
                         }
@@ -60,7 +60,7 @@
                                         <a class="nav-link text-light" asp-area="Customer" asp-controller="Cart" asp-action="History">Historik</a>
                                     </li>
                                     <li class="dropdown-item">
-                                        <a class="nav-link text-light" asp-area="Customer" asp-controller="" asp-action="">Favoriter</a>
+                                        <a class="nav-link text-light" asp-area="Customer" asp-controller="User" asp-action="ShowList">Favoriter</a>
                                     </li>
                                 </ul>
                             </li>

@@ -9,6 +9,13 @@
             <form id="account" method="post">
 
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+                <div class="text-center">
+                    <p>
+                        Har du inget konto? 
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl"> Registrera här</a>
+                    </p>
+                </div>
                 <div class="input-box">
                     <span class="icon"><i class="bi bi-envelope"></i></span>
                     <input asp-for="Input.Email" aria-required="true" required />
@@ -30,20 +37,19 @@
                 <div>
                     <button id="login-submit" type="submit" class="">Logga in</button>
                 </div>
-                <div class="extra-links mt-3 text-center">
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Glömt lösenordet?</a>
-                    </p>
+                
+                    
                     <div class="d-flex justify-content-between mt-5 extra-links">
+                      
                         <p>
-                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registrera nytt konto</a>
+                            <a id="forgot-password" asp-page="./ForgotPassword">Glömt lösenordet?</a>
                         </p>
                         <p>
                             <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Skicka bekräftelse Email</a>
                         </p>
                     </div>
                    
-                </div>
+                
             </form>
         </section>
 

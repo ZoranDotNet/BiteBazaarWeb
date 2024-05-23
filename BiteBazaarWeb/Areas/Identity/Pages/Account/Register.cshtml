@@ -7,21 +7,9 @@
 <link href="~/css/ViewSpecific/Login.css" rel="stylesheet" />
 
 <div class="register-wrapper mx-auto">
-    
-       
-                @if (User.IsInRole(SD.Role_Admin))
-                {
-                    <h2 class="">Admin-Portal</h2>
-                }
-                else
-                {
-                    <h2 class="">Registrera konto</h2>
-                }
-          
+    <h2 class="">Registrera konto</h2>
     
     <div class="px-3">
-       
-           
                 <form id="registerForm" class="row" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                     <div class="d-flex gap-4">

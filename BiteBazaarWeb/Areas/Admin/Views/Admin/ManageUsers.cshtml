@@ -1,0 +1,78 @@
+﻿
+<link href="~/css/ViewSpecific/Admin.css" rel="stylesheet"/>
+
+<div class="container">
+    <div class="mb-3">
+        <h2 class="text-center">Användare</h2>
+    </div>
+    <div class="mt-2 bg-secondary p-3 d-flex justify-content-start w-100">
+        <div class="searchbar">
+            <input type="text" id="searchString" placeholder="Sök Användare..." />
+            <button id="searchButton" class="searchbutton"><i class="bi bi-search"></i></button>
+        </div>
+    </div>
+    
+    <table id="userTable" class="table table-primary table-bordered">
+       <partial name="_Users"/>
+    </table>
+</div>
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script>
+        function LockUnlock(id) {
+            //console.log('Inne i funktionen. ID:', id);
+            $.ajax({
+                type: "POST",
+                url: '/Admin/Admin/LockUnlock',
+                data: { id: id },
+                success: function (data) {
+                    //console.log('AJAX-anrop lyckades. Data:', data);
+                    if (data.success) {
+                        toastr.options.positionClass = 'toast-top-center';
+                        toastr.success(data.message);
+                        reloadTable();
+                        
+                    } else {
+                        toastr.error(data.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    toastr.options.positionClass = 'toast-top-center';
+                    toastr.error(data.message);
+                }
+            });
+            //console.log('Efter funktionen');
+            return false;
+
+            function reloadTable() {
+                var tableId = '#userTable';
+                var url = '/Admin/Admin/UpdatedUsers';
+                $(tableId).load(url);
+            }
+        }
+    </script>
+<script>
+    function searchUser() {
+        var search = $('#searchString').val();
+
+        $.ajax({
+            url: '/Admin/Admin/SearchUser',
+            type: 'GET',
+            data: { searchstring: search },
+            success: function (result) {
+                $('#userTable').html(result);
+                $('#searchString').val('');
+            }
+
+        });
+    }
+
+    $(document).ready(function () {
+        $('#searchButton').click(function () {
+            searchUser();
+        });
+
+    });
+</script>
+}

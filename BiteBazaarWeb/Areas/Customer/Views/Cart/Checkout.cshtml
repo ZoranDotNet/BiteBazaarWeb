@@ -1,6 +1,7 @@
 ﻿@model CreateOrderVM
 
 @{ decimal total = 0;}
+@{ decimal discount = 0;}
 <form method="post">
     <div class="pb-3 shadow border rounded">
         <div class="d-flex justify-content-between">
@@ -35,20 +36,37 @@
                             </div>
                             <div class="d-flex flex-column">
                                 <span><strong>Pris:</strong></span>
-                                <span>@((item.Product.Price * item.Count).ToString("c0"))</span>
+                                @if (item.Product.IsCampaign && item.Product.TempPrice > 0)
+                                {
+                                    <span>@((item.Product.TempPrice * item.Count).ToString("c0"))</span>
+                                }
+                                else
+                                {
+                                    <span>@((item.Product.Price * item.Count).ToString("c0"))</span>
+                                }
+
                             </div>
 
                         </div>
                         <hr />
-                        <p hidden>@{total += (item.Product.Price * item.Count);}</p>
+                        @if (item.Product.TempPrice > 0)
+                        {
+                            <input hidden @{discount += (item.Product.TempPrice * item.Count);} />
+                        }
+                        else
+                        {
+                            <input hidden @{total += (item.Product.Price * item.Count);} />
+                        }
+
+
                     }
 
                 </div>
             </div>
-            <input type="hidden" asp-for="OrderTotal" value="@total" />
+            <input type="hidden" asp-for="OrderTotal" value="@(total+discount)" />
         </div>
         <div class="text-center mt-3">
-            <strong>Totalt: @total.ToString("C0")</strong>
+            <strong>Totalt: @((total + discount).ToString("C0"))</strong>
                 <div class="mb-3">
                     <label>
                         <input type="checkbox" asp-for="Terms" />

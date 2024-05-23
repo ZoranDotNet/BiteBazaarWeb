@@ -36,7 +36,27 @@
                         <span asp-validation-for="Product.Quantity" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Product.FkCategoryId" class="control-label">Kategori</label>
+                      <label class="control-label">Kampanj Startar(valfri)</label>
+                        <input asp-for="Product.CampaignStart" type="date" class="form-control" />
+                        <span asp-validation-for="Product.CampaignStart" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Kampanj Slutar(valfri)</label>
+                        <input asp-for="Product.CampaignEnd" type="date" class="form-control" />
+                        <span asp-validation-for="Product.CampaignEnd" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Product.CampaignPercent" class=""></label>
+                        <input asp-for="Product.CampaignPercent" type="number" class="form-control" />
+                        <span asp-validation-for="Product.CampaignPercent" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Product.TempPrice" class="control-label"></label>
+                        <input asp-for="Product.TempPrice" type="number" class="form-control" />
+                        <span asp-validation-for="Product.TempPrice" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                       <label asp-for="Product.FkCategoryId" class="control-label">Kategori</label>
                         <select asp-for="Product.FkCategoryId" class="form-control" asp-items="ViewBag.FkCategoryId"></select>
                         <span asp-validation-for="Product.FkCategoryId" class="text-danger"></span>
                     </div>

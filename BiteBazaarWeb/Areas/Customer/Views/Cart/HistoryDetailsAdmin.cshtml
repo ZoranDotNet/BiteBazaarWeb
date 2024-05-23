@@ -6,6 +6,7 @@
             <tr>
                 <th>Antal</th>
                 <th>Produkt</th>
+                <th>Pris</th>
                 <th></th>
             </tr>
         </thead>
@@ -15,6 +16,7 @@
                 <tr class=" text-light">
                     <td>@item.Count</td>
                     <td>@item.Product.Title</td>
+                    <td>@item.PayedPrice.ToString("C0")</td>
                     <td></td>
                 </tr>
             }

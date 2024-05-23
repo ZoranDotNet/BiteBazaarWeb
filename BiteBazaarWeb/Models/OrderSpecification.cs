@@ -10,6 +10,8 @@ namespace BiteBazaarWeb.Models
         public int FkOrderId { get; set; }
         public Order? Order { get; set; }
 
+        [Column(TypeName = "decimal(10,2)")]
+        public decimal PayedPrice { get; set; }
         public int Count { get; set; }
         public int FkProductId { get; set; }
         [NotMapped]

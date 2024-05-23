@@ -23,6 +23,7 @@ namespace BiteBazaarWeb.Models
         [PersonalData]
         public string City { get; set; }
 
-
+        [NotMapped]
+        public string Role { get; set; }
     }
 }

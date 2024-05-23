@@ -17,9 +17,6 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext _context;
-        //private readonly ProductService _apiService;
-
-
         private readonly ProductService _productService;
         private readonly CategoryService _categoryService;
         private readonly ProductImageService _productImageService;
@@ -43,6 +40,17 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
         public async Task<IActionResult> Products()
         {
+            var productList = await _productService.GetProductsAsync();
+
+            //Vi måste kolla om en ev kampanj har börjat.
+            foreach (var item in productList)
+            {
+                if (item.CampaignStart <= DateTime.UtcNow && item.CampaignEnd >= DateTime.UtcNow)
+                {
+                    item.IsCampaign = true;
+                    await _productService.UpdateProductAsync(item.ProductId, item);
+                }
+            }
             var products = await _productService.GetProductsAsync();
 
             ViewData["FkCategoryId"] = new SelectList(await _categoryService.GetCategoriesAsync(), "CategoryId", "Title");
@@ -50,7 +58,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             return View(products);
         }
 
-        public async Task<IActionResult> FilterProducts(int filter = 0)
+        public async Task<IActionResult> FilterProducts(int filter)
         {
             List<Product> products = new();
 
@@ -63,7 +71,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
         }
 
-        public async Task<IActionResult> SearchProducts(string searchString = "")
+        public async Task<IActionResult> SearchProducts(string searchString)
         {
             List<Product> products = new();
 

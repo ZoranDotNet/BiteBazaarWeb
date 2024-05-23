@@ -3,6 +3,7 @@ using BiteBazaarWeb.Models;
 using BiteBazaarWeb.Services;
 using BiteBazaarWeb.Utilities;
 using BiteBazaarWeb.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -10,6 +11,7 @@ using System.Security.Claims;
 namespace BiteBazaarWeb.Areas.Customer.Controllers
 {
     [Area("Customer")]
+    [Authorize]
     public class CartController : Controller
     {
         private readonly AppDbContext _context;
@@ -86,7 +88,6 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
             var user = _context.ApplicationUsers.FirstOrDefault(x => x.Id == userId);
 
-
             foreach (var cart in carts)
             {
                 if (cart.Product.Quantity < cart.Count)
@@ -152,14 +153,25 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
                 {
                     Count = cart.Count,
                     FkProductId = cart.FkProductId,
-                    FkOrderId = order.OrderId
+                    FkOrderId = order.OrderId,
                 };
+
+
+                //Vi kollar om varan var på REA eller inte. Vi sparat vilket pris vi betalat så vi har historik
+                if (cart.Product.TempPrice > 0)
+                {
+                    orderSpec.PayedPrice = cart.Product.TempPrice;
+                }
+                else
+                {
+                    orderSpec.PayedPrice = cart.Product.Price;
+                }
                 _context.OrderSpecifications.Add(orderSpec);
             }
 
             _context.Carts.RemoveRange(carts);
             _context.SaveChanges();
-
+            HttpContext.Session.Clear();
             return View("ConfirmationOrder", "Cart");
         }
 

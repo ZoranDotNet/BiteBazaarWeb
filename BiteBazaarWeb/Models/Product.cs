@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BiteBazaarWeb.Models
 {
@@ -15,14 +14,18 @@ namespace BiteBazaarWeb.Models
 
         public int Quantity { get; set; }
 
-        [Column(TypeName = "decimal(10,2)")]
         public decimal Price { get; set; }
 
         public int FkCategoryId { get; set; }
 
         public Category? Category { get; set; }
         public ICollection<ProductImage>? Images { get; set; }
+        public bool IsCampaign { get; set; } = false;
 
+        public decimal CampaignPercent { get; set; } = 1;
 
+        public decimal TempPrice { get; set; } = 0;
+        public DateTime? CampaignStart { get; set; }
+        public DateTime? CampaignEnd { get; set; }
     }
 }
