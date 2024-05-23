@@ -1,0 +1,56 @@
+﻿
+/* Custom styles for the PRODUCT cards */
+
+.card {
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(87, 25, 87, 0.5), rgba(45, 45, 45, 0));
+    border-radius: 10px;
+    color: white;
+    border: 2px transparent;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    border: 2px solid #cd1da1;
+}
+
+.image-container {
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.image-container img {
+    height: auto;
+    width: 100%;
+    max-height: 200px; /* Justera denna höjd enligt behov */
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.info-container {
+    margin-top: auto;
+    padding: 1rem;
+    border-radius: 0 0 10px 10px;
+    justify-items:center;
+}
+
+.product-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.btn-egen {
+    background-color: #d431ac;
+}
+
+.btn-egen:hover {
+    background-color: #263cbf;
+}
+
+.text-decoration-none {
+    text-decoration: none;
+}
