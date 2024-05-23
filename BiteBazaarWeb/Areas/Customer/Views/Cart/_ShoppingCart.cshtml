@@ -42,14 +42,14 @@
             <div class="d-flex">
                 Antal:
                 <div>
-                    <a class="ms-2"><i class="bi bi-dash-square basket_minus_plus"></i></a>
+                    <a id="minusbutton" data-id="@item.CartId" class="ms-2"><i class="bi bi-dash-square basket_minus_plus"></i></a>
                 </div>
                 <span class="px-1">@item.Count</span>
                 <div>
-                    <a  class="me-3"><i class="bi bi-plus-square basket_minus_plus"></i></a>
+                    <a id="plusbutton" data-id="@item.CartId" class="me-3"><i class="bi bi-plus-square basket_minus_plus"></i></a>
                 </div>
                 <div>
-                    <a  class="me-1"><i class="bi bi-trash basket_trash"></i></a>
+                    <a id="deletebutton" data-id="@item.CartId" class="me-1"><i class="bi bi-trash basket_trash"></i></a>
                 </div>
             </div>
             <div class="fw-bold">
