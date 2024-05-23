@@ -1,10 +1,12 @@
-﻿@model IEnumerable<Product>
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core
+@model IPagedList<BiteBazaarWeb.Models.Product>
 
 <div class="mt-2 bg-secondary p-3 d-flex justify-content-between">
     <select id="filter" asp-items="ViewBag.FkCategoryId" onchange="filterProducts()">
         <option value="" hidden>--Filtrera på Kategori--</option>
     </select>
-    
+
     <div>
         <a asp-action="Products" class="btn btn-success">Visa alla</a>
     </div>
@@ -23,24 +25,26 @@
 <div class="row p-2 mb-2" id="productsContainer">
     <partial name="_ProductList" />
 </div>
-
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Products", new { page, pageSize = Model.PageSize }))
+</div>
 
 @section Scripts {
-   
+
     <script type="text/javascript">
         function filterProducts() {
-           
+
 
             var filter = $('#filter').val();
             var filterTitle = $('#filter option:selected').text();
 
-           
+
             $.ajax({
                 url: '/Customer/Home/FilterProducts',
                 type: 'GET',
                 data: { filter: filter },
                 success: function (result) {
-                   
+
                     $('#productsContainer').html(result);
 
                     if (filter != 0) {
@@ -51,10 +55,10 @@
 
                     $('#filter').val('');
                 }
-                
+
             });
-           
-            
+
+
         }
         function searchProducts() {
             var search = $('#searchString').val();
@@ -78,14 +82,14 @@
 
             });
         }
-        
+
         $(document).ready(function () {
             $('#searchButton').click(function () {
                 searchProducts();
             });
-           
+
         });
 
-       
+
     </script>
 }

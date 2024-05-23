@@ -53,7 +53,8 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
                 }
             }
             await _context.SaveChangesAsync();
-            return View(cartItems);
+            //return View(cartItems);
+            return PartialView("_ShoppingCart", cartItems);
         }
 
         //skapa order checka ut
@@ -294,7 +295,32 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
                 TempData["error"] = "För få varor i lager";
             }
 
-            return RedirectToAction(nameof(Index));
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            //Hämtar den inloggades cart
+            var cartItems = _context.Carts.Where(x => x.FkApplicationUserId == userId).ToList();
+
+            var products = await _productService.GetProductsAsync();
+
+            //Loopar ut alla produkter för att på samma gång loppa ut alla cart's. Där FkProductId i Cart objekten matchar med ett ProductId på en produkt
+            //så sätter vi att alla properties i den Product navigering som ligger i Cart fylls från API:et
+            foreach (var item in products)
+            {
+                foreach (var basket in cartItems)
+                {
+                    if (basket.FkProductId == item.ProductId)
+                    {
+                        basket.Product = item;
+                        _context.Carts.Update(basket);
+                    }
+                }
+            }
+            await _context.SaveChangesAsync();
+
+
+            //return RedirectToAction(nameof(Index));
+            return PartialView("_ShoppingCart", cartItems);
         }
 
         public async Task<IActionResult> Minus(int id)

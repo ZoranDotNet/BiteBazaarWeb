@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\css\ViewSpecific\Admin.css" />
+    <_ContentIncludedByDefault Remove="wwwroot\css\ViewSpecific\Shoppingcart.css" />
   </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
@@ -21,5 +22,7 @@
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="Stripe.net" Version="44.8.0" />
+		<PackageReference Include="X.PagedList" Version="9.1.2" />
+		<PackageReference Include="X.PagedList.Mvc.Core" Version="9.1.2" />
 	</ItemGroup>
 </Project>

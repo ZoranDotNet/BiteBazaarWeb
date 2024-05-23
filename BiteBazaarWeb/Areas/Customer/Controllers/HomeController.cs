@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 using System.Security.Claims;
+using X.PagedList;
 
 namespace BiteBazaarWeb.Areas.Customer.Controllers
 {
@@ -38,8 +39,12 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Products()
+        public async Task<IActionResult> Products(int? page, int? pageSize)
         {
+            int defaultPageSize = 10;
+            int pageNumber = page ?? 1;
+            int currentPageSize = pageSize ?? defaultPageSize;
+
             var productList = await _productService.GetProductsAsync();
 
             //Vi måste kolla om en ev kampanj har börjat.
@@ -53,9 +58,12 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             }
             var products = await _productService.GetProductsAsync();
 
+
+            var pagedProducts = productList.ToPagedList(pageNumber, currentPageSize);
+
             ViewData["FkCategoryId"] = new SelectList(await _categoryService.GetCategoriesAsync(), "CategoryId", "Title");
 
-            return View(products);
+            return View(pagedProducts);
         }
 
         public async Task<IActionResult> FilterProducts(int filter)

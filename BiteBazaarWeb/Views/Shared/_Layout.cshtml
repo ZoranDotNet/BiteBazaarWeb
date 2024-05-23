@@ -73,21 +73,20 @@
                         {
                             var count = HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCount);
                             <div class="nav-item me-2">
-                                <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index">
-                                    <button class="position-relative border-0 bg-transparent" style="font-size: 18px"><i class="bi bi-cart3"></i>
-                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
-                                            @count
-                                        </span>
-                                     </button>
-                                 </a>
+                                <button id="openModal" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="position-relative border-0 bg-transparent" style="font-size: 18px">
+                                    <i class="bi bi-cart3"></i>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
+                                        @count
+                                    </span>
+                                </button>
                             </div>
-                         }
-                         else
-                         {
+                        }
+                        else
+                        {
                             <div class="nav-item me-2">
                                 <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index"><i class="bi bi-cart3"></i></a>
                             </div>
-                         }
+                        }
 
                     }
 
@@ -102,6 +101,20 @@
             <partial name="_Notification" />
             @RenderBody()
         </main>
+    </div>
+
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="modalContent">
+
+                </div>
+
+            </div>
+        </div>
     </div>
 
 
@@ -119,12 +132,11 @@
                     <img src="/images/logos/facebook_logo.png" alt="socialmedia logo" style="height:30px" />
                     <img src="/images/logos/Instagram.png" alt="socialmedia logo" style="height:30px" />
                 </div>
-
             </div>
-
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <script>
         $(document).ready(function () {
 
@@ -135,6 +147,44 @@
                 $('#cartCount').removeClass('visually-hidden')
             }
         })
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#openModal').click(function () {
+                $.ajax({
+                    url: '/Customer/Cart/Index',
+                    type: 'GET',
+                    success: function (data) {
+                        console.log('inne i success', data)
+                        $('#modalContent').html(data);
+                        $('#myModal').modal('show');
+                    }
+                });
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            console.log('innan click')
+            $(document).on('click', '#plusbutton', function () {
+                console.log('inne i function')
+                var cartId = $(this).data('id');
+                $.ajax({
+                    url: '/Customer/Cart/Plus',
+                    type: 'POST',
+                    data: { id: cartId },
+                    success: function (data) {
+                        console.log('AJAX-svar:', data);
+                        $('#modal-Content').html(data);
+                        
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('AJAX-fel:', error);
+                    }
+                });
+            });
+        });
     </script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

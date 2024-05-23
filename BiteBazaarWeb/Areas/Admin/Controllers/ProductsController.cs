@@ -5,6 +5,7 @@ using BiteBazaarWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using X.PagedList;
 
 namespace BiteBazaarWeb.Areas.Admin.Controllers
 {
@@ -25,14 +26,21 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
 
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page, int? pageSize)
         {
+            int defaultPageSize = 15;
+            int pageNumber = page ?? 1;
+            int currentPageSize = pageSize ?? defaultPageSize;
+
             var products = await _productService.GetProductsAsync();
             if (products == null || !products.Any())
             {
                 return View(new List<Product>());
             }
-            return View(products);
+
+            var pagedProducts = products.ToPagedList(pageNumber, currentPageSize);
+
+            return View(pagedProducts);
         }
 
 
