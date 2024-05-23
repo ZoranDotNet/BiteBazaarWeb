@@ -1,0 +1,18 @@
+﻿.wrapper {
+    background-color: #c0c0c0;
+}
+
+.left-wrapper p{
+    color: mediumpurple;
+    font-weight:600;
+    font-size: 1.3rem;
+}
+
+.left-wrapper input{
+    background-color: lightgrey;
+}
+
+input.form-control:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.1rem mediumpurple;
+}
