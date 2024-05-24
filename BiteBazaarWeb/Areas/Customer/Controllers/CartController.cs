@@ -152,12 +152,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             _context.Carts.RemoveRange(carts);
             _context.SaveChanges();
             HttpContext.Session.Clear();
-            return RedirectToAction("ConfirmationOrder", "Cart");
-        }
-
-        public IActionResult ConfirmationOrder()
-        {
-            return View();
+            return View("ConfirmationOrder", "Cart");
         }
 
         public IActionResult Terms()

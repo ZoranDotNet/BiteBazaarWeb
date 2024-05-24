@@ -18,7 +18,7 @@
         <div class="row products-details">
             <h2><strong>@Model.Product.Title</strong></h2>
             <div class="col-lg-6">
-                <div class="p-2">
+                <div class="p-2 mx-auto">
                     @if (Model.Product.Images != null && Model.Product.Images.Count > 0)
                     {
                         @foreach (var item in Model.Product.Images)
@@ -34,7 +34,7 @@
             </div>
 
             <div class="col-lg-6">
-                <div class="col-11 col-md-8 col-lg-12 shadow p-4 mx-auto text-center info-card ">
+                <div class="col-md-8 col-lg-12 shadow p-4 mx-auto text-center info-card ">
 
                     <p><strong>Produktinformation:</strong><br /> @Model.Product.Description</p>
                     @if (Model.Product.Quantity <= 5)
