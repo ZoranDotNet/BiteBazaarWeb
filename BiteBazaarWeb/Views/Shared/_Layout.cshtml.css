@@ -59,7 +59,7 @@ button.accept-policy {
     background-color: #2d2d2d;   
 }
 
-.dropdowv.dropdown-menu.dropdown-item {
+.dropdown.dropdown-menu.dropdown-item {
     background-color: red;
     color: black;
 }

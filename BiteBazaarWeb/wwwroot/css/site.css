@@ -44,9 +44,11 @@ body {
     font-weight: 700;
     color:#fff;
 }
-.egenKnapp:hover {
-    
-}
+    .egenKnapp:hover {
+        
+        color: black;
+        border: 2px solid black;
+    }
 
 .modal-header{
     border-bottom: none;
