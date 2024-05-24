@@ -71,14 +71,14 @@
                     
 
                     <div class="">
-                        <button id="registerSubmit" type="submit" class="">Registrera</button>
+                        <button id="registerSubmit" type="submit" class="pinkButton">Registrera</button>
                     </div>
                 </form>
            
 
             <div class="col-md-12">
                 <section>
-                    <p class="pt-3 text-center">eller</p>
+                    <p class="pt-3 text-center">eller använd:</p>
                     <div class="text-center">
                         
                         @{
@@ -95,8 +95,7 @@
                                         <p>
                                             @foreach (var provider in Model.ExternalLogins!)
                                             {
-                                                var logoPath = provider.Name == "Facebook" ? "~/images/logos/facebookLogo.png" : "~/images/logos/googleLogo.png";
-                                                <button type="submit" class="btn btn-white p-0 border-0 ms-2 me-2" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><img src="@Url.Content(logoPath)" style="height:50px" /></button>
+                                                <button type="submit" class="bg-transparent m-0 p-0 border-0 ms-2 me-2" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><img src="~/images/logos/@provider.DisplayName.ToLower()_logo.png" style="height:40px" /></button>
                                             }
 
 
