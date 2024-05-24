@@ -1,0 +1,122 @@
+﻿.text-center {
+    text-align: center;
+    margin-top: 20px;
+}
+/* Image Carousel*/
+.carousel {
+    max-width: 80%;
+    margin: 0 auto; 
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 10%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #5d008fb3;
+    border-radius: 50%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon:hover {
+    background-color: #6a0072f3; 
+    border-radius: 50%;
+}
+
+.carousel img {
+    max-height: 350px;
+    object-fit: fill;
+}
+
+
+/* 4 Image GRID*/
+/* Header sektion */
+.home-head {
+    margin-top: 20px;
+}
+
+    .home-head h1 {
+        font-size: 2.5em;
+    }
+
+    .home-head p {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+    }
+
+/* Bildgalleri */
+.image-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Ger utrymme mellan bilderna */
+    width: 100%;
+}
+
+    .image-grid a {
+        flex: 1 1 calc(50% - 10px); /* Gör att varje länk tar upp 50% av bredden minus mellanrummet */
+        text-decoration: none;
+    }
+
+    .image-grid img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px; /* Rundar hörnen på bilderna */
+        object-fit: cover;
+    }
+
+@media (max-width: 768px) {
+    .image-grid a {
+        flex: 1 1 100%; /* Gör att varje bild tar upp 100% av bredden på mindre skärmar */
+    }
+}
+
+/* Footer */
+.homefooter-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    flex-direction:column;
+    background: linear-gradient(to bottom, rgba(87, 25, 87, 0.5), rgba(45, 45, 45, 0.3));
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 15px; /* Runda hörn */
+    margin-top: 20px;
+}
+
+    .homefooter-container h5 {
+        font-size: 1.8em;
+        margin-top: 10px;
+        margin-bottom: 2px;
+    }
+
+    .homefooter-container p {
+        font-size: 1em;
+        margin-bottom: 20px;
+    }
+
+.homefooter-inner-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top:45px;
+}
+
+.homefooter-info {
+    width: 45%;
+    padding: 20px;
+}
+
+    .homefooter-info h6 {
+        font-size: 1.6em;
+        margin-bottom: 10px;
+    }
+
+
+@media (max-width: 768px) {
+    .homefooter-info {
+        width: 100%;
+    }
+}
