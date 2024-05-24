@@ -2,17 +2,23 @@
 @using X.PagedList.Mvc.Core
 @model IPagedList<BiteBazaarWeb.Models.Product>
 
+<link href="~/css/ViewSpecific/Order.css" rel="stylesheet" />
+
 @{
     ViewData["Title"] = "Index";
 }
 
+<div class="order-card">
+    <div class="p-3">
+        <div class="text-center mb-3">
 <h1>Produktöversikt</h1>
 
 <p>
     <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-square"></i> Lägg till</a>
 </p>
-
-<table class="table text-light">
+<div class="container p-4">
+    <div class="table-responsive">
+        <table class="table table-custom">
     <thead>
         <tr>
             <th>Titel</th>
@@ -40,7 +46,7 @@
             </th>
         </tr>
     </thead>
-    <tbody class="text-light">
+    <tbody">
         @foreach (var item in Model)
         {
             <tr>
@@ -59,13 +65,13 @@
                 }
                 else
                 {
-                    <td></td>
+                    <td>-</td>
                 }
                 <td>
-                    @(item.CampaignStart.HasValue ? item.CampaignStart.Value.ToShortDateString() : "")
+                    @(item.CampaignStart.HasValue ? item.CampaignStart.Value.ToShortDateString() : "-")
                 </td>
                 <td>
-                    @(item.CampaignEnd.HasValue ? item.CampaignEnd.Value.ToShortDateString() : "")
+                    @(item.CampaignEnd.HasValue ? item.CampaignEnd.Value.ToShortDateString() : "-")
                 </td>
                 @if (item.TempPrice != 0)
                 {
@@ -73,7 +79,7 @@
                 }
                 else
                 {
-                    <td></td>
+                    <td>-</td>
                 }
 
                 <td>
@@ -87,15 +93,21 @@
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn-sm btn-success text-decoration-none"><i class="bi bi-pencil-square"></i> Edit</a>
+                    <br />
                     <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn-sm btn-danger text-decoration-none"><i class="bi bi-trash"></i> Radera</a>
+                                        <br />
+
                     <a asp-controller="ProductImages" asp-action="Create" asp-route-id="@item.ProductId" class="btn-sm btn-success text-decoration-none"><i class="bi bi-plus-square"></i> Lägg till Bild</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+</div>
 <div>
     @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }))
 </div>
-
-
+</div>
+        </div>
+    </div>
+</div>
