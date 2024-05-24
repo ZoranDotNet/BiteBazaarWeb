@@ -73,6 +73,7 @@
     border-collapse: collapse;
     border-spacing: 0;
     color: inherit;
+    border-radius: 15px;
 }
 
     .table-custom th,
