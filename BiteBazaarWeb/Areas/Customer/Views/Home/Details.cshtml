@@ -21,14 +21,37 @@
                 <div class="p-2 mx-auto">
                     @if (Model.Product.Images != null && Model.Product.Images.Count > 0)
                     {
-                        @foreach (var item in Model.Product.Images)
-                        {
-                            <img src="@item.URL" style="width:400px;" class="mb-4 me-4 img-fluid" />
-                        }
+                        <div id="carouselExampleIndicators" class="carousel slide">
+                            <div class="carousel-indicators">
+                                @foreach (var item in Model.Product.Images.Select((image, index) => new { Image = image, Index = index }))
+                                {
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@item.Index" class="@(item.Index==0?"active":"")" aria-current="true" aria-label="Slide 1"></button>
+                                }
+
+
+                            </div>
+                            <div class="carousel-inner">
+                                @foreach (var item in Model.Product.Images.Select((image, index) => new { Image = image, Index = index }))
+                                {
+                                    <div class="@(item.Index==0?"carousel-item active":"carousel-item")">
+                                        <img src="@item.Image.URL" class="d-block w-100" alt="Product Picture">
+                                    </div>
+                                }
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+
                     }
                     else
                     {
-                        <img src="https://placehold.co/100x100" class="img-fluid rounded" />
+                        <img src="https://placehold.co/300x300" class="img-fluid rounded" />
                     }
                 </div>
             </div>
