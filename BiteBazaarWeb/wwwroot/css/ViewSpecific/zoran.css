@@ -6,12 +6,20 @@
 .productSearchBar{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     background-color: #007fff;
     border-radius: 8px;
     
 }
 
-.filterWrapper{
+.objPerPage{
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+
+.filterWrapper {
     display: flex;
     gap: 10px;
 }
