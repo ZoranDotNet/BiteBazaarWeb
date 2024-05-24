@@ -14,7 +14,7 @@
 }
 
 .table-custom {
-    background: transparent ; 
+    background: transparent;
 }
 
 .table-custom {
@@ -22,6 +22,7 @@
     border-collapse: collapse;
     border-spacing: 0;
     color: inherit;
+    border-radius: 15px;
 }
 
     .table-custom th,
@@ -34,6 +35,7 @@
 
     .table-custom th {
         background-color: rgba(0, 0, 0, 0.1);
+
     }
 
     .table-custom tr:last-child td {
