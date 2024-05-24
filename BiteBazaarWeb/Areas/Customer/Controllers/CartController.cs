@@ -291,7 +291,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
         public async Task<IActionResult> Minus(int id)
         {
             var cart = await _context.Carts.FirstOrDefaultAsync(x => x.CartId == id);
-            var product = await _productService.GetProductByIdAsync(cart.FkProductId);
+            var product = await _productService.GetProductByIdAsync(cart!.FkProductId);
             cart.Product = product;
 
             if (cart.Count == 1)

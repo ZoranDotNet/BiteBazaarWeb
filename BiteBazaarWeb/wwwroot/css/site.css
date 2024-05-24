@@ -38,19 +38,30 @@ body {
     padding-bottom: 100px;
 }
 
-.egenKnapp{
-    border-radius: 40px;
+.egenKnapp {
+    border-radius: 30px;
     background: var(--clr-pink);
     font-weight: 700;
-    color:#fff;
+    color: #fff;
+    padding: 5px;
+    max-width: 85px;
+    text-align: center;
 }
     .egenKnapp:hover {
         
-        color: black;
-        border: 2px solid black;
+        
+        
     }
 
 .modal-header{
     border-bottom: none;
     padding-bottom: 0;
+}
+
+.confirmationKnapp{
+    background: var(--clr-pink);
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 25px;
+    border-radius: 15px;
 }

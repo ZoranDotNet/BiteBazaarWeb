@@ -15,14 +15,14 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark mb-3">
+        <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-dark mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="Customer" asp-controller="Home" asp-action="Index"><img style="height:6vh" src="~/images/logos/ByteBazaarLogov2.png" /></a>
-                <button class="navbar-toggler bg-dark" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button class="navbar-toggler hamburger" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="Customer" asp-controller="Home" asp-action="Index">Hem</a>
@@ -32,16 +32,16 @@
                         </li>
                         @if (User.IsInRole(SD.Role_Admin))
                         {
-                            <li class="nav-item dropdown me-3 text-light">
+                            <li class="nav-item dropdown me-3">
                                 <a class="nav-link text-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Administrera
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item text-light" asp-area="Admin" asp-controller="Categories" asp-action="Index">Kategorier</a></li>
-                                    <li><a class="dropdown-item text-light" asp-area="Admin" asp-controller="Products" asp-action="Index">Produkter</a></li>
-                                    <li><a class="dropdown-item text-light" asp-area="Customer" asp-controller="Cart" asp-action="OrderHistoryAdmin">Ordrar</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item text-light" asp-area="Admin" asp-controller="Admin" asp-action="ManageUsers">Hantera användare</a></li>
+                                    <li class="dropdown-item"><a class="nav-link text-light" asp-area="Admin" asp-controller="Categories" asp-action="Index">Kategorier</a></li>
+                                    <li class="dropdown-item"><a class="nav-link text-light" asp-area="Admin" asp-controller="Products" asp-action="Index">Produkter</a></li>
+                                    <li class="dropdown-item"><a class="nav-link text-light" asp-area="Customer" asp-controller="Cart" asp-action="OrderHistoryAdmin">Ordrar</a></li>
+                                    <li class="dropdown-item"><hr class="dropdown-divider"></li>
+                                    <li class="dropdown-item"><a class="nav-link text-light" asp-area="Admin" asp-controller="Admin" asp-action="ManageUsers">Hantera användare</a></li>
 
                                 </ul>
                             </li>
@@ -65,15 +65,16 @@
                         }
 
                     </ul>
-
+                   
                     <partial name="_LoginPartial" />
+                 
                     @if (User.Identity.IsAuthenticated)
                     {
 
                         @if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCount) != null)
                         {
                             var count = HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCount);
-                            <div class="nav-item me-2">
+                            <div class="nav-item me-2 mt-4 mt-md-0">
                                 <button id="openModal" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="position-relative border-0 bg-transparent" style="font-size: 18px">
                                     <i class="bi bi-cart3 text-light"></i>
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">
@@ -116,10 +117,10 @@
     </div>
 
 
-    <footer class="footer text-muted mt-auto">
+    <footer class="footer text-mutedmt-auto">
         <div class="container d-flex justify-content-between">
-            <div>
-                &copy; 2024 - <img style="height:40px;" src="~/images/logos/ByteBazaarLogo.png" />
+            <div class="text-white">
+                &copy; 2024 - <img style="height:40px;" src="~/images/logos/ByteBazaarLogov2.png" />
             </div>
             <div class="d-flex align-items-center me-3">
                 <div class="me-2 p-0">
