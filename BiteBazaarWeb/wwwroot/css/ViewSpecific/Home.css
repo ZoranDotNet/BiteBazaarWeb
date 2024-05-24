@@ -78,7 +78,7 @@
     justify-content: space-around;
     flex-wrap: wrap;
     flex-direction: column;
-    background: linear-gradient(to bottom, rgba(87, 25, 87, 0.5), rgba(45, 45, 45, 0)
+    background: linear-gradient(to bottom, rgba(87, 25, 87, 0.5), rgba(45, 45, 45, 0));
     color: white;
     padding: 20px;
     text-align: center;
