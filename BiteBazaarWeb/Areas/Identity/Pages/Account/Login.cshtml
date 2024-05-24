@@ -1,92 +1,92 @@
 ﻿@page
 @model LoginModel
 
-    <link href="~/css/ViewSpecific/Login.css" rel="stylesheet" />
+<link href="~/css/ViewSpecific/Login.css" rel="stylesheet" />
 
-    <div class="wrapper mx-auto">
-        <h2>Logga in</h2>
-        <section class="login">
-            <form id="account" method="post">
+<div class="wrapper mx-auto">
+    <h2>Logga in</h2>
+    <section class="login">
+        <form id="account" method="post">
 
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-
-                <div class="text-center">
-                    <p>
-                        Har du inget konto? 
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl"> Registrera här</a>
-                    </p>
-                </div>
-                <div class="input-box">
-                    <span class="icon"><i class="bi bi-envelope"></i></span>
-                    <input asp-for="Input.Email" aria-required="true" required />
-                    <label>Email</label>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="input-box">
-                    <span class="icon"><i class="bi bi-lock"></i></span>
-                    <input asp-for="Input.Password" aria-required="true" required />
-                    <label>Lösenord</label>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="input-rememberMe">
-                    <label asp-for="Input.RememberMe">
-                        <input class="" asp-for="Input.RememberMe" />
-                        Kom ihåg mig?
-                    </label>
-                </div>
-                <div>
-                    <button id="login-submit" type="submit" class="">Logga in</button>
-                </div>
-                
-                    
-                    <div class="d-flex justify-content-between mt-5 extra-links">
-                      
-                        <p>
-                            <a id="forgot-password" asp-page="./ForgotPassword">Glömt lösenordet?</a>
-                        </p>
-                        <p>
-                            <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Skicka bekräftelse Email</a>
-                        </p>
-                    </div>
-                   
-                
-            </form>
-        </section>
-
-
-        <section>
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
             <div class="text-center">
-
-                @if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p class="text-center pt-3">eller</p>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-
-                                    <button type="submit" class="btn btn-white p-0 border-0 ms-2 me-2" name="provider" value="@provider.Name" title="Log in using your                        @provider.DisplayName account">
-                                        <img src="~/images/logos/                               @provider.DisplayName.ToLower()_logo.png" style="height:50px" />
-                                    </button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-
+                <p>
+                    Har du inget konto?
+                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl"> Registrera här</a>
+                </p>
             </div>
-        </section>
+            <div class="input-box">
+                <span class="icon"><i class="bi bi-envelope"></i></span>
+                <input asp-for="Input.Email" aria-required="true" required />
+                <label>Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="input-box">
+                <span class="icon"><i class="bi bi-lock"></i></span>
+                <input asp-for="Input.Password" aria-required="true" required />
+                <label>Lösenord</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="input-rememberMe">
+                <label asp-for="Input.RememberMe">
+                    <input class="" asp-for="Input.RememberMe" />
+                    Kom ihåg mig?
+                </label>
+            </div>
+            <div>
+                <button id="login-submit" type="submit" class="pinkButton">Logga in</button>
+            </div>
 
-    </div>
+
+            <div class="d-flex justify-content-between mt-5 extra-links">
+
+                <p>
+                    <a id="forgot-password" asp-page="./ForgotPassword">Glömt lösenordet?</a>
+                </p>
+                <p>
+                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Skicka bekräftelse Email</a>
+                </p>
+            </div>
+
+
+        </form>
+    </section>
+
+
+    <section>
+
+        <div class="text-center">
+
+            @if ((Model.ExternalLogins?.Count ?? 0) == 0)
+            {
+
+            }
+            else
+            {
+                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                    <div>
+                        <p class="text-center pt-3">eller använd:</p>
+                        <p>
+                            @foreach (var provider in Model.ExternalLogins!)
+                            {
+
+                                <button type="submit" class="bg-transparent p-0 border-0 mt-0 ms-2 me-2" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                    <img src="~/images/logos/@provider.DisplayName.ToLower()_logo.png" style="height:40px" />
+                                </button>
+                            }
+                        </p>
+                    </div>
+                </form>
+            }
+
+        </div>
+    </section>
+
+</div>
 
 
 
-    @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
-    }
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

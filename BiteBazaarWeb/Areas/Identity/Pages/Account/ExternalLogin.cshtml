@@ -5,13 +5,12 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-<h2 id="external-login-title">Associate your @Model.ProviderDisplayName account.</h2>
+<h2 id="external-login-title" class="text-white">Koppla ditt @Model.ProviderDisplayName konto.</h2>
 <hr />
 
 <p id="external-login-description" class="text-info">
-    You've successfully authenticated with <strong>@Model.ProviderDisplayName</strong>.
-    Please enter an email address for this site below and click the Register button to finish
-    logging in.
+    Din identifiering med <strong>@Model.ProviderDisplayName</strong> lyckades.
+    Fyll i dina uppgifter och tryck sedan på registrera för att logga in. 
 </p>
 
 <div class="row">
@@ -19,9 +18,34 @@
         <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="email" placeholder="Please enter your email."/>
-                <label asp-for="Input.Email" class="form-label"></label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="email" placeholder="Please enter your email." />
+                <label asp-for="Input.Email" class="form-label">Email</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Name" class="form-control" autocomplete="email" placeholder="Please enter your email." />
+                <label asp-for="Input.Name" class="form-label">Namn</label>
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="email" placeholder="Please enter your email." />
+                <label asp-for="Input.PhoneNumber" class="form-label">Mobilnummer</label>
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.StreetAddress" class="form-control" autocomplete="email" placeholder="Please enter your email." />
+                <label asp-for="Input.StreetAddress" class="form-label">Gatuadress</label>
+                <span asp-validation-for="Input.StreetAddress" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.ZipCode" class="form-control" autocomplete="email" placeholder="Please enter your email." />
+                <label asp-for="Input.ZipCode" class="form-label">Postnummer</label>
+                <span asp-validation-for="Input.ZipCode" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.City" class="form-control" autocomplete="email" placeholder="Please enter your email." />
+                <label asp-for="Input.City" class="form-label">Ort</label>
+                <span asp-validation-for="Input.City" class="text-danger"></span>
             </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>

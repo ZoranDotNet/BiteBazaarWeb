@@ -2,21 +2,19 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
+using BiteBazaarWeb.Data;
+using BiteBazaarWeb.Models;
+using BiteBazaarWeb.Utilities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Encodings.Web;
 
 namespace BiteBazaarWeb.Areas.Identity.Pages.Account
 {
@@ -29,10 +27,12 @@ namespace BiteBazaarWeb.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
+        private readonly AppDbContext _context;
 
         public ExternalLoginModel(
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
+            AppDbContext context,
             IUserStore<IdentityUser> userStore,
             ILogger<ExternalLoginModel> logger,
             IEmailSender emailSender)
@@ -43,6 +43,7 @@ namespace BiteBazaarWeb.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         /// <summary>
@@ -84,8 +85,18 @@ namespace BiteBazaarWeb.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+            [Required(ErrorMessage = "Namn är obligatoriskt")]
+            public string Name { get; set; }
+            [Required(ErrorMessage = "Gatuadress är obligatoriskt")]
+            public string StreetAddress { get; set; }
+            [Required(ErrorMessage = "Postnummer är obligatoriskt")]
+            public string ZipCode { get; set; }
+            [Required(ErrorMessage = "Ort är obligatoriskt")]
+            public string City { get; set; }
+            [Required(ErrorMessage = "Mobilnummer är obligatoriskt")]
+            public string PhoneNumber { get; set; }
         }
-        
+
         public IActionResult OnGet() => RedirectToPage("./Login");
 
         public IActionResult OnPost(string provider, string returnUrl = null)
@@ -116,6 +127,11 @@ namespace BiteBazaarWeb.Areas.Identity.Pages.Account
             if (result.Succeeded)
             {
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                int count = _context.Carts.Where(x => x.FkApplicationUserId == userId).Count();
+                HttpContext.Session.SetInt32(SD.SessionCount, count);
                 return LocalRedirect(returnUrl);
             }
             if (result.IsLockedOut)
@@ -131,7 +147,8 @@ namespace BiteBazaarWeb.Areas.Identity.Pages.Account
                 {
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                        Name = info.Principal.FindFirstValue(ClaimTypes.Name)
                     };
                 }
                 return Page();
@@ -155,10 +172,17 @@ namespace BiteBazaarWeb.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                user.Name = Input.Name;
+                user.PhoneNumber = Input.PhoneNumber;
+                user.StreetAddress = Input.StreetAddress;
+                user.ZipCode = Input.ZipCode;
+                user.City = Input.City;
+
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, SD.Role_Customer);
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
@@ -183,6 +207,13 @@ namespace BiteBazaarWeb.Areas.Identity.Pages.Account
                         }
 
                         await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
+
+
+                        var claimsIdentity = (ClaimsIdentity)User.Identity;
+                        var loggingInUserId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                        int count = _context.Carts.Where(x => x.FkApplicationUserId == loggingInUserId).Count();
+                        HttpContext.Session.SetInt32(SD.SessionCount, count);
                         return LocalRedirect(returnUrl);
                     }
                 }
@@ -197,16 +228,16 @@ namespace BiteBazaarWeb.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private IdentityUser CreateUser()
+        private ApplicationUser CreateUser()
         {
             try
             {
-                return Activator.CreateInstance<IdentityUser>();
+                return Activator.CreateInstance<ApplicationUser>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
+                    $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the external login page in /Areas/Identity/Pages/Account/ExternalLogin.cshtml");
             }
         }
