@@ -3,8 +3,8 @@
 }
 <link href="~/css/ViewSpecific/Home.css" rel="stylesheet" />
 
-<div class="text-center text-light">
-    <section class="home-head">
+<div class="home-wrapper">
+    <section class="home-head text-center text-light">
         <h1>Din one-stop-shop</h1>
         <p>Allt som finns på galaxen inom IT, teknik och gaming på ett ställe.</p>
     </section>
@@ -39,10 +39,12 @@
         <div class="homefooter-container">
             <h5>ByteBazaar - Din one-stop-shop</h5>
             <p>Allt inom IT, teknik och gaming på ett ställe.</p>
-            <p>Vi erbjuder dig de senaste produkterna till fantastiska priser, 
-                och vårt mål är att göra tekniken tillgänglig och rolig för alla. 
-                Vårt team består av fyra passionerade teknikälskare som är lika engagerade i att 
-                leverera högkvalitativa produkter som en Jedi är i att skydda galaxen:</p>
+            <p>
+                Vi erbjuder dig de senaste produkterna till fantastiska priser,
+                och vårt mål är att göra tekniken tillgänglig och rolig för alla.
+                Vårt team består av fyra passionerade teknikälskare som är lika engagerade i att
+                leverera högkvalitativa produkter som en Jedi är i att skydda galaxen:
+            </p>
 
             <div class="homefooter-inner-container">
                 <div class="homefooter-info">
@@ -50,8 +52,10 @@
                     <p>Email: support@bytebazaar.com</p>
                     <p>Telefon: 012-345 6789</p>
                     <p>Adress: Teknikvägen 123, 123 45 Teknologistan</p>
-                    <p>Vi är alltid redo att hjälpa dig, oavsett om du behöver vägledning genom teknikens galax eller 
-                        bara vill chatta om det senaste inom gaming. Må kraften vara med dig på dina tekniska äventyr!</p>
+                    <p>
+                        Vi är alltid redo att hjälpa dig, oavsett om du behöver vägledning genom teknikens galax eller
+                        bara vill chatta om det senaste inom gaming. Må kraften vara med dig på dina tekniska äventyr!
+                    </p>
                 </div>
 
                 <div class="homefooter-info">
@@ -59,11 +63,11 @@
                     <p>Ett team av fyra vänner med en passion för teknik.</p>
                     <p><strong>Angelica</strong> - Vår IT-expert och problemlösare. Hon är som vår egen Yoda, vis och kunnig, och kan lösa alla tekniska problem med en enkel handviftning. Angelica's djupa förståelse för teknikens kraft gör henne ovärderlig i vårt team.</p>
 
-<p><strong>Emil</strong> - Vår spelguru och entusiast. Som en modern Han Solo navigerar Emil genom den ständigt föränderliga spelvärlden med skicklighet och mod. Han håller alltid ett öga på de senaste trenderna och ser till att vi erbjuder de hetaste spelen och den bästa spelutrustningen.</p>
+                    <p><strong>Emil</strong> - Vår spelguru och entusiast. Som en modern Han Solo navigerar Emil genom den ständigt föränderliga spelvärlden med skicklighet och mod. Han håller alltid ett öga på de senaste trenderna och ser till att vi erbjuder de hetaste spelen och den bästa spelutrustningen.</p>
 
-<p><strong>Theres</strong> - Vår marknadsföringsmästare. Theres är vår Leia, en mästare i kommunikation och strategi. Hon sprider ordet om våra fantastiska produkter över hela universum och ser till att våra kunder alltid är informerade och engagerade.</p>
+                    <p><strong>Theres</strong> - Vår marknadsföringsmästare. Theres är vår Leia, en mästare i kommunikation och strategi. Hon sprider ordet om våra fantastiska produkter över hela universum och ser till att våra kunder alltid är informerade och engagerade.</p>
 
-<p><strong>Zoran</strong> - Vår produktchef och kurator. Zoran, likt en teknisk Obi-Wan Kenobi, ser till att vi alltid har de bästa och mest eftertraktade produkterna på lager. Hans noggranna urvalsprocess garanterar att varje produkt vi erbjuder håller högsta möjliga kvalitet.</p>
+                    <p><strong>Zoran</strong> - Vår produktchef och kurator. Zoran, likt en teknisk Obi-Wan Kenobi, ser till att vi alltid har de bästa och mest eftertraktade produkterna på lager. Hans noggranna urvalsprocess garanterar att varje produkt vi erbjuder håller högsta möjliga kvalitet.</p>
 
                 </div>
             </div>
@@ -71,27 +75,31 @@
     </footer>
 </div>
 
-<script>
-    let currentIndex = 0;
-    function showSlide(index) {
-        const slides = document.querySelectorAll('.carousel-item');
-        slides.forEach((slide, i) => {
-            slide.classList.remove('active');
-            if (i === index) {
-                slide.classList.add('active');
-            }
-        });
-    }
+@section Scripts{
+    <script>
+        let currentIndex = 0;
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.carousel-item');
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+        }
 
-    function prevSlide() {
-        const slides = document.querySelectorAll('.carousel-item');
-        currentIndex = (currentIndex === 0) ? slides.length - 1 : currentIndex - 1;
-        showSlide(currentIndex);
-    }
+        function prevSlide() {
+            const slides = document.querySelectorAll('.carousel-item');
+            currentIndex = (currentIndex === 0) ? slides.length - 1 : currentIndex - 1;
+            showSlide(currentIndex);
+        }
 
-    function nextSlide() {
-        const slides = document.querySelectorAll('.carousel-item');
-        currentIndex = (currentIndex === slides.length - 1) ? 0 : currentIndex + 1;
-        showSlide(currentIndex);
-    }
-</script>
+        function nextSlide() {
+            const slides = document.querySelectorAll('.carousel-item');
+            currentIndex = (currentIndex === slides.length - 1) ? 0 : currentIndex + 1;
+            showSlide(currentIndex);
+        }
+    </script>
+}
+
+

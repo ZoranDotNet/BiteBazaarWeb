@@ -15,14 +15,14 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-dark mb-3">
+        <nav class="navbar navbar-expand-lg navbar-toggleable-lg navbar-dark mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="Customer" asp-controller="Home" asp-action="Index"><img style="height:6vh" src="~/images/logos/ByteBazaarLogov2.png" /></a>
                 <button class="navbar-toggler hamburger" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="Customer" asp-controller="Home" asp-action="Index">Hem</a>
@@ -74,7 +74,7 @@
                         @if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCount) != null)
                         {
                             var count = HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCount);
-                            <div class="nav-item me-2 mt-4 mt-md-0">
+                            <div class="nav-item me-2 mt-4 mt-lg-0">
                                 <button id="openModal" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="position-relative border-0 bg-transparent" style="font-size: 18px">
                                     <i class="bi bi-cart3 text-light"></i>
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">

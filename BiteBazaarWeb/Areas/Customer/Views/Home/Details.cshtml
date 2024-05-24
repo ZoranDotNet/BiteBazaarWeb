@@ -14,7 +14,7 @@
             </p>
   
         </div>
-
+        <input type="hidden" asp-for="FkProductId"/>
         <div class="row products-details">
             <h2><strong>@Model.Product.Title</strong></h2>
             <div class="col-lg-6">
@@ -34,7 +34,7 @@
             </div>
 
             <div class="col-lg-6">
-                <div class="col-11 col-md-8 col-lg-12 shadow p-4 mx-auto  text-center info-card ">
+                <div class="col-11 col-md-8 col-lg-12 shadow p-4 mx-auto text-center info-card ">
 
                     <p><strong>Produktinformation:</strong><br /> @Model.Product.Description</p>
                     @if (Model.Product.Quantity <= 5)
