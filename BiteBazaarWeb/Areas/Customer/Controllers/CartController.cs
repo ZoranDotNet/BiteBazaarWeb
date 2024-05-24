@@ -61,19 +61,13 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
                 return RedirectToAction(nameof(Index), "Home");
             }
 
-            var products = await _productService.GetProductsAsync();
-
-            foreach (var product in products)
+            foreach (var item in carts)
             {
-                foreach (var cart in carts)
-                {
-                    if (cart.FkProductId == product.ProductId)
-                    {
-                        cart.Product = product;
-                        _context.Carts.Update(cart);
-                    }
-                }
+                var cartProduct = await _productService.GetProductByIdAsync(item.FkProductId);
+                item.Product = cartProduct;
+                _context.Carts.Update(item);
             }
+
             await _context.SaveChangesAsync();
 
             var user = _context.ApplicationUsers.FirstOrDefault(x => x.Id == userId);
@@ -82,7 +76,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             {
                 if (cart.Product.Quantity < cart.Count)
                 {
-                    TempData["error"] = $"Tyvärr finns {cart.Product.Title} endast i {cart.Product.Quantity} examplar";
+                    TempData["error"] = $"Tyvärr finns {cart.Product.Title} endast i {cart.Product.Quantity} exemplar";
                     return RedirectToAction(nameof(Index));
                 };
             }
@@ -120,20 +114,16 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             _context.SaveChanges();
 
             var carts = _context.Carts.Where(x => x.FkApplicationUserId == model.ApplicationUserId).ToList();
-            var products = await _productService.GetProductsAsync();
 
-            foreach (var product in products)
+            foreach (var item in carts)
             {
-                foreach (var cart in carts)
-                {
-                    if (cart.FkProductId == product.ProductId)
-                    {
-                        cart.Product = product;
-                        _context.Carts.Update(cart);
-                    }
-                }
+                var cartProduct = await _productService.GetProductByIdAsync(item.FkProductId);
+                item.Product = cartProduct;
+                _context.Carts.Update(item);
             }
+
             await _context.SaveChangesAsync();
+
 
             foreach (var cart in carts)
             {
@@ -148,7 +138,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
 
                 //Vi kollar om varan var på REA eller inte. Vi sparat vilket pris vi betalat så vi har historik
-                if (cart.Product.TempPrice > 0)
+                if (cart.Product.TempPrice > 0 && cart.Product.IsCampaign)
                 {
                     orderSpec.PayedPrice = cart.Product.TempPrice;
                 }
@@ -162,7 +152,12 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             _context.Carts.RemoveRange(carts);
             _context.SaveChanges();
             HttpContext.Session.Clear();
-            return View("ConfirmationOrder", "Cart");
+            return RedirectToAction("ConfirmationOrder", "Cart");
+        }
+
+        public IActionResult ConfirmationOrder()
+        {
+            return View();
         }
 
         public IActionResult Terms()
