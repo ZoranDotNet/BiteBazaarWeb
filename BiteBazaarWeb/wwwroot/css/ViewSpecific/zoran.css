@@ -8,39 +8,60 @@
     justify-content: space-between;
     align-items: center;
     background-color: #007fff;
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
     
 }
 
-.objPerPage{
-  background-color: #fff;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-
-.filterWrapper {
+.secondbar {
+    background-color: #007fff;
+    padding: 5px;
+    border-radius: 0 0 5px 5px;
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
 }
 
-    .filterWrapper a {
-        min-width: 120px;
+.objPerPage{
+    color: #fff;
+}
+
+.objPerPage select{
+    width: 75px;
+}
+
+.objPerPage button {
+    background-color: #fff;
+    border: none;
+    outline: none;
+}
+
+    .objPerPage button:focus {
+        outline: none;
+        border:none;
+        box-shadow: 0 0 0 0.2rem #fff;
+    }
+
+    .filterWrapper {
+        display: flex;
+        gap: 10px;
+    }
+
+    .secondbar a {
         background-color: var(--clr-pink);
         color: #fff;
         text-decoration: none;
         align-content: center;
         text-align: center;
-        padding: 5px;
+        padding: 5px 70px;
         border-radius: 45px;
         margin-right: 15px;
     }
 
 .productSearchBar select {
     background-color: lightgrey;
-    max-width: 200px;
+    width: 200px;
     border-radius: 8px;
     text-align: center;
+    padding: 3px;
     border: none;
 }
 

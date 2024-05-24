@@ -58,20 +58,18 @@
                 <input asp-for="ProductImage.URL" class="form-control" />
                 <span asp-validation-for="ProductImage.URL" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Product.FkCategoryId" class="control-label">Kategori</label>
                 <select asp-for="Product.FkCategoryId" class="form-control" asp-items="ViewBag.FkCategoryId"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Skapa" class="btn btn-primary" />
+                <input type="submit" value="Skapa" class="btn btn-primary me-2" />
+                <a asp-action="Index" class="btn btn-secondary">Tillbaka</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index" class="btn btn-outline-black text-decoration-none bg-secondary text-light">Tillbaka</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

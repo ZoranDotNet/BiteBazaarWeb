@@ -11,103 +11,105 @@
 <div class="order-card">
     <div class="p-3">
         <div class="text-center mb-3">
-<h1>Produktöversikt</h1>
+            <h1>Produktöversikt</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-square"></i> Lägg till</a>
-</p>
-<div class="container p-4">
-    <div class="table-responsive">
-        <table class="table table-custom">
-    <thead>
-        <tr>
-            <th>Titel</th>
-            <th>Lager</th>
-            <th>Pris</th>
-            <th>Kampanj %</th>
-            <th>Start</th>
-            <th>Slutar</th>
-            <th>Kampanj Pris</th>
-            <th>Kategori</th>
-            <th>Bild</th>
-            <th>
-                <form method="get" asp-action="Index">
-                    <label for="pageSize">Antal Produkter per sida:</label>
-                    <select id="pageSize" name="pageSize" onchange="this.form.submit()">
-                        <option value="5">5</option>
-                        <option value="10" selected>10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                    </select>
-                    <noscript>
-                        <input type="submit" value="Submit" />
-                    </noscript>
-                </form>
-            </th>
-        </tr>
-    </thead>
-    <tbody">
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @item.Title
-                </td>
-                <td>
-                    @item.Quantity
-                </td>
-                <td>
-                    @item.Price.ToString("c")
-                </td>
-                @if (item.CampaignPercent != 0)
-                {
-                    <td>@(item.CampaignPercent*100)%</td>
-                }
-                else
-                {
-                    <td>-</td>
-                }
-                <td>
-                    @(item.CampaignStart.HasValue ? item.CampaignStart.Value.ToShortDateString() : "-")
-                </td>
-                <td>
-                    @(item.CampaignEnd.HasValue ? item.CampaignEnd.Value.ToShortDateString() : "-")
-                </td>
-                @if (item.TempPrice != 0)
-                {
-                    <td class="text-danger">@item.TempPrice.ToString("C0")</td>
-                }
-                else
-                {
-                    <td>-</td>
-                }
+            <p>
+                <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-square"></i> Lägg till</a>
+            </p>
+            <div class="container p-4">
+                <div class="table-responsive">
+                    <table class="table table-custom">
+                        <thead>
+                            <tr>
+                                <th>Titel</th>
+                                <th>Lager</th>
+                                <th>Pris</th>
+                                <th>Kampanj %</th>
+                                <th>Start</th>
+                                <th>Slutar</th>
+                                <th>Kampanj Pris</th>
+                                <th>Kategori</th>
+                                <th>Bild</th>
+                                <th>
+                                    <form method="get" asp-action="Index">
+                                        <label for="pageSize">Produkter per sida:</label>
+                                        <select id="pageSize" name="pageSize" onchange="this.form.submit()">
+                                            <option value="5">5</option>
+                                            <option value="10" selected>10</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                        <noscript>
+                                            <input type="submit" value="Submit" />
+                                        </noscript>
+                                    </form>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Title
+                                    </td>
+                                    <td>
+                                        @item.Quantity
+                                    </td>
+                                    <td>
+                                        @item.Price.ToString("c")
+                                    </td>
+                                    @if (item.CampaignPercent != 0)
+                                    {
+                                        <td>@(item.CampaignPercent*100)%</td>
+                                    }
+                                    else
+                                    {
+                                        <td>-</td>
+                                    }
+                                    <td>
+                                        @(item.CampaignStart.HasValue ? item.CampaignStart.Value.ToShortDateString() : "-")
+                                    </td>
+                                    <td>
+                                        @(item.CampaignEnd.HasValue ? item.CampaignEnd.Value.ToShortDateString() : "-")
+                                    </td>
+                                    @if (item.TempPrice != 0)
+                                    {
+                                        <td class="text-danger">@item.TempPrice.ToString("C0")</td>
+                                    }
+                                    else
+                                    {
+                                        <td>-</td>
+                                    }
 
-                <td>
-                    @item.Category.Title
-                </td>
-                <td>
-                    @foreach (var pic in item.Images)
-                    {
-                        <img src="@pic.URL" style="width: 50px" />
-                    }
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn-sm btn-success text-decoration-none"><i class="bi bi-pencil-square"></i> Edit</a>
-                    <br />
-                    <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn-sm btn-danger text-decoration-none"><i class="bi bi-trash"></i> Radera</a>
+                                    <td>
+                                        @item.Category.Title
+                                    </td>
+                                    <td>
+                                        @foreach (var pic in item.Images)
+                                        {
+                                            <img src="@pic.URL" style="width: 50px" />
+                                        }
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn-sm btn-success text-decoration-none"><i class="bi bi-pencil-square"></i> Edit</a>
+                                        <br />
+                                        <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn-sm btn-danger text-decoration-none"><i class="bi bi-trash"></i> Radera</a>
                                         <br />
 
-                    <a asp-controller="ProductImages" asp-action="Create" asp-route-id="@item.ProductId" class="btn-sm btn-success text-decoration-none"><i class="bi bi-plus-square"></i> Lägg till Bild</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-</div>
-<div>
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }))
-</div>
-</div>
+                                        <a asp-area="Admin" asp-controller="ProductImages" asp-action="Create" asp-route-id="@item.ProductId" class="btn-sm btn-success text-decoration-none"><i class="bi bi-plus-square"></i> Lägg till Bild</a>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                    </table>
+                </div>
+
+
+                <div>
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }))
+                </div>
+            </div>
         </div>
     </div>
 </div>
