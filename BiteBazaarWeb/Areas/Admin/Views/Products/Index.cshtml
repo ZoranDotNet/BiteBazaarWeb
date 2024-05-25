@@ -14,7 +14,7 @@
             <h1>Produktöversikt</h1>
 
             <p>
-                <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-square"></i> Lägg till</a>
+                <a asp-action="Create" class="button-pink"><i class="bi bi-plus-square"></i> Lägg till</a>
             </p>
             <div class="container p-4">
                 <div class="table-responsive">
@@ -92,12 +92,13 @@
                                         }
                                     </td>
                                     <td>
-                                        <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn-sm btn-success text-decoration-none"><i class="bi bi-pencil-square"></i> Edit</a>
-                                        <br />
-                                        <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn-sm btn-danger text-decoration-none"><i class="bi bi-trash"></i> Radera</a>
-                                        <br />
-
-                                        <a asp-area="Admin" asp-controller="ProductImages" asp-action="Create" asp-route-id="@item.ProductId" class="btn-sm btn-success text-decoration-none"><i class="bi bi-plus-square"></i> Lägg till Bild</a>
+                                        <div class="product-link-icons">
+                                            <a asp-action="Edit" asp-route-id="@item.ProductId"><i class="bi bi-pencil-square"></i> Edit</a>
+                                            <br />
+                                            <a asp-action="Delete" asp-route-id="@item.ProductId"><i class="bi bi-trash"></i> Radera</a>
+                                            <br />
+                                            <a asp-area="Admin" asp-controller="ProductImages" asp-action="Create" asp-route-id="@item.ProductId"><i class="bi bi-plus-square"></i> Lägg till Bild</a>
+                                        </div>
                                     </td>
                                 </tr>
                             }
