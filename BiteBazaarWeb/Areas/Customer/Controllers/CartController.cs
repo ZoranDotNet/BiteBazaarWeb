@@ -77,7 +77,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
                 if (cart.Product.Quantity < cart.Count)
                 {
                     TempData["error"] = $"Tyvärr finns {cart.Product.Title} endast i {cart.Product.Quantity} exemplar";
-                    return RedirectToAction(nameof(Index));
+                    return PartialView("_Shoppingcart", carts);
                 };
             }
 
@@ -257,6 +257,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
         public async Task<IActionResult> Plus(int id)
         {
+            bool stock = false;
             var cart = await _context.Carts.FirstOrDefaultAsync(x => x.CartId == id);
 
             var product = await _productService.GetProductByIdAsync(cart.FkProductId);
@@ -270,6 +271,8 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             }
             else
             {
+                //stock = true;
+                //ViewData["outOfstock"] = stock;
                 TempData["warning"] = "För få varor i lager";
             }
 

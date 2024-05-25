@@ -131,6 +131,18 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
                 return RedirectToAction("Details", cart.FkProductId);
             }
 
+            var existingCart = _context.Carts.FirstOrDefault(x => x.FkApplicationUserId == userId && x.FkProductId == cart.FkProductId);
+            if (existingCart != null)
+            {
+                int nrOfItems = existingCart.Count;
+                if (product.Quantity < (cart.Count + nrOfItems))
+                {
+                    TempData["error"] = $"Finns endast {product.Quantity} kvar i Lager";
+                    return RedirectToAction("Details", cart.FkProductId);
+                }
+            }
+
+
             // Kontrollera att det finns tillräckligt många produkter innan vi lägger dem i varukorgen
             if (product.Quantity < cart.Count)
             {

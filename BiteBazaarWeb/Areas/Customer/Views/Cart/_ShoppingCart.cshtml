@@ -7,10 +7,11 @@
 @{ decimal total = 0;}
 @{ decimal discount = 0;}
 <section class="mx-auto pb-2">
+    <partial name="_Notification" />
     <div class="text-center bg-secondary">
         <h2>Kundkorg</h2>
     </div>
-    <hr class="line"/>
+    <hr class="line" />
     @foreach (var item in Model)
     {
         <div class="mb-2 px-4 d-flex justify-content-between">
@@ -48,7 +49,7 @@
             <div class="productTotal">
                 @if (item.Product.IsCampaign && item.Product.TempPrice > 0)
                 {
-                   <p class="text-black"> @((item.Product.TempPrice * item.Count).ToString("c0"))</p>
+                    <p class="text-black"> @((item.Product.TempPrice * item.Count).ToString("c0"))</p>
                 }
                 else
                 {
@@ -67,11 +68,10 @@
         }
         else
         {
-            <input hidden @{total +=(item.Product.Price * item.Count);} />
+            <input hidden @{total += (item.Product.Price * item.Count);} />
         }
 
     }
-
     <div class="text-center pb-3">
         <p class="fs-4 text-black"><strong>Totalt: @total.ToString("C0")</strong></p>
         @if (discount < 0)
