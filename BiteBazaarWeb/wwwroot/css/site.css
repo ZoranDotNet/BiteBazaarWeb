@@ -1,5 +1,5 @@
 :root {
-    --clr-pink: #fb50a7;
+    --clr-pink: #cd1da1;
     --clr-background: #1f1f47;
     --clr-loginBackground: rgba(255,255,255,0.15);
 }
@@ -72,16 +72,13 @@ body {
     border-radius: 15px;
 }
 
-.button-pink {
-    background-color: #cd1da1;
+.buttonOwn { 
     border-radius: 8px;
     border-style: none;
     box-sizing: border-box;
-    color: black;
+    color: #1F1F47;
     cursor: pointer;
     display: inline-block;
-    /*    font-family: "Sedan SC", serif;
-    font-weight: bolder;*/
     font-family: "Unica One", sans-serif;
     font-weight: bold;
     font-size: 15px;
@@ -99,98 +96,41 @@ body {
     touch-action: manipulation;
 }
 
-    .button-pink:hover,
-    .button-pink:focus {
-        background-color: #97247b;
-        color: white;
-    }
 
-.button-grey {
+.pink {
+    background-color: var(--clr-pink);
+}
+.pink:hover,
+.pink:focus {
+    background-color: #97247b;
+    color: white;
+}
+
+.grey {
     background-color: #6C757D;
-    border-radius: 8px;
-    border-style: none;
-    box-sizing: border-box;
-    color: black;
-    cursor: pointer;
-    display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
-    font-size: 14px;
-    height: 40px;
-    line-height: 20px;
-    list-style: none;
-    margin: 0;
-    outline: none;
-    padding: 10px 16px;
-    position: relative;
-    text-align: center;
-    text-decoration: none;
-    transition: color 100ms;
-    vertical-align: baseline;
-    touch-action: manipulation;
 }
+.grey:hover,
+.grey:focus {
+    background-color: #51585e;
+    color: white;
+ }
 
-    .button-grey:hover,
-    .button-grey:focus {
-        background-color: #51585e;
-        color: white;
-    }
-
-.button-heart {
+.heart {
     background-color: #DC3545;
-    border-radius: 8px;
-    border-style: none;
-    box-sizing: border-box;
-    color: black;
-    cursor: pointer;
-    display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
-    font-size: 14px;
-    height: 40px;
-    line-height: 20px;
-    list-style: none;
-    margin: 0;
-    outline: none;
-    padding: 10px 16px;
-    position: relative;
-    text-align: center;
-    text-decoration: none;
-    transition: color 100ms;
-    vertical-align: baseline;
-    touch-action: manipulation;
 }
 
-    .button-heart:hover,
-    .button-heart:focus {
-        background-color: #c12534;
-        color: white;
-    }
+.heart:hover,
+.heart:focus {
+    background-color: #c12534;
+    color: white;
+}
 
-.button-red {
+.red {
     background-color: #cd0202;
-    border-radius: 8px;
-    border-style: none;
-    box-sizing: border-box;
-    color: black;
-    cursor: pointer;
-    display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
-    font-size: 14px;
-    height: 40px;
-    line-height: 20px;
-    list-style: none;
-    margin: 0;
-    outline: none;
-    padding: 10px 16px;
-    position: relative;
-    text-align: center;
-    text-decoration: none;
-    transition: color 100ms;
-    vertical-align: baseline;
-    touch-action: manipulation;
 }
 
-    .button-red:hover,
-    .button-red:focus {
-        background-color: #b20303;
-        color: white;
-    }
+.red:hover,
+.red:focus {
+   background-color: #b20303;
+   color: white;
+}

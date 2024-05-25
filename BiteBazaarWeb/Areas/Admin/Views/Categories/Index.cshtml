@@ -11,7 +11,7 @@
     <h1 class="display-4">Kategoriöversikt</h1>
     <p>Denna sida är till för att se över, redigera och radera kategorier</p>
     <div class="col text-left">
-        <a asp-action="Create" class="button-pink"><i class="bi bi-plus-square"></i> Lägg till</a>
+        <a asp-action="Create" class="buttonOwn pink"><i class="bi bi-plus-square"></i> Lägg till</a>
 </div>
 </div>
 
@@ -33,8 +33,8 @@
 
                         </div>
                         <div>
-                        <a asp-action="Edit" asp-route-id="@item.CategoryId" class="button-grey">Redigera</a>
-                        <a asp-action="Delete" asp-route-id="@item.CategoryId" class="button-red">Radera</a>
+                        <a asp-action="Edit" asp-route-id="@item.CategoryId" class="buttonOwn grey">Redigera</a>
+                        <a asp-action="Delete" asp-route-id="@item.CategoryId" class="buttonOwn red">Radera</a>
                         </div>
                     </div>
                 </div>
