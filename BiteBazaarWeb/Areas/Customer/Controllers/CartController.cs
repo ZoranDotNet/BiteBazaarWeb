@@ -270,7 +270,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             }
             else
             {
-                TempData["error"] = "För få varor i lager";
+                TempData["warning"] = "För få varor i lager";
             }
 
             var carts = await UpdateCart();

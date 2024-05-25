@@ -54,6 +54,16 @@ body {
     padding-bottom: 0;
 }
 
+.modal {
+    z-index: 1050; 
+}
+
+.modal-backdrop {
+    z-index: 1000; 
+}
+
+
+
 .confirmationKnapp{
     background: var(--clr-pink);
     color: #fff;

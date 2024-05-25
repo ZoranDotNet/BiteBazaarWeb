@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Create";
 }
-
+<link href="~/css/ViewSpecific/Admin.css" rel="stylesheet" />
 <h1>Skapa</h1>
 
 <h4>Produkt</h4>
@@ -63,7 +63,7 @@
                 <select asp-for="Product.FkCategoryId" class="form-control" asp-items="ViewBag.FkCategoryId"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Skapa" class="btn btn-primary me-2" />
+                <input type="submit" value="Skapa" class="btn btn-egen-blue me-2" />
                 <a asp-action="Index" class="btn btn-secondary">Tillbaka</a>
             </div>
         </form>

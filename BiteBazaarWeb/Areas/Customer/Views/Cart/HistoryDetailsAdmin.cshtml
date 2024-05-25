@@ -11,31 +11,33 @@
             <div class="table-responsive">
                 <table class="table table-custom">
                     <thead>
-            <tr>
-                <th>Antal</th>
-                <th>Produkt</th>
-                <th>Pris</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Specifications)
-            {
-                <tr class=" text-light">
-                    <td>@item.Count</td>
-                    <td>@item.Product.Title</td>
-                    <td>@item.PayedPrice.ToString("C0")</td>
-                    <td></td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    </div>
-    <div class="mt-3">
-        @if (Model.Order.Status != OrderStatus.Skickad) 
-        {
-            <a asp-area="Customer" asp-controller="Cart" asp-action="ShipOrder" asp-route-id="@Model.Order.OrderId" class="btn btn-primary">Skicka Order</a>
-        }
-        <a asp-action="OrderHistoryAdmin" class="btn btn-egen">Tillbaka</a>
+                        <tr>
+                            <th>Antal</th>
+                            <th>Produkt</th>
+                            <th>Pris</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Specifications)
+                        {
+                            <tr class=" text-light">
+                                <td>@item.Count</td>
+                                <td>@item.Product.Title</td>
+                                <td>@item.PayedPrice.ToString("C0")</td>
+                                <td></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-3">
+                @if (Model.Order.Status != OrderStatus.Skickad)
+                {
+                    <a asp-area="Customer" asp-controller="Cart" asp-action="ShipOrder" asp-route-id="@Model.Order.OrderId" class="btn btn-primary">Skicka Order</a>
+                }
+                <a asp-action="OrderHistoryAdmin" class="btn btn-egen">Tillbaka</a>
+            </div>
+        </div>
     </div>
 </div>

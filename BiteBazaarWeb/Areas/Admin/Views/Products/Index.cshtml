@@ -14,7 +14,7 @@
             <h1>Produktöversikt</h1>
 
             <p>
-                <a asp-action="Create" class="button-pink"><i class="bi bi-plus-square"></i> Lägg till</a>
+                <a asp-action="Create" class="button-pink"><i class="bi bi-plus-square"></i> LÄGG TILL</a>
             </p>
             <div class="container p-4">
                 <div class="table-responsive">
@@ -57,7 +57,7 @@
                                         @item.Quantity
                                     </td>
                                     <td>
-                                        @item.Price.ToString("c")
+                                        @item.Price.ToString("c0")
                                     </td>
                                     @if (item.CampaignPercent != 0)
                                     {
@@ -86,10 +86,14 @@
                                         @item.Category.Title
                                     </td>
                                     <td>
-                                        @foreach (var pic in item.Images)
+                                        @if (item.Images != null && item.Images.Count > 0)
                                         {
-                                            <img src="@pic.URL" style="width: 50px" />
+                                            foreach (var pic in item.Images)
+                                            {
+                                                <img src="@pic.URL" style="width: 50px" />
+                                            }
                                         }
+
                                     </td>
                                     <td>
                                         <div class="product-link-icons">

@@ -68,7 +68,6 @@
                         @foreach (var item in Model.Product.Images)
                         {
                             <div class="p-1 mb-2 text-center d-flex flex-column">
-                                @*<input asp-for="ProductImage.ProductImageId" type="hidden"/>*@
                                 <img src="@item.URL" style="border-radius:5px; width:150px;" class="">
                                 <a asp-controller="ProductImages" asp-action="Delete" asp-route-id="@item.ProductImageId" class="btn-sm btn-egen-danger text-decoration-none" style="width:150px">Delete</a>
                             </div>
@@ -84,15 +83,16 @@
             </div>
 
 
-            <div class="form-group">
-                <input type="submit" value="Spara" class="btn btn-egen-blue" />
+            <div class="form-group mt-2">
+                <input type="submit" value="Spara" class="btn btn-egen-blue me-2" />
+                <a asp-action="Index" class="btn btn-secondary">Tillbaka</a>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index" class="btn btn-outline-black text-decoration-none bg-secondary">Tillbaka</a>
+   
 </div>
 
 @section Scripts {
