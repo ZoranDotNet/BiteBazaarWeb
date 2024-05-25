@@ -70,7 +70,10 @@ body {
     color: black;
     cursor: pointer;
     display: inline-block;
-    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+    /*    font-family: "Sedan SC", serif;
+    font-weight: bolder;*/
+    font-family: "Unica One", sans-serif;
+    font-weight: bold;
     font-size: 15px;
     height: 40px;
     line-height: 20px;

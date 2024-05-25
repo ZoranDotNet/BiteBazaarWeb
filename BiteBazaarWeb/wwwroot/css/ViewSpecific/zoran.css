@@ -3,22 +3,26 @@
     Searchbar i view - Product, Home controller
 
 */
-.productSearchBar{
+.productSearchBar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #007fff;
+    /*background-color: #007fff;*/
     border-radius: 8px 8px 0 0;
-    
+    background: rgb(59,28,79);
+    background: linear-gradient(90deg, rgba(59,28,79,1) 0%, rgba(59,28,79,0.8785889355742297) 31%, rgba(46,46,108,1) 65%, rgba(31,31,71,0.9430147058823529) 100%);
 }
 
 .secondbar {
-    background-color: #007fff;
+    /*background-color: #007fff;*/
     padding: 5px;
     border-radius: 0 0 5px 5px;
     display: flex;
     justify-content: space-between;
+    background: rgb(59,28,79);
+    background: linear-gradient(90deg, rgba(59,28,79,1) 0%, rgba(59,28,79,0.8785889355742297) 31%, rgba(46,46,108,1) 65%, rgba(31,31,71,0.9430147058823529) 100%);
 }
+
 
 .objPerPage{
     color: #fff;
