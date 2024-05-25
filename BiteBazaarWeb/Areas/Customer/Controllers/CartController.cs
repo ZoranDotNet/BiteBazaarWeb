@@ -257,7 +257,6 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
         public async Task<IActionResult> Plus(int id)
         {
-            bool stock = false;
             var cart = await _context.Carts.FirstOrDefaultAsync(x => x.CartId == id);
 
             var product = await _productService.GetProductByIdAsync(cart.FkProductId);
@@ -271,9 +270,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             }
             else
             {
-                //stock = true;
-                //ViewData["outOfstock"] = stock;
-                TempData["warning"] = "För få varor i lager";
+                TempData["warning"] = "Finns inga fler i lager";
             }
 
             var carts = await UpdateCart();
