@@ -72,14 +72,14 @@ body {
     border-radius: 15px;
 }
 
-.buttonOwn { 
+.buttonOwn {
     border-radius: 8px;
     border-style: none;
     box-sizing: border-box;
     color: #1F1F47;
     cursor: pointer;
     display: inline-block;
-    font-family: "Unica One", sans-serif;
+    font-family: 'Nunito Sans', sans-serif;
     font-weight: bold;
     font-size: 15px;
     height: 40px;

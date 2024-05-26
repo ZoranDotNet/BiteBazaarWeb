@@ -1,7 +1,15 @@
 ﻿body {
 }
+
 .details-container {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-top: 2px solid #cd1da1;
+    border-left: 1px solid #cd1da1;
+    border-right: 1px solid #cd1da1;
+    padding: 30px;
     color: white;
+    background: linear-gradient(to bottom, rgba(87, 25, 87, 0.5), rgba(45, 45, 45, 0));
 }
 .btn-egen {
     background-color: #d431ac;
@@ -13,15 +21,23 @@
 }
 
 .info-card {
-    background: linear-gradient(to bottom, rgba(87, 25, 87, 0.5), rgba(45, 45, 45, 0));
-    border: 2px solid #cd1da1;
-    border-radius: 10px;
+    /*background: linear-gradient(to bottom, rgba(87, 25, 87, 0.5), rgba(45, 45, 45, 0));*/
+    /*border: 2px solid #cd1da1;
+    border-radius: 10px;*/
+    color: white;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    background: rgb(31, 31, 71,0.8);
 }
-.top-links{
-    color:white;
+
+
+.top-links {
+    color: white;
+    border-bottom: 1px solid #cd1da1;
 }
 .top-links a {
     text-decoration: none;
+    color: white;
     
 }
     .top-links a:hover {

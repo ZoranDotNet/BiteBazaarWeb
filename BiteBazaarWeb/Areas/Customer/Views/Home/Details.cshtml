@@ -12,8 +12,10 @@
                 <i class="fa fa-angle-right"></i>
                 <a>@Model.Product.Title</a>
             </p>
-  
+
         </div>
+        <br/>
+        
         <input type="hidden" asp-for="FkProductId"/>
         <div class="row products-details">
             <h2><strong>@Model.Product.Title</strong></h2>
@@ -57,7 +59,17 @@
             </div>
 
             <div class="col-lg-6">
-                <div class="col-md-8 col-lg-12 shadow p-4 mx-auto text-center info-card ">
+                <div class="col-md-8 col-lg-12 p-4 mx-auto text-center info-card shadow">
+                    @if (Model.Product.IsCampaign && Model.Product.TempPrice > 0)
+                    {
+                        <p class="text-decoration-line-through"><strong>Pris:</strong> @Model.Product.Price.ToString("C0")</p>
+                        <p class="text-danger"><strong>Pris:</strong> @Model.Product.TempPrice.ToString("C0")</p>
+                    }
+                    else
+                    {
+                        <p><strong>Pris:</strong> @Model.Product.Price.ToString("C0")</p>
+                    }
+                    <br/>
 
                     <p><strong>Produktinformation:</strong><br /> @Model.Product.Description</p>
                     @if (Model.Product.Quantity <= 5)
@@ -65,15 +77,7 @@
                         <p class="text-danger"><strong>Fåtal produkter kvar</strong></p>
                     }
 
-                    @if (Model.Product.IsCampaign && Model.Product.TempPrice > 0)
-                    {
-                         <p class="text-decoration-line-through"><strong>Pris:</strong> @Model.Product.Price.ToString("C0")</p>
-                         <p class="text-danger"><strong>Pris:</strong> @Model.Product.TempPrice.ToString("C0")</p>
-                    }
-                    else
-                    {
-                        <p><strong>Pris:</strong> @Model.Product.Price.ToString("C0")</p>
-                    }
+                   
 
                     <p><strong>Antal</strong></p>
                     <div class="input-group mb-3 p-2 me-2 justify-content-center ">                   
