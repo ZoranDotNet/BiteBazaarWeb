@@ -68,3 +68,39 @@
     .product-link-icons a:hover {
         color: #d4d4d4;
     }
+
+    /*
+
+        Searchbar
+
+    */
+
+.searchbarAdmin {
+    width: 250px;
+    position: relative;
+}
+
+.searchbarAdmin input {
+    width: 100%;
+    padding: 5px;
+    outline: none;
+    background: rgba(255,255,255, 0.3);
+    border: 2px solid #fff;
+    border-radius: 50px;
+    color: #fff;
+}
+
+.searchbarAdmin input::placeholder {
+    color: #fff;
+}
+
+.searchbarAdmin button{
+    position: absolute;
+    height: 80%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    right: 4px;
+    top: 10%;
+    border: none;
+    background: #fff;
+}
