@@ -5,52 +5,53 @@
 <div class="order-card">
     <div class="p-3">
         <div class="text-center mb-3">
-        <h1>Order Historik</h1>
-    </div>
-        <div class="table-responsive">
-        <table class="table table-custom">
-            <thead>
-            <tr>
-                <th>OrderDatum</th>
-                <th>Kund</th>
-                <th>Gatuadress</th>
-                <th>Postnr</th>
-                <th>Ort</th>
-                <th>Summa</th>
-                <th>Status</th>
-                <th>Skickad</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach (var item in Model.OrderBy(x => x.Status))
-            {
-                <tr class="text-light">
-                    <td>@item.OrderDate.ToShortDateString()</td> 
-                    <td>@item.Name</td>
-                    <td>@item.StreetAddress</td>
-                    <td>@item.ZipCode</td>
-                    <td>@item.City</td>
-                    <td>@item.OrderTotal.ToString("c0")</td> 
-                    <td>@item.Status</td>
-                    @if (item.ShippingDate < new DateTime(2024, 1, 1))
-                    {
-                        <td>Obehandlad</td>
-                    }
-                    else
-                    {
-                        <td>@item.ShippingDate.ToShortDateString()</td>
-                    }
-
-                    <td><a asp-area="Customer" asp-controller="Cart" asp-action="HistoryDetailsAdmin" asp-route-orderId="@item.OrderId" class="buttonOwn pink">Detaljer</a></td>
-                </tr>
-
-            }
-        </tbody>
-    </table>
+            <h1>Order Historik</h1>
         </div>
-    <div class="mt-2">
-        <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="buttonOwn pink">Hem</a>
+        <div class="table-responsive">
+            <table class="table table-custom">
+                <thead>
+                    <tr>
+                        <th>OrderDatum</th>
+                        <th>Kund</th>
+                        <th>Gatuadress</th>
+                        <th>Postnr</th>
+                        <th>Ort</th>
+                        <th>Summa</th>
+                        <th>Status</th>
+                        <th>Skickad</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model.OrderBy(x => x.Status))
+                    {
+                        <tr class="text-light">
+                            <td>@item.OrderDate.ToShortDateString()</td>
+                            <td>@item.Name</td>
+                            <td>@item.StreetAddress</td>
+                            <td>@item.ZipCode</td>
+                            <td>@item.City</td>
+                            <td>@item.OrderTotal.ToString("c0")</td>
+                            <td>@item.Status</td>
+                            @if (item.ShippingDate < new DateTime(2024, 1, 1))
+                            {
+                                <td>Obehandlad</td>
+                            }
+                            else
+                            {
+                                <td>@item.ShippingDate.ToShortDateString()</td>
+                            }
+
+                            <td><a asp-area="Customer" asp-controller="Cart" asp-action="HistoryDetailsAdmin" asp-route-orderId="@item.OrderId" class="buttonOwn pink">Detaljer</a></td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+            <div class="mt-2">
+                <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="buttonOwn grey">Hem</a>
+            </div>
     </div>
 </div>
