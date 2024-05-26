@@ -26,11 +26,27 @@
 
 .objPerPage{
     color: #fff;
+    width: 200px;
+    position: relative;
 }
 
-.objPerPage select{
-    width: 75px;
+.objPerPage .objPerPage-inner {
+    width: 100%;
+    padding: 5px;
+    outline: none;
+    background: rgba(255,255,255, 0.3) !important;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    color: #fff;
+    padding-left: 20px;
 }
+
+    .objPerPage select {
+        height: 25px;
+        border-radius: 20px;
+        border: none;
+        outline: none;
+    }
 
 .objPerPage button {
     background-color: #fff;
@@ -38,27 +54,31 @@
     outline: none;
 }
 
-    .objPerPage button:focus {
-        outline: none;
-        border:none;
-        box-shadow: 0 0 0 0.2rem #fff;
-    }
+.objPerPage button:focus {
+    outline: none;
+    border:none;
+    box-shadow: 0 0 0 0.2rem #fff;
+}
 
-    .filterWrapper {
-        display: flex;
-        gap: 10px;
-    }
+.filterWrapper {
+    display: flex;
+    gap: 10px;
+}
 
-    .secondbar a {
-        background-color: var(--clr-pink);
-        color: #fff;
-        text-decoration: none;
-        align-content: center;
-        text-align: center;
-        padding: 5px 70px;
-        border-radius: 45px;
-        margin-right: 15px;
-    }
+.showAll{
+    align-content: center;
+}
+
+.secondbar .showAll .showAllLink {
+    background-color: lightgrey;
+    color: #000;
+    text-decoration: none;
+    align-content: center;
+    text-align: center;
+    padding: 5px 70px;
+    border-radius: 8px;
+    margin-right: 15px;
+}
 
 .productSearchBar select {
     background-color: lightgrey;
