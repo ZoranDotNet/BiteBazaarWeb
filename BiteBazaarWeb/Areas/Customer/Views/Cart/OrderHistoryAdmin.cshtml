@@ -43,7 +43,7 @@
                         <td>@item.ShippingDate.ToShortDateString()</td>
                     }
 
-                    <td><a asp-area="Customer" asp-controller="Cart" asp-action="HistoryDetailsAdmin" asp-route-orderId="@item.OrderId" class="button-pink">Detaljer</a></td>
+                    <td><a asp-area="Customer" asp-controller="Cart" asp-action="HistoryDetailsAdmin" asp-route-orderId="@item.OrderId" class="buttonOwn pink">Detaljer</a></td>
                 </tr>
 
             }
@@ -51,6 +51,6 @@
     </table>
         </div>
     <div class="mt-2">
-        <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="button-pink">Hem</a>
+        <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="buttonOwn pink">Hem</a>
     </div>
 </div>

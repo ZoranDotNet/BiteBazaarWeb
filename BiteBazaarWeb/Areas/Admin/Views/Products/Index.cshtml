@@ -14,7 +14,7 @@
             <h1>Produktöversikt</h1>
 
             <p>
-                <a asp-action="Create" class="button-pink"><i class="bi bi-plus-square"></i> LÄGG TILL</a>
+                <a asp-action="Create" class="buttonOwn pink"><i class="bi bi-plus-square"></i> LÄGG TILL</a>
             </p>
             <div class="container p-4">
                 <div class="table-responsive">
@@ -97,7 +97,7 @@
                                     </td>
                                     <td>
                                         <div class="product-link-icons">
-                                            <a asp-action="Edit" asp-route-id="@item.ProductId"><i class="bi bi-pencil-square"></i> Edit</a>
+                                            <a asp-action="Edit" asp-route-id="@item.ProductId"><i class="bi bi-pencil-square"></i> Redigera</a>
                                             <br />
                                             <a asp-action="Delete" asp-route-id="@item.ProductId"><i class="bi bi-trash"></i> Radera</a>
                                             <br />
