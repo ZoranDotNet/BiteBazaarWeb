@@ -34,9 +34,9 @@
             <div class="mt-3">
                 @if (Model.Order.Status != OrderStatus.Skickad)
                 {
-                    <a asp-area="Customer" asp-controller="Cart" asp-action="ShipOrder" asp-route-id="@Model.Order.OrderId" class="btn btn-primary">Skicka Order</a>
+                    <a asp-area="Customer" asp-controller="Cart" asp-action="ShipOrder" asp-route-id="@Model.Order.OrderId" class="buttonOwn pink">Skicka Order</a>
                 }
-                <a asp-action="OrderHistoryAdmin" class="btn btn-egen">Tillbaka</a>
+                <a asp-action="OrderHistoryAdmin" class="buttonOwn grey">Tillbaka</a>
             </div>
         </div>
     </div>
