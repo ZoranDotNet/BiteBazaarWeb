@@ -77,7 +77,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
                 if (cart.Product.Quantity < cart.Count)
                 {
                     TempData["error"] = $"Tyvärr finns {cart.Product.Title} endast i {cart.Product.Quantity} exemplar";
-                    return RedirectToAction(nameof(Index));
+                    return PartialView("_Shoppingcart", carts);
                 };
             }
 
@@ -270,7 +270,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             }
             else
             {
-                TempData["warning"] = "För få varor i lager";
+                TempData["warning"] = "Finns inga fler i lager";
             }
 
             var carts = await UpdateCart();
