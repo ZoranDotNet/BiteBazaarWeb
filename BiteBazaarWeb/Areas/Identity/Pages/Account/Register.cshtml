@@ -60,16 +60,6 @@
                             <span asp-validation-for="Input.City" class="text-danger"></span>
                         </div>
                     </div>
-                   
-                    @*@if (User.IsInRole(SD.Role_Admin))*@
-                    
-                        <div class="">
-                            <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
-                                <option hidden value="">--Välj Roll--</option>
-                            </select>
-                        </div>
-                    
-
                     <div class="">
                         <button id="registerSubmit" type="submit" class="pinkButton">Registrera</button>
                     </div>

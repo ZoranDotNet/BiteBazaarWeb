@@ -45,7 +45,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddHttpClient("API Client", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7278/");
+    client.BaseAddress = new Uri("https://bytebazaarapi.azurewebsites.net/");
 });
 builder.Services.AddScoped<CategoryService>();
 builder.Services.AddScoped<ProductService>();
