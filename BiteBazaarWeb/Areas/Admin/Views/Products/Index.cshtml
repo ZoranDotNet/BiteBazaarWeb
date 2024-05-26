@@ -12,102 +12,20 @@
     <div class="p-3">
         <div class="text-center mb-3">
             <h1>Produktöversikt</h1>
-
-            <p>
-                <a asp-action="Create" class="buttonOwn pink"><i class="bi bi-plus-square"></i> LÄGG TILL</a>
-            </p>
+            <div class="mt-3 d-flex justify-content-around align-items-center">
+                <p>
+                    <a asp-action="Create" class="buttonOwn pink me-4"><i class="bi bi-plus-square"></i> LÄGG TILL</a>
+                    <a asp-action="Index" class="buttonOwn pink">ALLA PRODUKTER</a>
+                </p>
+                <div class="searchbarAdmin">
+                    <input type="text" id="searchString" placeholder="Sök produkt..." />
+                    <button id="searchButtonAdmin"><i class="bi bi-search"></i></button>
+                </div>
+            </div>
+            
             <div class="container p-4">
-                <div class="table-responsive">
-                    <table class="table table-custom">
-                        <thead>
-                            <tr>
-                                <th>Titel</th>
-                                <th>Lager</th>
-                                <th>Pris</th>
-                                <th>Kampanj %</th>
-                                <th>Start</th>
-                                <th>Slutar</th>
-                                <th>Kampanj Pris</th>
-                                <th>Kategori</th>
-                                <th>Bild</th>
-                                <th>
-                                    <form method="get" asp-action="Index">
-                                        <label for="pageSize">Produkter per sida:</label>
-                                        <select id="pageSize" name="pageSize" onchange="this.form.submit()">
-                                            <option value="5">5</option>
-                                            <option value="10" selected>10</option>
-                                            <option value="20">20</option>
-                                            <option value="50">50</option>
-                                        </select>
-                                        <noscript>
-                                            <input type="submit" value="Submit" />
-                                        </noscript>
-                                    </form>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @item.Title
-                                    </td>
-                                    <td>
-                                        @item.Quantity
-                                    </td>
-                                    <td>
-                                        @item.Price.ToString("c0")
-                                    </td>
-                                    @if (item.CampaignPercent != 0)
-                                    {
-                                        <td>@(item.CampaignPercent*100)%</td>
-                                    }
-                                    else
-                                    {
-                                        <td>-</td>
-                                    }
-                                    <td>
-                                        @(item.CampaignStart.HasValue ? item.CampaignStart.Value.ToShortDateString() : "-")
-                                    </td>
-                                    <td>
-                                        @(item.CampaignEnd.HasValue ? item.CampaignEnd.Value.ToShortDateString() : "-")
-                                    </td>
-                                    @if (item.TempPrice != 0)
-                                    {
-                                        <td class="text-danger">@item.TempPrice.ToString("C0")</td>
-                                    }
-                                    else
-                                    {
-                                        <td>-</td>
-                                    }
-
-                                    <td>
-                                        @item.Category.Title
-                                    </td>
-                                    <td>
-                                        @if (item.Images != null && item.Images.Count > 0)
-                                        {
-                                            foreach (var pic in item.Images)
-                                            {
-                                                <img src="@pic.URL" style="width: 50px" />
-                                            }
-                                        }
-
-                                    </td>
-                                    <td>
-                                        <div class="product-link-icons">
-                                            <a asp-action="Edit" asp-route-id="@item.ProductId"><i class="bi bi-pencil-square"></i> Redigera</a>
-                                            <br />
-                                            <a asp-action="Delete" asp-route-id="@item.ProductId"><i class="bi bi-trash"></i> Radera</a>
-                                            <br />
-                                            <a asp-area="Admin" asp-controller="ProductImages" asp-action="Create" asp-route-id="@item.ProductId"><i class="bi bi-plus-square"></i> Lägg till Bild</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                            </tbody>
-                    </table>
+                <div class="table-responsive" id="searchContainer">
+                   <partial name="_ProductsAdmin" />
                 </div>
 
 
@@ -118,3 +36,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+     <script src="/js/AdminProducts.js"></script>          
+}

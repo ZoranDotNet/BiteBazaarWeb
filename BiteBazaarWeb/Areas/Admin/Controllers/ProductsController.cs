@@ -5,6 +5,7 @@ using BiteBazaarWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.IdentityModel.Tokens;
 using X.PagedList;
 
 namespace BiteBazaarWeb.Areas.Admin.Controllers
@@ -64,7 +65,18 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
             return View(pagedProducts);
         }
 
+        public async Task<IActionResult> Search(string searchString)
+        {
+            List<Product> products = new();
 
+            if (!searchString.IsNullOrEmpty())
+            {
+                products = await _productService.GetProductsBySearchAsync(searchString);
+            }
+
+            return PartialView("_ProductsAdmin", products);
+
+        }
 
         // GET: Products/Create
         public async Task<IActionResult> Create()
