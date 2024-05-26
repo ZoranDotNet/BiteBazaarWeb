@@ -24,7 +24,7 @@
 }
 
 .image-container img {
-    height: auto;
+
     width: 100%;
     max-height: 200px; /* Justera denna höjd enligt behov */
     object-fit: cover;
@@ -35,7 +35,8 @@
     margin-top: auto;
     padding: 1rem;
     border-radius: 0 0 10px 10px;
-    justify-items:center;
+
+
 }
 
 
