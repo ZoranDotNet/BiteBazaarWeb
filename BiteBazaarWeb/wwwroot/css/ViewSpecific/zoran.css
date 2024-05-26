@@ -75,14 +75,14 @@
     text-decoration: none;
     align-content: center;
     text-align: center;
-    padding: 5px 70px;
+    padding: 5px 50px;
     border-radius: 8px;
-    margin-right: 15px;
+    
 }
 
 .productSearchBar select {
     background-color: lightgrey;
-    width: 200px;
+    width: 160px;
     border-radius: 8px;
     text-align: center;
     padding: 3px;
