@@ -22,4 +22,10 @@ $(document).ready(function () {
         searchProducts();
     });
 
+    $('#searchString').keypress(function (e) {
+        if (e.which == 13) { 
+            searchProducts();
+        }
+    });
+
 });
