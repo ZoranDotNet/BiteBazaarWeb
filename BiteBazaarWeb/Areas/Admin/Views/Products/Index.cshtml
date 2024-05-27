@@ -30,7 +30,17 @@
 
 
                 <div>
-                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }))
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }), new PagedListRenderOptions
+               {
+                   Display = PagedListDisplayMode.IfNeeded,
+                   DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                   DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                   DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                   DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                   LiElementClasses = new[] { "page-item" },
+                   PageClasses = new[] { "page-link" },
+                   ContainerDivClasses = new[] { "pagination", "justify-content-center" }
+               })
                 </div>
             </div>
         </div>
