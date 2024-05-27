@@ -91,7 +91,7 @@ namespace BiteBazaarWeb.Areas.Admin.Controllers
                     }
                 }
             }
-            var response = model.OrderBy(x => x.Count).Take(10);
+            var response = model.OrderByDescending(x => x.Count).Take(10);
 
             return Json(response);
         }
