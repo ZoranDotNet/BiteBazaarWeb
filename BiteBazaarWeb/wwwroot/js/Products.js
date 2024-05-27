@@ -13,11 +13,9 @@ function filterProducts() {
         success: function (result) {
 
             $('#productsContainer').html(result);
-
+            console.log(filter);
             if (filter != 0) {
-                $('#showFilter').html(filterTitle)
-                $('#headline').removeClass('visually-hidden')
-                $('#headline2').addClass('visually-hidden')
+                getCategoryInfo(filter);
             }
 
             $('#filter').val('');
@@ -26,6 +24,26 @@ function filterProducts() {
     });
 
 
+}
+function getCategoryInfo(categoryId) {
+    console.log(categoryId);
+    $.ajax({
+        url: '/Customer/Home/GetCategoryInfo',
+        type: 'GET',
+        data: { categoryId: categoryId },
+        success: function (result) {
+            var categoryHtml = `
+                <div>
+                    <h3>${result.title}</h3>
+                    <p>${result.description}</p>
+                </div>`;
+            $('#showFilter').html(categoryHtml);
+            console.log(result);
+            $('#headline').removeClass('visually-hidden');
+            $('#headline2').addClass('visually-hidden');
+        },
+        
+    });
 }
 function searchProducts() {
     var search = $('#searchString').val();

@@ -79,6 +79,21 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
             return PartialView("_ProductList", products);
 
         }
+        public async Task<IActionResult> GetCategoryInfo(int categoryId)
+        {
+            if (categoryId == 0)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            var category = await _categoryService.GetCategoryByIdAsync(categoryId);
+            if (category == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return Json(new { Title = category.Title, Description = category.Description });
+        }
 
         public async Task<IActionResult> SearchProducts(string searchString)
         {
