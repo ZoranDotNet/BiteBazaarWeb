@@ -56,10 +56,9 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
                     await _productService.UpdateProductAsync(item.ProductId, item);
                 }
             }
-            var products = await _productService.GetProductsAsync();
-
-
-            var pagedProducts = productList.ToPagedList(pageNumber, currentPageSize);
+            //Visar produkterna så kampanjvaror visas först!!!
+            var orderedList = productList.OrderByDescending(x => x.IsCampaign);
+            var pagedProducts = orderedList.ToPagedList(pageNumber, currentPageSize);
 
             ViewData["FkCategoryId"] = new SelectList(await _categoryService.GetCategoriesAsync(), "CategoryId", "Title");
 
