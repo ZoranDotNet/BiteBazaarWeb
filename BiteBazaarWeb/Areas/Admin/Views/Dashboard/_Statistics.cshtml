@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Order>
+
+<div>
+    @{decimal total = 0;
+    }
+    @if (Model != null)
+    {
+        @foreach (var item in Model)
+        {
+
+            <span hidden>@(total += item.OrderTotal)</span>
+
+        }
+        <h5>Antal köp: <span>@Model.Count()</span></h5>
+        <h5>Totalt <span>@total.ToString("C0")</span></h5>
+    }
+
+</div>

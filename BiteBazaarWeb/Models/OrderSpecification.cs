@@ -14,6 +14,7 @@ namespace BiteBazaarWeb.Models
         public decimal PayedPrice { get; set; }
         public int Count { get; set; }
         public int FkProductId { get; set; }
+
         [NotMapped]
         public Product? Product { get; set; }
     }
