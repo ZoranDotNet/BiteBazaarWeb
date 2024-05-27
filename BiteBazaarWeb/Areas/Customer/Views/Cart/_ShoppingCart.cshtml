@@ -8,7 +8,7 @@
 @{ decimal discount = 0;}
 <section class="mx-auto pb-2">
     <partial name="_Notification" />
-    <div class="text-center bg-secondary">
+    <div class="text-center" style="background: #2d2d2d">
         <h2>Kundkorg</h2>
     </div>
     <hr class="line" />
@@ -78,7 +78,7 @@
         {
             <p class="fs-6 text-black">Sparat på rea: <span class="text-danger">@discount.ToString("C0")</span></p>
         }
-        <a asp-area="Customer" asp-controller="Cart" asp-action="Checkout" class="btn btn-outline-dark d-block mx-auto w-50">Checkout</a>
+        <a asp-area="Customer" asp-controller="Cart" asp-action="Checkout" class="btn buttonOwn pink d-block mx-auto w-50">Checkout</a>
     </div>
 </section>
 
