@@ -1,0 +1,37 @@
+﻿
+
+<div class="text-white">
+    <div class="text-center mb-3">
+        <h2>Statistik</h2>
+    </div>
+
+   
+    <div class="mt-5 d-flex justify-content-center align-items-center gap-3">
+        <div class="col-6 p-2">
+            <h5>Försäljningsdatum</h5>
+            <div class="mb-5">
+                <div class="mb-3 d-flex gap-2">
+                    <input type="date" id="fromDate" class="form-control" />
+                    <input type="date" id="toDate" class="form-control" />
+                </div>
+                <button id="sendButton" class="buttonOwn pink">Antal och Summa</button>
+                <button id="topSellButton" class="buttonOwn pink">Mest sålda Produkter</button>
+            </div>
+            <div>
+                <h5>Visa produkter med lågt lagersaldo</h5>
+                <div class="mb-5">
+                    
+                    <button id="productButton" class="buttonOwn pink mt-3">Kontrollera lagersaldo</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 p-2 text-center" id="showStatistics">
+        
+        </div>
+
+    </div>
+</div>
+
+@section Scripts{ 
+   <script src="/js/Statistics.js"></script>
+}

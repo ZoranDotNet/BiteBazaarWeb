@@ -32,6 +32,7 @@ namespace BiteBazaarWeb.Models
         [Required]
         [StringLength(100)]
         public string City { get; set; }
+        public ICollection<OrderSpecification>? OrderSpecifications { get; set; }
 
     }
 
