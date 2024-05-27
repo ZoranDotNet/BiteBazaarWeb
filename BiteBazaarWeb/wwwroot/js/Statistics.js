@@ -8,9 +8,11 @@ function searchOrders() {
         type: 'GET',
         data: { fromDate: fromDate, toDate: toDate },
         success: function (result) {
+            var rounded = Math.floor(result.total);
+            var totalFormatted = new Intl.NumberFormat('sv-SE', { style: 'currency', currency: 'SEK' }).format(rounded);
             var salesSearch = `
-    <h5>Antal köp: ${result.count}</h5>
-    <h5>Totalt ${result.total} kr</h5>
+    <h5>Antal köp: ${result.count} st</h5>
+    <h5>Totalt ${totalFormatted} </h5>
     `;
             $('#showStatistics').html(salesSearch);
         },

@@ -34,11 +34,13 @@ input.form-control:focus {
     border-radius: 45px;
     font-size: 20px;
     border: none;
+    padding: 5px 10px;
 }
 
 .betalaOrderButton:hover{
     background: #fff;
     color: var(--clr-pink);
+    font-weight: bold;
 }
 
 .bottomDiv{
