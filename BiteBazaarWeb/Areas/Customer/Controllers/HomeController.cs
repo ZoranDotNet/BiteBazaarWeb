@@ -41,7 +41,7 @@ namespace BiteBazaarWeb.Areas.Customer.Controllers
 
         public async Task<IActionResult> Products(int? page, int? pageSize)
         {
-            int defaultPageSize = 10;
+            int defaultPageSize = 20;
             int pageNumber = page ?? 1;
             int currentPageSize = pageSize ?? defaultPageSize;
 
