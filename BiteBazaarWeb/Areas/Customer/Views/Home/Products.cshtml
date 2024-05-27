@@ -5,43 +5,24 @@
 <link href="/css/ViewSpecific/zoran.css" rel="stylesheet" />
 
 
-<div class="productSearchBar p-1">
+<div class="productSearchBar p-2">
     <div class="filterWrapper">
+        <div class="showAll">
+            <a asp-action="Products">Visa alla</a>
+        </div>
         <select id="filter" class="filterCategory" asp-items="ViewBag.FkCategoryId" onchange="filterProducts()">
-            <option value="" hidden> Filter</option>
+            <option value="" hidden class="bg-secondary"> Filter</option>
         </select>
-       
+
     </div>
 
     <div class="search">
         <input type="text" id="searchString" placeholder="Sök produkt..." />
-        <button id="searchButton"><i class="bi bi-search"></i></button>
+        <button id="searchButton" class="search-glas"><i class="bi bi-search"></i></button>
     </div>
 </div>
-<div class="secondbar p-1">
-    <div class="showAll">
-        <a asp-action="Products" class="showAllLink">Visa alla</a>
-    </div>
-    <div class="objPerPage">
-        <form method="get" asp-action="Products">
-            <div class="objPerPage-inner">
-                <label for="pageSize">Antal per sida:</label>
-                <select id="pageSize" name="pageSize" onchange="this.form.submit()">
-                    <option value="5">5</option>
-                    <option value="10" selected>10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                </select>
-                <noscript>
-                    <input type="submit" value="Submit" />
-                </noscript>
-            </div>
-            
-        </form>
 
-    </div>
 
-</div>
 <div class="d-flex">
     <span id="headline" class="visually-hidden me-3 text-white">Filtrerat på: </span>
     <span id="headline2" class="visually-hidden me-3 text-white">Sökt på: </span>
