@@ -11,10 +11,10 @@
 
                     <a asp-action="Details" asp-route-id="@item.ProductId" class="text-decoration-none text-light">
 
-                        <div class="image-container m-4">
+                        <div class="image-container">
                             @if (item.Images != null && item.Images.Count > 0)
                             {
-                                <img src="@item.Images.First().URL" class="card-img-top img-fluid mb-6" />
+                                <img src="@item.Images.First().URL" class="card-img-top img-fluid" />
                             }
                             else
                             {
