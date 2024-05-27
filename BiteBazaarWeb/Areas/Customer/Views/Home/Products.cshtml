@@ -5,11 +5,12 @@
 <link href="/css/ViewSpecific/zoran.css" rel="stylesheet" />
 
 
-<div class="productSearchBar p-2">
+<div class="productSearchBar p-1">
     <div class="filterWrapper">
-        <div class="showAll">
-            <a asp-action="Products">Visa alla</a>
-        </div>
+    <div class="showAll">
+        <a asp-action="Products">Visa alla</a>
+    </div>
+
         <select id="filter" class="filterCategory" asp-items="ViewBag.FkCategoryId" onchange="filterProducts()">
             <option value="" hidden class="bg-secondary"> Filter</option>
         </select>
