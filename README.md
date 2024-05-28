@@ -2,7 +2,7 @@
 ## Debug Thug's web shop application
 We received a task to create an web shop and an API service that is meant to be used together. 
 
-###The functionalites that were requested: 
+### The functionalites that were requested: 
 #### Customer 
 Be able to:
 - make a purchase
