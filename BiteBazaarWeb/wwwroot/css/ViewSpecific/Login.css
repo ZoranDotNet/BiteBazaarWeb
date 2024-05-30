@@ -4,7 +4,7 @@
 
 .wrapper{
     position: relative;
-    width: 450px;
+    width: 400px;
     background-color: var(--clr-loginBackground);
     box-shadow: 0 8px 32px rgba(31,38,135,.37);
     border: 1px solid rgba(255,255,255,.18);
